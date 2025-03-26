@@ -1,0 +1,74 @@
+@use '../common';
+
+button:not(.e-msg-close-icon):not(.w-auto) {
+    min-width: 75px !important;
+}
+
+button:not(.e-msg-close-icon){
+    color: inherit !important;
+    font-family: common.$font-lt !important;
+    border-radius: 0px !important;
+    padding: 4px 8px !important;
+    font-size: 17px !important;
+    height: 35px !important;
+    background-color: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    outline: 1px transparent !important;
+}
+
+button.cancelBtn {
+    background-color: grey !important;
+    color: #fff !important;
+    font-family: common.$font-lt;
+    &.disabled {
+        background-color: #808080a0 !important;
+    }
+}
+
+button.cancelBtn:hover {
+    background-color: #808080a0 !important;
+}
+
+button.okBtn {
+    background-color: common.$primary-color !important;
+    color: #fff !important;
+    font-family: common.$font-lt;
+    &.disabled {
+        background-color: common.$primary-color-pl !important;
+    }
+}
+
+button.okBtn:hover {
+    background-color: common.$primary-color-pl !important;
+}
+
+button.deleteBtn {
+    background-color: #f00 !important;
+    color: #fff !important;
+    font-family: common.$font-lt;
+  }
+  
+  button.deleteBtn:hover {
+    background-color: #ff0000a0 !important;
+  }
+
+button.plusBtn {
+    background-color: #f00 !important;
+    color: #fff !important;
+    font-family: common.$font-lt;
+  }
+  
+  button.plusBtn:hover {
+    background-color: #ff0000a0 !important;
+  }
+
+button.minusBtn {
+    background-color: #f00 !important;
+    color: #fff !important;
+    font-family: common.$font-lt;
+  }
+  
+  button.minusBtn:hover {
+    background-color: #ff0000a0 !important;
+  }
