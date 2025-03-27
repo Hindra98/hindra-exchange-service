@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import "../../styles/_page-not-found.scss"
-import { useLocalizer } from "src/app/core/Localization";
+import { useLocalizer } from "@/core/Localization";
 
 export function PageNotFound() {
 

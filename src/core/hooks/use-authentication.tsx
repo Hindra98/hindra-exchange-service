@@ -1,9 +1,9 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setStorage, getStorage } from "../storage/storage";
+import { getStorage } from "../storage/storage";
 import { AuthenticationConstants } from "../constants/authentication-contants";
 
-export type GlobalContent = {
+type GlobalContent = {
   languages: Language[];
   accessToken: string;
 }

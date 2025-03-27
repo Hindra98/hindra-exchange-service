@@ -1,7 +1,6 @@
 import { Link, useOutlet, useNavigate } from "react-router-dom";
-import octopusfx from "../../assets/octopusfx.png";
+import appstore from "@/assets/appstore.png";
 import Image from "../form/Image";
-import "../../styles/_authentication-flow.scss";
 import { lazy } from "react";
 import { useLocalizer } from "../../core/Localization";
 import { useGlobalAppContext } from "../../core/hooks/use-app-context";
@@ -29,7 +28,7 @@ export default function OpenRouteLayout() {
         <LanguageSelector className="languages absolute top-0 right-0 mx-2 py-2" />
         <div className="flex flex-col gap-6 justify-center min-h-[490px]">
           <div className="logo mx-auto py-4">
-            <Image src={octopusfx} alt="OCTOPUSFX" title="" className="" />
+            <Image src={appstore} alt="OCTOPUSFX" title="" className="" />
           </div>
           <div className="child flex justify-center items-center h-[80%]">
             {outlet}

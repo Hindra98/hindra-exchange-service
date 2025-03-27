@@ -14,8 +14,8 @@ interface ServerErrorMessageItem {
 
 // Define the structure of a retry queue item
 interface RetryQueueItem {
-  resolve: (value?: any) => void;
-  reject: (error?: any) => void;
+  resolve: (value?: unknown) => void;
+  reject: (error?: unknown) => void;
   config: AxiosRequestConfig;
 }
 

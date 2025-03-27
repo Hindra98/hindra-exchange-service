@@ -1,9 +1,8 @@
-import { json } from "react-router-dom";
 import { loadTranslationResources } from "../Localization/load-language-resource";
 
 export const loader = async () => {
   await loadTranslationResources();
-  return json({ languages: getLanguages() });
+  return ({ languages: getLanguages() });
 };
 
 export const getLanguages = () => {

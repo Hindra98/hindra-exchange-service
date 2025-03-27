@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { NotificationsApi } from 'src/app/components/dialog/notifications-api';
+import { NotificationsApi } from '@/components/dialog/notifications-api';
 import { navigateHeaderKey } from './response-navigate-directive-interceptor';
 
 const notificationApi = new NotificationsApi();

@@ -1,5 +1,5 @@
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import { getStorage, setStorage } from 'src/app/core/storage/storage';
+import { getStorage, setStorage } from '@/core/storage/storage';
 import { log } from '../../core/logging';
 import { createClientHttpErrorLogParcel } from '../../core/logging/log-building';
 import  axiosInstance  from "../config";
