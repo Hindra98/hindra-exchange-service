@@ -4,26 +4,24 @@ import {
   useNavigate,
   useOutlet,
 } from "react-router-dom";
-import { getStorage } from "../../core/storage/storage";
 import "../../styles/_app-core-layout.scss";
+import { AuthenticationConstants } from "@/core/constants/authentication-contants";
+import { useGlobalAppContext } from "@/core/hooks/use-app-context";
+import { getStorage } from "@/core/storage/storage";
 import { useCallback } from "react";
-import { useAppDispatch } from "../../core/hooks/core-hooks";
-import { useGlobalAppContext } from "../../core/hooks/use-app-context";
-import { signOut } from "../../store-management/actions/oauth/oauth-actions";
-import { AuthenticationConstants } from "../../core/constants/authentication-contants";
 
 export const AppCoreLayout = () => {
   const outlet = useOutlet();
   const { pathname } = useLocation();
-  const dispatch = useAppDispatch();
   const token = getStorage<string>(AuthenticationConstants.ACCESS_TOKEN);
   const { accessToken, rExpires } = useGlobalAppContext();
   const navigate = useNavigate();
 
   const close = useCallback(() => {
-    dispatch(signOut());
+    // dispatch(signOut());
+    // Deconnexion
     setTimeout(() => navigate("/login", { replace: true }), 300);
-  }, [dispatch, navigate]);
+  },[navigate])
 
   if (accessToken) {
     if (

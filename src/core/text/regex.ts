@@ -12,6 +12,30 @@ export const isNumber = (value: string) => {
 export const isContainsLetterAndNumber = (value: string): boolean => {
   return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/.test(String(value));
 };
+function addValueInObject(object: object, key: string, value: string) {
+  let res = {};
+  const textObject = JSON.stringify(object);
+  if (textObject === '{}') {
+      res = JSON.parse('{"' + key + '":"' + value + '"}');
+  } else {
+      res = JSON.parse('{' + textObject.substring(1, textObject.length - 1) + ',"' + key + '":"' + value + '"}');
+  }
+  return res;
+}
+
+export const extractParamsUrl = (url: string) => {
+  url = url.replace("?", "");
+  const urls = url.split("&");
+  let result = {};
+
+  urls.forEach(function (el) {
+    const param = el.split("=");
+    result = addValueInObject(result, param[0], param[1]);
+  });
+
+  return result;
+};
+
 
 export enum ValidationType {
   REQUIRED,
@@ -40,20 +64,6 @@ export interface ValidationResponse {
   valid: boolean;
   errors: Validator;
 }
-
-export const extractParamsUrl = (url: string) => {
-  url = url.replace("?", "");
-  const urls = url.split("&");
-  const result = {};
-
-  urls.forEach(function (el) {
-    const param = el.split("=");
-    result[param[0]] = param[1];
-  });
-
-  return result;
-};
-
 export const validateFormData = (
   value: any,
   validators: Validator,

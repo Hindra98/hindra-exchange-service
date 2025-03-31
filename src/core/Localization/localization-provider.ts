@@ -12,13 +12,13 @@ export class LocalizationProvider {
   constructor(private readonly name: string) {
   }
 
-  public load(culture: string = undefined): Promise<void> {
+  public load(culture: string = ""): Promise<void> {
 
     if(LocalizationProvider.parentCulture === culture && 
        !IsLanguageTranslationAvailable(culture))
       return Promise.resolve();
 
-    let fileName: string = this.name;
+    const fileName: string = this.name;
     let fileKey: string;
 
     if(culture!==undefined){
@@ -36,7 +36,7 @@ export class LocalizationProvider {
       return Promise.resolve();
     }
 
-    const loadPromise = new Promise<void>(async (resolve) => {
+    const loadPromise = new Promise<void>(resolve => {
 
       const resouceFile = getResourceFile(this.name, LocalizationProvider.culture)
       LocalizationProvider.loadedResources.set(fileKey, resouceFile);
