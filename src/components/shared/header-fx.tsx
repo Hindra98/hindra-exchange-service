@@ -20,15 +20,18 @@ const HeaderFx = (props: Props) => {
       className={`text-3xl align-top flex flex-col lg:flex-row justify-between w-full ps-10 pe- pt-4 flex-wrap my-2 gap-4 transition-all`}
     >
       <div className="flex flex-col justify-start">
-        <h1 className="">{props?.breadcrumb[props.breadcrumb.length-1]?.title}</h1>
+        <h1 className="">
+          {props?.breadcrumb[props.breadcrumb.length - 1]?.title}
+        </h1>
         <Breadcrumb items={props.breadcrumb} />
       </div>
       {/** Buttons */}
       {((props?.btnList || [])?.length > 0 || props?.btnOther) && (
         <div className="flex flex-row gap-2 items-center justify-start lg:justify-end footer lg:ms-auto transition-all">
-          {(props?.btnList || [])?.length > 0 && (props?.btnList || []).map((btn, key) => (
-            <Button key={key} param={btn} />
-          ))}
+          {(props?.btnList || [])?.length > 0 &&
+            (props?.btnList || []).map((btn, key) => (
+              <Button key={key} param={btn} />
+            ))}
           {props?.btnOther}
         </div>
       )}

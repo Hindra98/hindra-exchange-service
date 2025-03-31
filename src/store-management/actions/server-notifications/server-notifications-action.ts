@@ -1,13 +1,14 @@
+import { ActionTypes } from './../constants/action-types';
 import {
   ModelShape,
   ToastNotificationAction,
   ValueToastNotificationType,
 } from ".";
-import { ActionTypes } from "../constants/action-types";
+import { StoreRedux } from '@/store-management/store-creation';
 
 
-let store;
-export const injectStoreInToastNotificationAction = _store => { store = _store; }
+let store:StoreRedux;
+export const injectStoreInToastNotificationAction = (_store:StoreRedux) => { store = _store; }
 
 
 

@@ -10,7 +10,7 @@ export const UILocalizerFactory = (provider: {
   load: () => Promise<void>
 }) => function UILocalizer(props: { name: string }) {
   const [loaded, setLoaded] = useState(provider.loaded);
-  const [value, setValue] = useState<string>(null);
+  const [value, setValue] = useState<string>("");
 
   useEffect(() => {
     if (loaded) setValue(provider.get(props.name));

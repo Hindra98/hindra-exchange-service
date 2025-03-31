@@ -1,5 +1,5 @@
 // AuthProvider.tsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type AuthContextType = {

@@ -1,4 +1,4 @@
-import { GlobalAppContextProvider } from "@/core/hooks/use-global-app-context";
+import { GlobalAppContextProvider } from "@/core/hooks/use-app-context";
 import { useLoaderData, useOutlet } from "react-router-dom"
 
 export const RootComponent = () => {

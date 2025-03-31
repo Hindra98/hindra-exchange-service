@@ -1,4 +1,4 @@
-import { ActionTypes } from "../actions/constants/action-types";
+import { ActionTypes } from './../actions/constants/action-types';
 import { produce } from "immer";
 import {
   StoreShape,

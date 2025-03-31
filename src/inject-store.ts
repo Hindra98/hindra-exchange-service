@@ -1,9 +1,8 @@
-import { injectStoreInOnUnAuthorizedResponseCallBack } from "./http/common/on-unauthorized-callback";
 import { injectStoreInToastNotificationAction } from "./store-management/actions/server-notifications/server-notifications-action";
+import { StoreRedux } from "./store-management/store-creation";
 
-export const injectStore = (store) => {
+export const injectStore = (store:StoreRedux) => {
 
-    injectStoreInOnUnAuthorizedResponseCallBack(store);
     injectStoreInToastNotificationAction(store);
 
 }

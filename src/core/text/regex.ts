@@ -44,10 +44,10 @@ export interface ValidationResponse {
 export const extractParamsUrl = (url: string) => {
   url = url.replace("?", "");
   const urls = url.split("&");
-  let result = {};
+  const result = {};
 
   urls.forEach(function (el) {
-    var param = el.split("=");
+    const param = el.split("=");
     result[param[0]] = param[1];
   });
 
@@ -61,7 +61,7 @@ export const validateFormData = (
 ): ValidationResponse => {
   const response: ValidationResponse = {
     valid: true,
-    errors: null,
+    errors: {},
   };
 
   switch (validators.validatorType) {
@@ -117,11 +117,7 @@ export const validateFormData = (
 
       break;
     case ValidationType.EQUAL:
-      const equal: string | undefined = (
-        validators.props as ValidationTypeEqualProps
-      ).equal;
-
-      if (equal && value !== equal) {
+      if (validators.props?.equal && value !== validators.props?.equal) {
         response.errors = validators;
       }
 

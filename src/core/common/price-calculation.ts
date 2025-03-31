@@ -105,9 +105,10 @@ export function formatNumber(
   }
 
   const reversed = numberFormat.split("").reverse().join("");
-  const formatNumber = reversed
-    .match(new RegExp(".{1," + numberGroupSizes + "}", "g"))
-    .join(numberGroupSeparator);
+  const formatNumber =
+    reversed
+      .match(new RegExp(".{1," + numberGroupSizes + "}", "g"))
+      ?.join(numberGroupSeparator) || "";
 
   dec =
     numberDecimalDigits === 0

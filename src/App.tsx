@@ -10,12 +10,12 @@ import { RootComponent } from "./components/layouts/root-component";
 import FxErrorBoundary, {
   RouteErrorBoundary,
 } from "./core/error-handling/error-boundary";
-import { PageNotFound } from "./components/shared/page-not-found";
 import OpenRouteLayout from "./components/layouts/open-route-layout";
 import { store } from "./store-management/store-creation";
 import { injectStore } from "./inject-store";
 import { Provider } from "react-redux";
 import AppPreloader from "./components/shared/app-preloader";
+import PageNotFound from "./components/pages/page-not-found";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

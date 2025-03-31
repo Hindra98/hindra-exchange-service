@@ -15,10 +15,19 @@ type Props = {
   param?: ParamsSelect[];
 };
 
-export default function Select({ name = "", css = "", defaultOption = "", icon = "", handleChange = null, param = [] }: Props) {
-  const iconeSelect = icon !== "" && (<i className={"e-icons icon " + icon}></i>);
+export default function Select({
+  name = "",
+  css = "",
+  defaultOption = "",
+  icon = "",
+  handleChange = null,
+  param = [],
+}: Props) {
+  const iconeSelect = icon !== "" && <i className={"e-icons icon " + icon}></i>;
   return (
-    <div className={`select-dashboard group cursor-pointer h-min ps-1 bg-gray-50 text-gray-900 text-sm rounded-lg border m-0 ${css}`}>
+    <div
+      className={`select-dashboard group cursor-pointer h-min ps-1 bg-gray-50 text-gray-900 text-sm rounded-lg border m-0 ${css}`}
+    >
       {iconeSelect}
       <select
         title={""}
@@ -26,7 +35,9 @@ export default function Select({ name = "", css = "", defaultOption = "", icon =
         className={`select-input text-gray-900 text-sm cursor-pointer outline-none border-none bg-transparent ps-6 m-0 py-1 pe-7`}
         onChange={handleChange}
       >
-        <option defaultValue={null} disabled>{defaultOption}</option>
+        <option defaultValue={null} disabled>
+          {defaultOption}
+        </option>
         {param.map((option, key) => (
           <option value={option.value} key={key}>
             {option?.img ? <img src={option.img} alt={option.name} /> : null}
