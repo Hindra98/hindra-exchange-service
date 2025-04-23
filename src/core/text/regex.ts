@@ -15,10 +15,18 @@ export const isContainsLetterAndNumber = (value: string): boolean => {
 function addValueInObject(object: object, key: string, value: string) {
   let res = {};
   const textObject = JSON.stringify(object);
-  if (textObject === '{}') {
-      res = JSON.parse('{"' + key + '":"' + value + '"}');
+  if (textObject === "{}") {
+    res = JSON.parse('{"' + key + '":"' + value + '"}');
   } else {
-      res = JSON.parse('{' + textObject.substring(1, textObject.length - 1) + ',"' + key + '":"' + value + '"}');
+    res = JSON.parse(
+      "{" +
+        textObject.substring(1, textObject.length - 1) +
+        ',"' +
+        key +
+        '":"' +
+        value +
+        '"}'
+    );
   }
   return res;
 }
@@ -35,7 +43,6 @@ export const extractParamsUrl = (url: string) => {
 
   return result;
 };
-
 
 export enum ValidationType {
   REQUIRED,

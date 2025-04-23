@@ -1,3 +1,16 @@
+
+export const appName = "Hindra-Connect";
+export const appNameLower = "hindra-connect";
+export const appNameUpper = "HINDRA-CONNECT";
+
+export const CoreConstants = {
+
+  ACCESS_TOKEN: "access_token",
+  USER_THEME_MODE: "user_theme_mode",
+  USER: "user",
+
+}
+
 export const ChangeContactMediaOperationType = {
 
     EMAIL: "E-mail",

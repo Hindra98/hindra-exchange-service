@@ -1,6 +1,6 @@
 import Image from "../form/Image";
-import reactSvg from "../../assets/react.svg";
 import UILoader from "./ui-loader";
+import { logo_blue } from "@/assets";
 
 
 export default function AppPreloader () {
@@ -10,8 +10,8 @@ export default function AppPreloader () {
             <div className="flex flex-col gap-6 justify-center min-h-[490px]">
             <div className="logo mx-auto py-4">
             <Image
-                src={reactSvg}
-                alt="OCTOPUSFX"
+                src={logo_blue}
+                alt="HINDRA-EXCHANGE"
                 title=""
                 className=""
             />

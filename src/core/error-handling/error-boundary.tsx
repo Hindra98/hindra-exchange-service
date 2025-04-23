@@ -1,13 +1,15 @@
-import ErrorPage from "./error-page";
+
+import { PropsWithChildren } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Link, useRouteError } from "react-router-dom";
-import "../../styles/_error-handling.scss";
 import { useLocalizer } from "@/core/Localization";
 import { loadTranslationResources } from "@/core/Localization/load-language-resource";
-import { technicalSupportEmail } from "../constants/errors-contants";
 import MailTo from "@/components/shared/mail-to";
+import { technicalSupportEmail } from "../constants/errors-contants";
+import ErrorPage from "./error-page";
+import "@/styles/_error-handling.scss";
 
-export default function FxErrorBoundary(props) {
+export default function FxErrorBoundary(props: PropsWithChildren) {
   return (
     <ErrorBoundary
       FallbackComponent={ErrorPage}

@@ -1,4 +1,4 @@
-import { ComponentRoot } from '../../core/web-component';
+import { ComponentRoot } from "@/core/web-component";
 
 /***
  * Renders the specified icon

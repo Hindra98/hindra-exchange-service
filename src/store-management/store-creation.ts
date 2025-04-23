@@ -2,34 +2,29 @@ import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./reducers/index";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./sagas";
+import { getStorage } from "@/core/storage/storage";
+import { AuthenticationConstants } from "@/core/constants/authentication-contants";
+import { Jwt } from "@/core/security/jwt";
 
-const loadAuthenticatedUser = (): string => {
-  // const tenantId = getStorage<string>(AuthenticationConstants.TENANT_ID);
-  // const token = getStorage<string>(AuthenticationConstants.ACCESS_TOKEN);
-  
-  // const name = token ? Jwt.getClaim(token, "name") : "";
-  // let authenticateUser: AuthenticateUserSuccessPayload = {
-  //   tenantId: tenantId,
-  //   token: token,
-  //   message: "",
-  //   userMustChangePassword: false,
-  //   userCanChangePassword: false,
-  //   isTwoFactorAuthenticationEnabled: false,
-  //   userName: name,
-  //   tExpires: 0,
-  //   rExpires: 0,
-  //   pinLength: 0,
-  //   unReadNotificationsCount: 0,
-  // };
-  const authenticateUser = "";
+const loadAuthenticatedUser = (): AuthenticateUserSuccessPayload => {
+  const token = getStorage<string>(AuthenticationConstants.ACCESS_TOKEN);
+
+  const name = token ? Jwt.getClaim(token, "userName") : "";
+  const id = token ? Jwt.getClaim(token, "userId") : "";
+  const authenticateUser: AuthenticateUserSuccessPayload = {
+    userId: id,
+    userName: name,
+    token: token,
+    message: "",
+  };
   return authenticateUser;
 };
-      
-    const partialState: Partial<any> = {
-        authenticatedUser: {
-          value: loadAuthenticatedUser(),
-        }
-    };
+
+const partialState: Partial<unknown> = {
+  authenticatedUser: {
+    value: loadAuthenticatedUser(),
+  },
+};
 
 const sagaMiddleware = createSagaMiddleware();
 

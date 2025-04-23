@@ -1,54 +1,69 @@
-# React + TypeScript + Vite
+# Hindra-Exchange - Frontend Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Hindra-Exchange Logo](public/assets/images/logo_blue.png)
 
-Currently, two official plugins are available:
+## 📌 Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Hindra-Exchange is a prestation reservation platform connecting individuals for various prestations (hairstyling, tailoring, repairs, etc.). This frontend application provides an intuitive interface for users to:
 
-## Expanding the ESLint configuration
+- Browse available prestations
+- Book appointments with prestation providers
+- Manage their reservations
+- Receive real-time notifications
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Key Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- 🔐 Secure authentication with 2FA
+- 📅 Interactive booking system
+- 🔔 Real-time notifications
+- 📱 Responsive design (mobile & desktop)
+- ⚡ Fast performance with modern UI
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠 Technologies Used
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Frontend**: React 18, TypeScript
+- **Styling**: Tailwind CSS, Shadcn/ui
+- **State Management**: Redux Toolkit
+- **Animations**: Framer Motion
+- **HTTP Client**: Axios
+- **Real-time**: WebSockets
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js v16+
+- npm v8+ or yarn
+- Backend API server (see backend README)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/hindra98/hindra-exchange.git
+   cd hindra-exchange-frontend
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+
+3. Configure environment:
+   ```bash
+   npm install
+   # or
+   yarn install
+
+4. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+
+5. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+

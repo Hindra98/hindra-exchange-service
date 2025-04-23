@@ -42,7 +42,7 @@ export const requestHeadersInterceptor = (
 
   config.headers["X-Correlation-Id"] = uuidv4();
   config.headers["X-Api-Key"] = "68357cfc-5eaa-43ec-b7de-ca3e87588271.b881daf6-e22a-4d2f-abbe-5e18ddf32e2c";
-  config.headers["Accept-Language"] = getStorage<string>(AuthenticationConstants.USER_LANGUAGE);
+  config.headers["Accept-Language"] = getStorage<string>(AuthenticationConstants.HINDRA_CONNECT_USER_LANGUAGE);
 
   if (
     config.url?.includes("/authenticate") ||

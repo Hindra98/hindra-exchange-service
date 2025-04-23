@@ -1,19 +1,18 @@
-import { useLocalizer } from "../../core/Localization";
-import playstore from "../../assets/googleplay.png";
-import appstore from "../../assets/appstore.png";
+import { useLocalizer } from "@/core/Localization";
 import ImageLink from "./image-link";
+import { appstore, playstore } from "@/assets";
 
-interface Props {
-  cssClassList: string;
-}
-
-const MobileAppDownloadlinks = (props: Props) => {
+const MobileAppDownloadlinks = () => {
   const commonLocalizer = useLocalizer("Common-ResCommon");
   return (
-    <div className={props.cssClassList}>
+    <div
+      className={
+        " flex flex-row gap-4 justify-center items-center"
+      }
+    >
       <div className="playstore">
         <ImageLink
-          to={"/playstore"}
+          to={""}
           src={playstore}
           alt="Google Play Store"
           title={commonLocalizer(
@@ -24,7 +23,7 @@ const MobileAppDownloadlinks = (props: Props) => {
       </div>
       <div className="appstore">
         <ImageLink
-          to={"/appstore"}
+          to={"https://play.google.com/id/7cwjkc4we"}
           src={appstore}
           alt="App Store"
           title={commonLocalizer(

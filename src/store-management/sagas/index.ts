@@ -1,7 +1,8 @@
-import { all } from "redux-saga/effects";
+import { all, fork } from "redux-saga/effects";
+import { watchOauthSaga } from "./oauth-saga";
+
 export default function* rootSaga() {
-  yield all([
-  ]);
+  yield all([fork(watchOauthSaga)]);
 }
 
 export const getClaim = (decodedToken: string, claimKkey: string): string => {

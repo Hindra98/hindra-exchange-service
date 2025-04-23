@@ -2,12 +2,12 @@ import { AuthenticationConstants } from "../constants/authentication-contants";
 import { getStorage } from "../storage/storage";
 import { getBrowserLanguage } from "./browser-language";
 
-export const fallBackLanguage = "en";
+export const fallBackLanguage = "fr";
 
 const culturesWithBase: string[] = ["en", "fr"];
 
-export const IsLanguageTranslationAvailable = (languge: string) => {
-  const index = culturesWithBase.findIndex((l) => l === languge);
+export const IsLanguageTranslationAvailable = (language: string) => {
+  const index = culturesWithBase.findIndex((l) => l === language);
   if (index > -1) {
     return true;
   }
@@ -16,7 +16,7 @@ export const IsLanguageTranslationAvailable = (languge: string) => {
 
 export const getAppLanguage = (): string => {
   const userLanguage: string = getStorage<string>(
-    AuthenticationConstants.USER_LANGUAGE
+    AuthenticationConstants.HINDRA_CONNECT_USER_LANGUAGE
   );
   return userLanguage
     ? userLanguage

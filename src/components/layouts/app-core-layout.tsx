@@ -1,27 +1,20 @@
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useOutlet,
-} from "react-router-dom";
-import "../../styles/_app-core-layout.scss";
-import { AuthenticationConstants } from "@/core/constants/authentication-contants";
+import { useOutlet } from "react-router-dom";
 import { useGlobalAppContext } from "@/core/hooks/use-app-context";
-import { getStorage } from "@/core/storage/storage";
 import { useCallback } from "react";
+import { Navbar } from "../ui/nav/navbar";
+import { Footer } from "../ui/nav/footer";
+import "@/styles/layouts/_app-core-layout.scss";
 
-export const AppCoreLayout = () => {
+const AppCoreLayout = () => {
   const outlet = useOutlet();
-  const { pathname } = useLocation();
-  const token = getStorage<string>(AuthenticationConstants.ACCESS_TOKEN);
   const { accessToken, rExpires } = useGlobalAppContext();
-  const navigate = useNavigate();
+  // const [user, setUser] = useState(null)
 
-  const close = useCallback(() => {
-    // dispatch(signOut());
+  const disconnect = useCallback(() => {
     // Deconnexion
-    setTimeout(() => navigate("/login", { replace: true }), 300);
-  },[navigate])
+    // dispatch(signOut());
+    // setTimeout(() => dispatch(signOut()), 300);
+  }, []);
 
   if (accessToken) {
     if (
@@ -31,32 +24,37 @@ export const AppCoreLayout = () => {
       rExpires === 0 ||
       rExpires === undefined
     ) {
-      close();
+      disconnect();
     }
   } else {
-    close();
+    disconnect();
   }
-
-  if (!pathname.includes("change-password")) {
-    getStorage<string>("is_verified", true);
-  }
-  if (token?.length === 0) {
-    return <Navigate to={"/login"} replace />;
-  }
-  const classTarget = "main-menu-content";
+  const userLinks: DropdownElementProps[] = [
+    {
+      name: "Mon profil",
+      to: "profile",
+    },
+    {
+      name: "Paramètres",
+      to: "settings",
+    },
+    {
+      name: "Deconnexion",
+      to: "signout",
+      separator:true,
+      className: "bg-red-500 hover:!bg-red-400 dark:hover:!bg-red-700 transition",
+    },
+  ];
 
   return (
-    <>
-      <div id="menu-wrapper" className="control-section h-screen">
-        <div>Navbar</div>
-        <div id="sidebarmenu" className="flex flex-row gap-0 mt-[50px]">
-          <div>Sidebar</div>
-          <div className={`w-full ${classTarget}`} id="maintext">
-            <div className={`menu-content px-1`}>{outlet}</div>
-          </div>
-        </div>
-      </div>
-    </>
+    <div
+      id="menu-wrapper"
+      className="w-full h-full min-h-screen relative flex flex-col justify-between"
+    >
+      <Navbar isConnect={false} userLink={userLinks} />
+      <main>{outlet}</main>
+      <Footer />
+    </div>
   );
 };
 

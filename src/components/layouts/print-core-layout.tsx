@@ -23,7 +23,7 @@ export const PrintCoreLayout = (props: Props) => {
         <div className="flex flex-col gap-2 justify-center items-center text-center header">
           <Image
             src={props?.logo || octopusfx}
-            alt="OCTOPUSFX"
+            alt="HINDRA-EXCHANGE"
             title=""
             className="w-1/3 p-0 m-0"
           />
@@ -54,7 +54,7 @@ export const ViewPrintCoreLayout = (props: Props) => {
         <div className="flex flex-col gap-2 justify-center items-center text-center header">
           <Image
             src={props?.logo || octopusfx}
-            alt="OCTOPUSFX"
+            alt="HINDRA-EXCHANGE"
             title=""
             className="w-1/3 p-0 m-0"
           />

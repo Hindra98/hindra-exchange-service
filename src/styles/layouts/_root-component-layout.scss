@@ -1,0 +1,15 @@
+@use "../common";
+
+#booking-modal::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+#booking-modal::-webkit-scrollbar-track {
+  background-color: rgba(44, 47, 124, 0.1) !important;
+  border-radius: 100px !important;
+}
+
+#booking-modal::-webkit-scrollbar-thumb {
+  background-color: rgba(44, 47, 124, 0.5) !important;
+  border-radius: 100px !important;
+}

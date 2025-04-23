@@ -10,7 +10,7 @@ const PageNotFound = () => {
       <div className="flex flex-col gap-0 justify-center items-center w-full">
         <img src={error} alt="404" className="w-2/5" />
 
-        <div className="flex flex-col gap-2 justify-center items-center w-2/5">
+        <div className="flex flex-col gap-2 justify-center items-center w-full md:w-2/5">
           <h1 className="page-not-found font-bold text-5xl">
             {commonLocalizer("MODULE_COMMON_PAGE_NOT_FOUND_TITLE")}
           </h1>

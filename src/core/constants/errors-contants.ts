@@ -1,1 +1,1 @@
-export const technicalSupportEmail = "support.tech.exchange@hindra.com";
+export const technicalSupportEmail = "support-tech.exchange@hindra.com";

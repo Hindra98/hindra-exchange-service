@@ -3,6 +3,15 @@ interface ErrorMessageItem {
   errorMessage: string;
 }
 
+interface UpdateStrictResult {
+  payload: UpdateStrictSuccessPayload;
+  hasSucceeded: boolean;
+  errorMessages: ErrorMessageItem[];
+}
+interface UpdateStrictSuccessPayload {
+  message: string;
+}
+
 interface ServerErrorMessageItem {
   detail: string;
   instance: string;
@@ -11,6 +20,14 @@ interface ServerErrorMessageItem {
   title: string;
   type: string;
 }
+
+type Claims =
+  | "userName"
+  | "userId"
+  | "role"
+  | "fullname"
+  | "userlanguage"
+  | "exp";
 
 // Define the structure of a retry queue item
 interface RetryQueueItem {
@@ -31,17 +48,6 @@ interface SetServerNotificationAction {
   type: string;
   payload: ServerNotification;
 }
-
-type ParamsButton = {
-  name?: React.JSX.Element | string;
-  css?: string;
-  id?: string;
-  disabled?: boolean;
-  handleClick?: (e) => void;
-  type: "submit" | "reset" | "button";
-  title?: string;
-  tabIndex?: number;
-};
 
 type ParamsLink = {
   name?: React.JSX.Element | string;

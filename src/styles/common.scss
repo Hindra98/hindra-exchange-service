@@ -1,6 +1,35 @@
 
 $primary-color: rgb(49, 39, 131);
 
+/*
+// Error SVG
+$primary-color: #54C3E9; // Bleu clair
+$primary-color: #E72685; // Rose Rouge
+
+// V1
+$primary-color: #FDF1F5;
+$secondary-color: #92736C;
+
+// V2
+$primary-color: #ECE7E2;
+$secondary-color: #4A7766;
+*/
+
+
+div.error {
+  color: #f00;
+  text-wrap-style: pretty;
+  font-style: italic;
+  font-size: small;
+}
+
+
+
+
+
+
+
+
 .chargementFx {
   font-size: 10px;
   width: 1em;
