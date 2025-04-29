@@ -9,7 +9,7 @@ import { Lock, Mail, User } from "lucide-react";
 import { programming_back } from "@/assets";
 import { FaGoogle, FaLinkedinIn, FaSpinner } from "react-icons/fa";
 import { isEmail } from "@/core/text/regex";
-import { AlertDanger } from "@/components/ui/alerts/alert";
+import { AlertDanger, AlertSuccess } from "@/components/ui/alerts/alert";
 import { register } from "@/store-management/actions/oauth/oauth-actions";
 import { appName } from "@/core/constants/common-constants";
 
@@ -34,7 +34,7 @@ const Register = () => {
     firstName: "",
     password: "",
     confirmPassword: "",
-    checkedRole: false,
+    is_verify_2fa: false,
   });
 
   const [errors, setErrors] = useState<Partial<RegisterCommand>>({
@@ -108,7 +108,6 @@ const Register = () => {
         confirmPassword: confirmPassword,
       });
     } else {
-      console.log("Register model: ", registerViewModel);
       dispatch(register(registerViewModel));
     }
   };
@@ -152,6 +151,11 @@ const Register = () => {
           registerStore?.errors.map((message, idx) => (
             <AlertDanger key={idx}>{message}</AlertDanger>
           ))}
+
+        {registerStore?.value?.message?.length > 0 &&
+          !registerStore?.pending &&
+            <AlertSuccess>{registerStore?.value?.message}</AlertSuccess>
+          }
         <div className="flex flex-col gap-6 w-full my-4">
           <div className="email w-full">
             <Input
@@ -241,16 +245,16 @@ const Register = () => {
           <div className="flex items-center gap-2 w-full">
             <InputCheck
               type="checkbox"
-              name="checkedRole"
-              value={"checkedRole"}
-              checked={registerViewModel.checkedRole}
+              name="is_verify_2fa"
+              value={"is_verify_2fa"}
+              checked={registerViewModel.is_verify_2fa}
               onChange={() =>
                 setRegisterViewModel({
                   ...registerViewModel,
-                  checkedRole: !registerViewModel.checkedRole,
+                  is_verify_2fa: !registerViewModel.is_verify_2fa,
                 })
               }
-              label={"Je suis un fournisseur de prestation"}
+              label={"Activez la double authentification"}
             />
           </div>
         </div>

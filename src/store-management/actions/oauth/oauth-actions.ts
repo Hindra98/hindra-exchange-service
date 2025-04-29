@@ -7,6 +7,10 @@ import {
   RegisterFailurePayload,
   ResetPasswordAction,
   ResetPasswordFailurePayload,
+  VerifyIdentityAction,
+  VerifyIdentityFailurePayload,
+  VerifyRegistrationAction,
+  VerifyRegistrationFailurePayload,
 } from ".";
 import { ActionTypes } from "../constants/action-types";
 
@@ -80,6 +84,76 @@ export const registerFailure = (
       errors: payload,
     },
   } as RegisterAction;
+};
+
+export const verifyIdentity = (payload: VerifyIdentityCommand): VerifyIdentityAction => {
+  return {
+    type: ActionTypes.VERIFY_IDENTITY_REQUEST,
+    payload: {
+      command: payload,
+      user: {},
+      errors: {},
+    },
+  } as VerifyIdentityAction;
+};
+export const verifyIdentitySuccess = (
+  payload: VerifyIdentitySuccessPayload
+): VerifyIdentityAction => {
+  return {
+    type: ActionTypes.VERIFY_IDENTITY_SUCCESS,
+    payload: {
+      command: {},
+      user: payload,
+      errors: {},
+    },
+  } as VerifyIdentityAction;
+};
+export const verifyIdentityFailure = (
+  payload: VerifyIdentityFailurePayload
+): VerifyIdentityAction => {
+  return {
+    type: ActionTypes.VERIFY_IDENTITY_FAILURE,
+    payload: {
+      command: {},
+      user: {},
+      errors: payload,
+    },
+  } as VerifyIdentityAction;
+};
+
+export const verifyRegistration = (payload: VerifyRegistrationCommand): VerifyRegistrationAction => {
+  return {
+    type: ActionTypes.VERIFY_REGISTRATION_REQUEST,
+    payload: {
+      command: payload,
+      user: {},
+      errors: {},
+    },
+  } as VerifyRegistrationAction;
+};
+export const verifyRegistrationSuccess = (
+  payload: UpdateStrictSuccessPayload
+): VerifyRegistrationAction => {
+  return {
+    type: ActionTypes.VERIFY_REGISTRATION_SUCCESS,
+    payload: {
+      command: {},
+      user: payload,
+      errors: {},
+    },
+  } as VerifyRegistrationAction;
+};
+export const verifyRegistrationFailure = (
+  payload: VerifyRegistrationFailurePayload
+): VerifyRegistrationAction => {
+  return {
+    type: ActionTypes.VERIFY_REGISTRATION_FAILURE,
+    payload: {
+      command: {},
+      user: {},
+      errors: payload,
+    },
+  } as VerifyRegistrationAction;
 };
 
 export const forgotPassword = (payload: ForgotPasswordCommand): ForgotPasswordAction => {

@@ -1,7 +1,7 @@
 import { AuthenticationConstants } from "@/core/constants/authentication-contants";
 import { getStorage } from "@/core/storage/storage";
 import { InternalAxiosRequestConfig } from "axios";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 /**
  * Intercepts http requests to aad headers.
@@ -20,7 +20,7 @@ export const requestHeadersInterceptor = (
     config.url?.includes("/send-pin-code") ||
     config.url?.includes("/verify-identity")
   ) {
-    config.headers["Allow-Anonymous"] = "1";
+    // config.headers["Allow-Anonymous"] = "1";
 
     if (config.url?.includes("/authenticate") || config.url?.includes("/forgot-password")) {
       const authViewModel = config.data;
@@ -40,7 +40,7 @@ export const requestHeadersInterceptor = (
     config.headers["Authorization"] = `Bearer ${getStorage<string>(AuthenticationConstants.ACCESS_TOKEN)}`;
   }
 
-  config.headers["X-Correlation-Id"] = uuidv4();
+  // config.headers["X-Correlation-Id"] = uuidv4();
   config.headers["X-Api-Key"] = "68357cfc-5eaa-43ec-b7de-ca3e87588271.b881daf6-e22a-4d2f-abbe-5e18ddf32e2c";
   config.headers["Accept-Language"] = getStorage<string>(AuthenticationConstants.HINDRA_CONNECT_USER_LANGUAGE);
 

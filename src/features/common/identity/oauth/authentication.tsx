@@ -3,9 +3,9 @@ import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import { useLocalizer } from "@/core/Localization";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/buttons/button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Input, InputCheck, InputPassword } from "@/components/ui/inputs/input";
-import { AlertDanger } from "@/components/ui/alerts/alert";
+import { AlertDanger, AlertSuccess } from "@/components/ui/alerts/alert";
 import { Lock, User } from "lucide-react";
 import { programming_back } from "@/assets";
 import { FaGoogle, FaLinkedinIn, FaSpinner } from "react-icons/fa";
@@ -39,8 +39,8 @@ const Authentication = () => {
     password: "",
   });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
     setAuthenticationViewModel({
       ...authenticationViewModel,
@@ -81,7 +81,6 @@ const Authentication = () => {
         password: password,
       });
     } else {
-      console.log("Authentication model: ", authenticationViewModel);
       dispatch(authenticateUser(authenticationViewModel));
     }
   };
@@ -120,6 +119,21 @@ const Authentication = () => {
           authenticatedUserStore?.errors.map((message, idx) => (
             <AlertDanger key={idx}>{message}</AlertDanger>
           ))}
+
+        {authenticatedUserStore?.value?.message?.length > 0 &&
+          !authenticatedUserStore?.value?.is_verified &&
+          !authenticatedUserStore?.pending && (
+            <AlertSuccess>
+              {authenticatedUserStore?.value?.message}
+            </AlertSuccess>
+          )}
+
+        {
+          authenticatedUserStore?.value?.is_verified &&
+          authenticatedUserStore?.value?.is_verify_2fa &&
+          !authenticatedUserStore?.pending && (
+            <Navigate to={"../verify-identity"} replace/>
+          )}
 
         <div className="flex flex-col gap-6 w-full my-4">
           <div className="email w-full">

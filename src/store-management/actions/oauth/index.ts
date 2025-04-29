@@ -5,10 +5,15 @@ export interface AuthenticateUserStoreShape {
 }
 export const initialStateAuthenticateUser: AuthenticateUserStoreShape = {
   value: {
-    userId: "",
-    userName: "",
+    id: "",
+    email: "",
+    role: "",
     token: "",
     message: "",
+    message_email: "",
+    is_verified: false,
+    is_verify_2fa: false,
+    is_connected: false,
   } as AuthenticateUserSuccessPayload,
   pending: false,
   errors: [],
@@ -80,6 +85,94 @@ export interface RegisterPayload {
 export interface RegisterAction {
   type: string;
   payload: RegisterPayload;
+}
+
+export interface VerifyIdentityStoreShape {
+  pending: boolean;
+  value: VerifyIdentitySuccessPayload;
+  errors: string[];
+}
+export const initialStateVerifyIdentity: VerifyIdentityStoreShape = {
+  value: {
+    id: "",
+    email: "",
+    role: "",
+    token: "",
+    message: "",
+    message_email: "",
+    is_verified: false,
+    is_verify_2fa: false,
+    is_connected: false,
+  } as VerifyIdentitySuccessPayload,
+  pending: false,
+  errors: [],
+};
+export interface VerifyIdentityModelShape {
+  command: VerifyIdentityCommand;
+}
+export interface VerifyIdentityFailurePayload {
+  errors: string[];
+}
+export interface VerifyIdentityFailure {
+  type: string;
+  payload: VerifyIdentityFailurePayload;
+}
+export interface VerifyIdentitySuccess {
+  type: string;
+  payload: VerifyIdentitySuccessPayload;
+}
+export interface VerifyIdentityRequest {
+  type: string;
+  payload: VerifyIdentityCommand;
+}
+export interface VerifyIdentityPayload {
+  command: VerifyIdentityCommand;
+  user: VerifyIdentitySuccessPayload;
+  errors: VerifyIdentityFailurePayload;
+}
+export interface VerifyIdentityAction {
+  type: string;
+  payload: VerifyIdentityPayload;
+}
+
+export interface VerifyRegistrationStoreShape {
+  pending: boolean;
+  value: UpdateStrictSuccessPayload;
+  errors: string[];
+}
+export const initialStateVerifyRegistration: VerifyRegistrationStoreShape = {
+  value: {
+    message: "",
+  } as UpdateStrictSuccessPayload,
+  pending: false,
+  errors: [],
+};
+export interface VerifyRegistrationModelShape {
+  command: VerifyRegistrationCommand;
+}
+export interface VerifyRegistrationFailurePayload {
+  errors: string[];
+}
+export interface VerifyRegistrationFailure {
+  type: string;
+  payload: VerifyRegistrationFailurePayload;
+}
+export interface VerifyRegistrationSuccess {
+  type: string;
+  payload: UpdateStrictSuccessPayload;
+}
+export interface VerifyRegistrationRequest {
+  type: string;
+  payload: VerifyRegistrationCommand;
+}
+export interface VerifyRegistrationPayload {
+  command: VerifyRegistrationCommand;
+  user: UpdateStrictSuccessPayload;
+  errors: VerifyRegistrationFailurePayload;
+}
+export interface VerifyRegistrationAction {
+  type: string;
+  payload: VerifyRegistrationPayload;
 }
 
 export interface ForgotPasswordStoreShape {

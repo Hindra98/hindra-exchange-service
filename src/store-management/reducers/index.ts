@@ -12,11 +12,15 @@ import {
   forgotPasswordReducer,
   registerReducer,
   resetPasswordReducer,
+  verifyIdentityReducer,
+  verifyRegistrationReducer,
 } from "./oauth-reducers";
 
 const rootReducer = combineReducers({
   authenticatedUser: authenticatedUserReducer,
   register: registerReducer,
+  verifyIdentity: verifyIdentityReducer,
+  verifyRegistration: verifyRegistrationReducer,
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
 

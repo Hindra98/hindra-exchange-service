@@ -2,7 +2,7 @@ import { useDebounced } from "@/core/hooks";
 import { HttpClient } from "@/http/http-client";
 
 const authenticateUser = (http: HttpClient) => async (payload: object) => {
-  const response = await http.post("/v1/oauth/authenticate", payload);
+  const response = await http.post("/login", payload);
 
   const result: AuthenticateUserResult = response.data;
 
@@ -12,13 +12,27 @@ const authenticateUser = (http: HttpClient) => async (payload: object) => {
 };
 
 const register = (http: HttpClient) => async (payload: object) => {
-  const response = await http.post("/v1/oauth/register", payload);
+  const response = await http.post("/register", payload);
 
   return response.data as RegisterResult;
 };
 
+const verifyIdentity = (http: HttpClient) => async (payload: object) => {
+  const response = await http.post("/verify-identity", payload);
+
+  return response.data as VerifyIdentityResult;
+};
+
+const verifyRegistration = (http: HttpClient) => async (payload: object) => {
+  const response = await http.post("/verify-registration", payload);
+
+  const result: UpdateStrictResult = response.data;
+
+  return response !== undefined ? (result as UpdateStrictResult) : undefined;
+};
+
 const forgotPassword = (http: HttpClient) => async (payload: object) => {
-  const response = await http.post("/v1/oauth/forgot-password", payload);
+  const response = await http.post("/forgot-password", payload);
 
   const result: UpdateStrictResult = response.data;
 
@@ -26,7 +40,7 @@ const forgotPassword = (http: HttpClient) => async (payload: object) => {
 };
 
 const resetPassword = (http: HttpClient) => async (payload: object) => {
-  const response = await http.post("/v1/oauth/reset-password", payload);
+  const response = await http.post("/reset-password", payload);
 
   const result: UpdateStrictResult = response.data;
 
@@ -63,6 +77,18 @@ export class ControllerApi {
       ),
   });
 
+  public readonly verifyIdentity = Object.assign(verifyIdentity(this.http), {
+    useResponse: (
+      handler: (result: VerifyIdentityResult) => unknown,
+      args: Parameters<ReturnType<typeof verifyIdentity>>[0]
+    ) =>
+      useDebounced(
+        () => this.verifyIdentity(args).then(handler),
+        Object.values(args),
+        500
+      ),
+  });
+
   public readonly forgotPassword = Object.assign(forgotPassword(this.http), {
     useResponse: (
       handler: (result: UpdateStrictResult | undefined) => unknown,
@@ -70,6 +96,18 @@ export class ControllerApi {
     ) =>
       useDebounced(
         () => this.forgotPassword(args).then(handler),
+        Object.values(args),
+        500
+      ),
+  });
+
+  public readonly verifyRegistration = Object.assign(verifyRegistration(this.http), {
+    useResponse: (
+      handler: (result: UpdateStrictResult | undefined) => unknown,
+      args: Parameters<ReturnType<typeof verifyRegistration>>[0]
+    ) =>
+      useDebounced(
+        () => this.verifyRegistration(args).then(handler),
         Object.values(args),
         500
       ),

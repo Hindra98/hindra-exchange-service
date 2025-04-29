@@ -15,7 +15,7 @@ export const responseInterceptor = (response: AxiosResponse<unknown>) => {
 
     if(response.statusText === "OK")
     {
-
+// 200 OK
     }
     else{
         if(response.statusText === "Unauthorized"){

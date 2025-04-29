@@ -7,6 +7,7 @@ import { apiBaseUrl_local } from "../core/constants/http-constants";
 
 const axiosInstance = axios.create({
   baseURL: apiBaseUrl_local,
+  withCredentials: true,
 });
 
 const responseErrorInterceptions = [

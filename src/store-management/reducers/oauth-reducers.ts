@@ -9,10 +9,16 @@ import {
   initialStateForgotPassword,
   initialStateRegister,
   initialStateResetPassword,
+  initialStateVerifyIdentity,
+  initialStateVerifyRegistration,
   RegisterAction,
   RegisterStoreShape,
   ResetPasswordAction,
   ResetPasswordStoreShape,
+  VerifyIdentityAction,
+  VerifyIdentityStoreShape,
+  VerifyRegistrationAction,
+  VerifyRegistrationStoreShape,
 } from "../actions/oauth";
 
 export const authenticatedUserReducer = (
@@ -29,10 +35,14 @@ export const authenticatedUserReducer = (
     case ActionTypes.AUTHENTICATE_USER_SUCCESS:
       return produce(state, (draftState) => {
         draftState.value.message = args.payload?.user?.message;
-        draftState.value.userId = args.payload?.user?.userId;
-        draftState.value.userName = args.payload?.user?.userName;
+        draftState.value.id = args.payload?.user?.id;
+        draftState.value.email = args.payload?.user?.email;
         draftState.value.token = args.payload?.user?.token;
-        //  draftState.value.userName = Jwt.getClaim(args.payload?.user?.token, "name");
+        draftState.value.role = args.payload?.user?.role;
+        draftState.value.message_email = args.payload?.user?.message_email;
+        draftState.value.is_connected = args.payload?.user?.is_connected;
+        draftState.value.is_verified = args.payload?.user?.is_verified;
+        draftState.value.is_verify_2fa = args.payload?.user?.is_verify_2fa;
         draftState.errors = [];
         draftState.pending = false;
       });
@@ -69,6 +79,66 @@ export const registerReducer = (
       });
 
     case ActionTypes.REGISTER_FAILURE:
+      return produce(state, (draftState) => {
+        draftState.errors = args.payload.errors.errors;
+        draftState.value.message = "";
+        draftState.pending = false;
+      });
+
+    default:
+      return state;
+  }
+};
+
+export const verifyIdentityReducer = (
+  state: VerifyIdentityStoreShape = initialStateVerifyIdentity,
+  args: VerifyIdentityAction
+): VerifyIdentityStoreShape => {
+  switch (args.type) {
+    case ActionTypes.VERIFY_IDENTITY_REQUEST:
+      return produce(state, (draftState) => {
+        draftState.pending = true;
+        draftState.errors = [];
+      });
+
+    case ActionTypes.VERIFY_IDENTITY_SUCCESS:
+      return produce(state, (draftState) => {
+        draftState.value.message = args.payload?.user?.message;
+        draftState.errors = [];
+        draftState.pending = false;
+      });
+
+    case ActionTypes.VERIFY_IDENTITY_FAILURE:
+      return produce(state, (draftState) => {
+        draftState.errors = args.payload.errors.errors;
+        draftState.value.message = "";
+        draftState.pending = false;
+      });
+
+    default:
+      return state;
+  }
+};
+
+export const verifyRegistrationReducer = (
+  state: VerifyRegistrationStoreShape = initialStateVerifyRegistration,
+  args: VerifyRegistrationAction
+): VerifyRegistrationStoreShape => {
+  switch (args.type) {
+    case ActionTypes.VERIFY_REGISTRATION_REQUEST:
+      return produce(state, (draftState) => {
+        draftState.pending = true;
+        draftState.errors = [];
+      });
+
+    case ActionTypes.VERIFY_REGISTRATION_SUCCESS:
+      return produce(state, (draftState) => {
+        draftState.value.message = args.payload?.user?.message;
+        draftState.errors = [];
+        draftState.pending = false;
+      });
+
+    case ActionTypes.VERIFY_REGISTRATION_FAILURE:
       return produce(state, (draftState) => {
         draftState.errors = args.payload.errors.errors;
         draftState.value.message = "";

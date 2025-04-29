@@ -9,10 +9,15 @@ interface AuthenticateUserResult {
   errorMessages: ErrorMessageItem[];
 }
 interface AuthenticateUserSuccessPayload {
-  userId: string;
-  userName: string;
+  id: string;
+  email: string;
+  role: string;
   token: string;
   message: string;
+  is_verified?: boolean;
+  is_verify_2fa?: boolean;
+  is_connected?: boolean;
+  message_email?: string;
 }
 
 interface RegisterCommand {
@@ -21,7 +26,7 @@ interface RegisterCommand {
   firstName: string;
   password: string;
   confirmPassword: string;
-  checkedRole: boolean;
+  is_verify_2fa: boolean;
 }
 interface RegisterResult {
   payload: RegisterSuccessPayload;
@@ -33,12 +38,39 @@ interface RegisterSuccessPayload {
   message: string;
 }
 
+interface VerifyIdentityCommand {
+  id: string;
+  token: string;
+  otp: string;
+}
+interface VerifyIdentityResult {
+  payload: VerifyIdentitySuccessPayload;
+  hasSucceeded: boolean;
+  errorMessages: ErrorMessageItem[];
+}
+interface VerifyIdentitySuccessPayload {
+  id: string;
+  email: string;
+  role: string;
+  token: string;
+  message: string;
+  is_verified: boolean;
+  is_verify_2fa: boolean;
+  is_connected: boolean;
+  message_email: string;
+}
+
+interface VerifyRegistrationCommand {
+  otp: string;
+  token: string;
+}
 interface ForgotPasswordCommand {
   email: string;
   confirmEmail: string;
 }
-
 interface ResetPasswordCommand {
+  otp: string;
+  token: string;
   password: string;
   confirmPassword: string;
 }

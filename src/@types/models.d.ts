@@ -26,6 +26,7 @@ type Claims =
   | "userId"
   | "role"
   | "fullname"
+  | "otp"
   | "userlanguage"
   | "exp";
 

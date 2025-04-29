@@ -1,3 +1,7 @@
+import {
+  verifyIdentityFailure,
+  verifyIdentitySuccess,
+} from "./../actions/oauth/oauth-actions";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { ActionTypes } from "../actions/constants/action-types";
 import {
@@ -9,6 +13,10 @@ import {
   RegisterFailurePayload,
   ResetPasswordAction,
   ResetPasswordFailurePayload,
+  VerifyIdentityAction,
+  VerifyIdentityFailurePayload,
+  VerifyRegistrationAction,
+  VerifyRegistrationFailurePayload,
 } from "../actions/oauth";
 import {
   authenticateUserFailure,
@@ -19,10 +27,11 @@ import {
   registerSuccess,
   resetPasswordFailure,
   resetPasswordSuccess,
+  verifyRegistrationFailure,
+  verifyRegistrationSuccess,
 } from "../actions/oauth/oauth-actions";
 import { setStorage } from "@/core/storage/storage";
 import { ControllerApi } from "@/features/common/identity/oauth/locale/controller-api";
-import { Jwt } from "@/core/security/jwt";
 import { AuthenticationConstants } from "@/core/constants/authentication-contants";
 
 const controllerApi = new ControllerApi();
@@ -32,6 +41,13 @@ const callApiToAuthenticateUser = async (command: AuthenticateUserCommand) =>
 
 const callApiToRegister = async (command: RegisterCommand) =>
   controllerApi.register(command);
+
+const callApiToVerifyIdentity = async (command: VerifyIdentityCommand) =>
+  controllerApi.verifyIdentity(command);
+
+const callApiToVerifyRegistration = async (
+  command: VerifyRegistrationCommand
+) => controllerApi.verifyRegistration(command);
 
 const callApiToForgotPassword = async (command: ForgotPasswordCommand) =>
   controllerApi.forgotPassword(command);
@@ -47,12 +63,12 @@ function* authenticateUserSaga(action: AuthenticateUserAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        const token = response.payload.token;
-        setStorage(AuthenticationConstants.ACCESS_TOKEN, token);
-        setStorage(
-          AuthenticationConstants.HINDRA_CONNECT_USER_LANGUAGE,
-          Jwt.getClaim(token, "userlanguage") + "-CM"
-        );
+        if (!response.payload.is_verify_2fa)
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+
         yield put(authenticateUserSuccess(response.payload));
       } else {
         const messages: string[] = [];
@@ -77,6 +93,7 @@ function* authenticateUserSaga(action: AuthenticateUserAction) {
   } catch (e) {
     const messages: string[] = [];
     messages.push(e.message);
+    console.log("E:Message : ", e)
     yield put(
       authenticateUserFailure({
         errors: messages,
@@ -121,6 +138,88 @@ function* registerSaga(action: RegisterAction) {
       registerFailure({
         errors: messages,
       } as RegisterFailurePayload)
+    );
+  }
+}
+
+function* verifyIdentitySaga(action: VerifyIdentityAction) {
+  try {
+    const response: VerifyIdentityResult = yield call(
+      callApiToVerifyIdentity,
+      action.payload.command
+    );
+    if (response) {
+      if (response.hasSucceeded) {
+        const token = response.payload.token;
+        setStorage(AuthenticationConstants.ACCESS_TOKEN, token);
+        yield put(verifyIdentitySuccess(response.payload));
+      } else {
+        const messages: string[] = [];
+        response.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          verifyIdentityFailure({
+            errors: messages,
+          } as VerifyIdentityFailurePayload)
+        );
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push("Erreur lors de la connexion au serveur");
+      yield put(
+        verifyIdentityFailure({
+          errors: messages,
+        } as VerifyIdentityFailurePayload)
+      );
+    }
+  } catch (e) {
+    const messages: string[] = [];
+    messages.push(e.message);
+    yield put(
+      verifyIdentityFailure({
+        errors: messages,
+      } as VerifyIdentityFailurePayload)
+    );
+  }
+}
+
+function* verifyRegistrationSaga(action: VerifyRegistrationAction) {
+  try {
+    const response: UpdateStrictResult = yield call(
+      callApiToVerifyRegistration,
+      action.payload.command
+    );
+    if (response) {
+      if (response.hasSucceeded) {
+        yield put(verifyRegistrationSuccess(response.payload));
+      } else {
+        const messages: string[] = [];
+        response.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          verifyRegistrationFailure({
+            errors: messages,
+          } as VerifyRegistrationFailurePayload)
+        );
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push("Erreur lors de la connexion au serveur");
+      yield put(
+        verifyRegistrationFailure({
+          errors: messages,
+        } as VerifyRegistrationFailurePayload)
+      );
+    }
+  } catch (e) {
+    const messages: string[] = [];
+    messages.push(e.message);
+    yield put(
+      verifyRegistrationFailure({
+        errors: messages,
+      } as VerifyRegistrationFailurePayload)
     );
   }
 }
@@ -209,6 +308,12 @@ function* resetPasswordSaga(action: ResetPasswordAction) {
 export function* watchOauthSaga() {
   yield takeLatest(ActionTypes.AUTHENTICATE_USER_REQUEST, authenticateUserSaga);
   yield takeLatest(ActionTypes.REGISTER_REQUEST, registerSaga);
+  yield takeLatest(ActionTypes.VERIFY_IDENTITY_REQUEST, verifyIdentitySaga);
+  yield takeLatest(
+    ActionTypes.VERIFY_REGISTRATION_REQUEST,
+    verifyRegistrationSaga
+  );
   yield takeLatest(ActionTypes.FORGOT_PASSWORD_REQUEST, forgotPasswordSaga);
   yield takeLatest(ActionTypes.RESET_PASSWORD_REQUEST, resetPasswordSaga);
 }
+

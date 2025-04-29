@@ -20,6 +20,7 @@ import {
   programming_sitting,
 } from "@/assets";
 import Carousel from "@/components/ui/carousel/carousel";
+import { useAppSelector } from "@/core/hooks/core-hooks";
 
 export const BookingModal = ({
   prestation,
@@ -29,8 +30,13 @@ export const BookingModal = ({
 }: BookingModalProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [notes, setNotes] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  
+      const verifyRegistrationStore = useAppSelector(
+        (state) => state.verifyRegistration
+      );
 
   const handleSubmit = async () => {
     if (!date) {
@@ -138,10 +144,10 @@ export const BookingModal = ({
 
           <Button
             onClick={handleSubmit}
-            disabled={isLoading}
+            disabled={verifyRegistrationStore?.pending}
             className="w-full"
           >
-            {isLoading ? "Réservation en cours..." : "Confirmer la réservation"}
+            {verifyRegistrationStore?.pending ? "Réservation en cours..." : "Confirmer la réservation"}
           </Button>
         </DialogDescription>
       </DialogContent>

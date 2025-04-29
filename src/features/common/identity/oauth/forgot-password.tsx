@@ -9,7 +9,7 @@ import { programming_back } from "@/assets";
 import { isEmail } from "@/core/text/regex";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import { forgotPassword } from "@/store-management/actions/oauth/oauth-actions";
-import { AlertDanger } from "@/components/ui/alerts/alert";
+import { AlertDanger, AlertSuccess } from "@/components/ui/alerts/alert";
 import { FaSpinner } from "react-icons/fa";
 import { appName } from "@/core/constants/common-constants";
 
@@ -35,8 +35,8 @@ const ForgotPassword = () => {
     confirmEmail: "",
   });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
     setForgotPasswordViewModel({
       ...forgotPasswordViewModel,
@@ -110,6 +110,10 @@ const ForgotPassword = () => {
           forgotPasswordStore?.errors.map((message, idx) => (
             <AlertDanger key={idx}>{message}</AlertDanger>
           ))}
+        {forgotPasswordStore?.value?.message?.length > 0 &&
+          !forgotPasswordStore?.pending && (
+            <AlertSuccess>{forgotPasswordStore?.value?.message}</AlertSuccess>
+          )}
         <div className="flex flex-col gap-6 w-full my-4">
           <div className="email w-full">
             <Input

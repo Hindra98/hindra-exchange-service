@@ -32,8 +32,11 @@ const ForgotPassword = lazy(
 const ResetPassword = lazy(
   () => import("@/features/common/identity/oauth/reset-password")
 );
-const Verify2fa = lazy(
-  () => import("@/features/common/identity/oauth/register")
+const VerifyIdentity = lazy(
+  () => import("@/features/common/identity/oauth/verify-identity")
+);
+const VerifyEmail = lazy(
+  () => import("@/features/common/identity/oauth/verify-email")
 );
 const Home = lazy(() => import("@/features/common/home/home"));
 const About = lazy(() => import("@/components/pages/about"));
@@ -68,7 +71,8 @@ const router = createBrowserRouter(
           <Route index element={<div>Index Element</div>} />
           <Route path="login" element={<Authentication />} />
           <Route path="register" element={<Register />} />
-          <Route path="verify-identity" element={<Verify2fa />} />
+          <Route path="verify-identity" element={<VerifyIdentity />} />
+          <Route path="verify-registration" element={<VerifyEmail />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>

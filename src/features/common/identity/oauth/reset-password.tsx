@@ -2,21 +2,29 @@ import { useState } from "react";
 import { useLocalizer } from "@/core/Localization";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/buttons/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { InputPassword } from "@/components/ui/inputs/input";
 import { Lock } from "lucide-react";
 import { programming_back } from "@/assets";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import { resetPassword } from "@/store-management/actions/oauth/oauth-actions";
-import { AlertDanger } from "@/components/ui/alerts/alert";
+import { AlertDanger, AlertSuccess } from "@/components/ui/alerts/alert";
 import { FaSpinner } from "react-icons/fa";
 import { appName } from "@/core/constants/common-constants";
+import { extractParamsUrl } from "@/core/text/regex";
 
 const ResetPassword = () => {
   const commonLocalizer = useLocalizer("Common-ResCommon");
   const dispatch = useAppDispatch();
 
   const resetPasswordStore = useAppSelector((state) => state.resetPassword);
+
+  const { search } = useLocation();
+
+  let token = (extractParamsUrl(search) as VerifyRegistrationCommand).token;
+  const otp = (extractParamsUrl(search) as VerifyRegistrationCommand).otp;
+
+  token = token ? token.replace("%20", " ") : "";
 
   const schema = Yup.object().shape({
     password: Yup.string(),
@@ -27,6 +35,8 @@ const ResetPassword = () => {
     useState<ResetPasswordCommand>({
       password: "",
       confirmPassword: "",
+      token,
+      otp,
     });
 
   const [errors, setErrors] = useState({
@@ -69,7 +79,14 @@ const ResetPassword = () => {
       });
     } else {
       console.log("Authentication model: ", resetPasswordViewModel);
-      dispatch(resetPassword(resetPasswordViewModel));
+      dispatch(
+        resetPassword({
+          password: resetPasswordViewModel.password,
+          confirmPassword: resetPasswordViewModel.confirmPassword,
+          token: token,
+          otp: otp,
+        } as ResetPasswordCommand)
+      );
     }
   };
 
@@ -103,6 +120,11 @@ const ResetPassword = () => {
           resetPasswordStore?.errors.map((message, idx) => (
             <AlertDanger key={idx}>{message}</AlertDanger>
           ))}
+
+        {resetPasswordStore?.value?.message?.length > 0 &&
+          !resetPasswordStore?.pending && (
+            <AlertSuccess>{resetPasswordStore?.value?.message}</AlertSuccess>
+          )}
         <div className="flex flex-col gap-6 w-full my-4">
           <div className="password w-full">
             <InputPassword
@@ -114,7 +136,6 @@ const ResetPassword = () => {
               )}
               className="login-input w-full outline-none border-none"
               value={resetPasswordViewModel.password}
-              eye={false}
               onChange={handleChange}
             />
             {errors.password && (

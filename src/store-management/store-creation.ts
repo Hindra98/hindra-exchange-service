@@ -9,11 +9,13 @@ import { Jwt } from "@/core/security/jwt";
 const loadAuthenticatedUser = (): AuthenticateUserSuccessPayload => {
   const token = getStorage<string>(AuthenticationConstants.ACCESS_TOKEN);
 
-  const name = token ? Jwt.getClaim(token, "userName") : "";
   const id = token ? Jwt.getClaim(token, "userId") : "";
+  const email = token ? Jwt.getClaim(token, "userName") : "";
+  const role = token ? Jwt.getClaim(token, "role") : "";
   const authenticateUser: AuthenticateUserSuccessPayload = {
-    userId: id,
-    userName: name,
+    id: id,
+    email: email,
+    role: role,
     token: token,
     message: "",
   };
