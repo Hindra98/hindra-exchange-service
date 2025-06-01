@@ -17,16 +17,17 @@ export class Jwt {
     key: Claims
   ): string => {
     let claim = "";
-
-    decodedToken
+    const key_tmp = (key.toLowerCase() == "username") ? "email":key;
+    decodedToken.slice(1, -1)
       .split(",")
-      .filter((item) => item.toLocaleLowerCase().includes(`${key}`))
+      .filter((item) => item.toLocaleLowerCase().includes(`${key_tmp.toLowerCase()}`))
       .forEach((value) => {
         const element = value.split(":");
-        const claimValue = element[0].slice(0, -1);
+        const claimValue = element[0].slice(1, -1);
 
-        if (claimValue.toLocaleLowerCase() === key.toLocaleLowerCase())
+        if (claimValue.toLocaleLowerCase() === key_tmp.toLocaleLowerCase())
           claim = element[1].slice(1, element[1].length - 1);
+          claim = (key.toLowerCase() == "exp") ? element[1]:element[1].slice(1, element[1].length - 1);
       });
     return claim;
   };

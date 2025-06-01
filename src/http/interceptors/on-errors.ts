@@ -1,29 +1,22 @@
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 
 /**
- * 
- * @param error 
- * @returns 
+ *
+ * @param error
+ * @returns
  */
 export const onRequestError = (error: AxiosError): Promise<AxiosError> => {
-
-    
-    
-    return Promise.reject(error);
-}
-
+  return Promise.reject(error);
+};
 
 /**
- * 
- * @param error 
- * @returns 
+ *
+ * @param error
+ * @returns
  */
 export const onResponseError = async (error: AxiosError): Promise<any> => {
-
-    if(error.code === "ERR_NETWORK"){
-      return Promise.resolve();
-    }
-
-    return Promise.reject(error);
-}
-
+  if (error.code === "ERR_NETWORK") {
+    return Promise.resolve();
+  }
+  return Promise.reject(error);
+};

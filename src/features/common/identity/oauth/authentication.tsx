@@ -128,11 +128,10 @@ const Authentication = () => {
             </AlertSuccess>
           )}
 
-        {
-          authenticatedUserStore?.value?.is_verified &&
+        {authenticatedUserStore?.value?.is_verified &&
           authenticatedUserStore?.value?.is_verify_2fa &&
           !authenticatedUserStore?.pending && (
-            <Navigate to={"../verify-identity"} replace/>
+            <Navigate to={"../verify-identity"} replace />
           )}
 
         <div className="flex flex-col gap-6 w-full my-4">
@@ -194,8 +193,8 @@ const Authentication = () => {
             )}
           </Link>
         </div>
-
         <div className="flex flex-col gap-2 justify-center w-full">
+          
           <Button
             type="submit"
             className={"w-full"}

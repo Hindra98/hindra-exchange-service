@@ -8,13 +8,19 @@ import {
   initialStateAuthenticateUser,
   initialStateForgotPassword,
   initialStateRegister,
+  initialStateResendPinCode,
   initialStateResetPassword,
+  initialStateSignOut,
   initialStateVerifyIdentity,
   initialStateVerifyRegistration,
   RegisterAction,
   RegisterStoreShape,
+  ResendPinCodeAction,
+  ResendPinCodeStoreShape,
   ResetPasswordAction,
   ResetPasswordStoreShape,
+  SignOutAction,
+  SignOutStoreShape,
   VerifyIdentityAction,
   VerifyIdentityStoreShape,
   VerifyRegistrationAction,
@@ -104,11 +110,51 @@ export const verifyIdentityReducer = (
     case ActionTypes.VERIFY_IDENTITY_SUCCESS:
       return produce(state, (draftState) => {
         draftState.value.message = args.payload?.user?.message;
+        draftState.value.id = args.payload?.user?.id;
+        draftState.value.email = args.payload?.user?.email;
+        draftState.value.role = args.payload?.user?.role;
+        draftState.value.token = args.payload?.user?.token;
+        draftState.value.is_connected = args.payload?.user?.is_connected;
+        draftState.value.is_verified = args.payload?.user?.is_verified;
         draftState.errors = [];
         draftState.pending = false;
       });
 
     case ActionTypes.VERIFY_IDENTITY_FAILURE:
+      return produce(state, (draftState) => {
+        draftState.errors = args.payload.errors.errors;
+        draftState.value.message = "";
+        draftState.pending = false;
+      });
+
+    default:
+      return state;
+  }
+};
+
+export const resendPinCodeReducer = (
+  state: ResendPinCodeStoreShape = initialStateResendPinCode,
+  args: ResendPinCodeAction
+): ResendPinCodeStoreShape => {
+  switch (args.type) {
+    case ActionTypes.RESEND_PIN_CODE_REQUEST:
+      return produce(state, (draftState) => {
+        draftState.pending = true;
+        draftState.errors = [];
+      });
+
+    case ActionTypes.RESEND_PIN_CODE_SUCCESS:
+      return produce(state, (draftState) => {
+        draftState.value.id = args.payload?.user?.id;
+        draftState.value.email = args.payload?.user?.email;
+        draftState.value.token = args.payload?.user?.token;
+        draftState.value.message = args.payload?.user?.message;
+        draftState.value.message_email = args.payload?.user?.message_email;
+        draftState.errors = [];
+        draftState.pending = false;
+      });
+
+    case ActionTypes.RESEND_PIN_CODE_FAILURE:
       return produce(state, (draftState) => {
         draftState.errors = args.payload.errors.errors;
         draftState.value.message = "";
@@ -199,6 +245,36 @@ export const resetPasswordReducer = (
       });
 
     case ActionTypes.RESET_PASSWORD_FAILURE:
+      return produce(state, (draftState) => {
+        draftState.errors = args.payload.errors.errors;
+        draftState.value.message = "";
+        draftState.pending = false;
+      });
+
+    default:
+      return state;
+  }
+};
+
+export const signOutReducer = (
+  state: SignOutStoreShape = initialStateSignOut,
+  args: SignOutAction
+): SignOutStoreShape => {
+  switch (args.type) {
+    case ActionTypes.SIGN_OUT_REQUEST:
+      return produce(state, (draftState) => {
+        draftState.pending = true;
+        draftState.errors = [];
+      });
+
+    case ActionTypes.SIGN_OUT_SUCCESS:
+      return produce(state, (draftState) => {
+        draftState.value.message = args.payload?.user?.message;
+        draftState.errors = [];
+        draftState.pending = false;
+      });
+
+    case ActionTypes.SIGN_OUT_FAILURE:
       return produce(state, (draftState) => {
         draftState.errors = args.payload.errors.errors;
         draftState.value.message = "";

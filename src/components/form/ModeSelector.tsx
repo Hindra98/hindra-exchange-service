@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getStorage, setStorage } from "@/core/storage/storage";
-import { CoreConstants } from "@/core/constants/common-constants";
+import { coreConstants } from "@/core/constants/common-constants";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Button } from "../ui/buttons/button";
+import { themeConstants } from "@/core/constants/profile-constants";
 
 type Props = {
   className: string;
@@ -11,23 +12,23 @@ type Props = {
 
 const ModeSelector = ({ className, isText = false }: Props) => {
   const [theme, setTheme] = useState<string>(
-    () => getStorage(CoreConstants.USER_THEME_MODE) || "light"
+    () => getStorage(coreConstants.USER_THEME_MODE) || themeConstants.LIGHT
   );
 
   // Appliquer le thème au `document` et sauvegarder la préférence
   useEffect(() => {
     document.documentElement.className = theme; // Ajoute la classe au root
-    setStorage(CoreConstants.USER_THEME_MODE, theme);
+    setStorage(coreConstants.USER_THEME_MODE, theme);
   }, [theme]);
 
   // Fonction pour basculer entre les modes
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === themeConstants.LIGHT ? themeConstants.DARK : themeConstants.LIGHT));
   };
 
   return (
     <div className={`${className} flex items-center gap-2`}>
-      {theme === "light" ? (
+      {theme === themeConstants.LIGHT ? (
         isText ? (
           <Button onClick={toggleTheme} className="w-full flex items-center gap-2">
             <FaMoon

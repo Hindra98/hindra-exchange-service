@@ -17,6 +17,7 @@ import { Provider } from "react-redux";
 import AppPreloader from "./components/shared/app-preloader";
 import PageNotFound from "./components/pages/page-not-found";
 import AppCoreLayout from "./components/layouts/app-core-layout";
+import ProfileCoreLayout from "./components/layouts/profile-core-layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -37,6 +38,14 @@ const VerifyIdentity = lazy(
 );
 const VerifyEmail = lazy(
   () => import("@/features/common/identity/oauth/verify-email")
+);
+
+const Profile = lazy(
+  () => import("@/features/common/identity/account/profile")
+);
+
+const Category = lazy(
+  () => import("@/features/management/category/category")
 );
 const Home = lazy(() => import("@/features/common/home/home"));
 const About = lazy(() => import("@/components/pages/about"));
@@ -62,13 +71,33 @@ const router = createBrowserRouter(
           <Route path="all-prestation" element={<About />} />
           <Route path="about" element={<About />} />
           <Route path="team" element={<Team />} />
+            
+          <Route
+            path="/admin"
+            errorElement={<RouteErrorBoundary />}
+          >
+            <Route index element={<Home />} />
+            <Route path="category" element={<Category />} />
+          </Route>
+          <Route
+            path="/me"
+            element={<ProfileCoreLayout />}
+            errorElement={<RouteErrorBoundary />}
+          >
+            <Route index element={<Home />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="benefits" element={<VerifyIdentity />} />
+            <Route path="booking" element={<Register />} />
+            <Route path="messages" element={<Category />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
         </Route>
         <Route
           path="/oauth"
           element={<OauthRouteLayout />}
           errorElement={<RouteErrorBoundary />}
         >
-          <Route index element={<div>Index Element</div>} />
           <Route path="login" element={<Authentication />} />
           <Route path="register" element={<Register />} />
           <Route path="verify-identity" element={<VerifyIdentity />} />

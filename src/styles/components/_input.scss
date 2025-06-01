@@ -1,38 +1,16 @@
 @use '../common';
 
-.input-dashboard {
-  height: 39px !important;
-}
-.input-dashboard,
-.input-notify {
-  color: #000 !important;
-  background-color: #fff;
-  border-radius: 5px !important;
-
-  border-color: #0002 !important;
+.input-hindra {
   &.error {
-    border-color: red !important;
+    border-color: #ff0000 !important;
     border-width: 2px !important;
-    background-color: #ffe2e2 !important;
+    background-color: #ffeeee !important;
   }
-
-  .login-input {
-    appearance: none !important;
-    font-family: common.$font-rg !important;
-    background-color: transparent !important;
-    color: #000 !important;
-    border-color: transparent !important;
-    border-width: 1px;
-    border-radius: 0px;
-    padding: 0.5rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
-
-  .login-input:focus {
-    outline: 2px solid transparent !important;
-    box-shadow: 0 0 #0000;
-    border-color: transparent !important;
+  &.input-inline.error {
+    border-color: #ff0000 !important;
+    border-width: 0px !important;
+    border-bottom-width: 2px !important;
+    background-color: #ffeeee !important;
   }
 
   input::-ms-reveal,

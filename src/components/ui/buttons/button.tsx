@@ -15,7 +15,7 @@ export const Button = ({
   <motion.div
     whileHover={{ scale: disabled ? 1 : 1.05 }}
     whileTap={{ scale: disabled ? 1 : 0.95 }}
-    className={`${!disabled && "cursor-pointer"} ${className}`}
+    className={`${!disabled && "cursor-pointer overflow-hidden"} ${className}`}
   >
     <ShadButton
       variant={variant}
@@ -25,7 +25,7 @@ export const Button = ({
       title={title}
       disabled={disabled}
       className={
-        className + " py-2 rounded-md cursor-pointer flex items-center gap-1"
+        className + " py-2 rounded-md cursor-pointer flex items-center gap-1 overflow-hidden"
       }
       onClick={onClick}
     >

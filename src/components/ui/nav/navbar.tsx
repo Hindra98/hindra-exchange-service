@@ -33,7 +33,11 @@ import { siteBaseUrl_local } from "@/core/constants/http-constants";
 
 const ModeSelector = lazy(() => import("@/components/form/ModeSelector"));
 
-export const Navbar = ({ isConnect = false, userLink = [] }: NavbarProps) => {
+export const Navbar = ({
+  isConnect = false,
+  userLink = [],
+  profile = null,
+}: NavbarProps) => {
   const menu: NavbarLink[] = [
     {
       title: "Prestations",
@@ -68,7 +72,7 @@ export const Navbar = ({ isConnect = false, userLink = [] }: NavbarProps) => {
     },
     {
       title: "Stats",
-      url: siteBaseUrl_local+"#stats",
+      url: siteBaseUrl_local + "#stats",
     },
     {
       title: "L'équipe",
@@ -104,7 +108,20 @@ export const Navbar = ({ isConnect = false, userLink = [] }: NavbarProps) => {
             <LanguageSelector />
           </div>
           {isConnect ? (
-            <Dropdown name={<FaUser />} rounded elements={userLink}></Dropdown>
+            <Dropdown
+              name={
+                <div className="flex items-center gap-2">
+                  <span>{profile?.fullName ?? "Unknow"}</span>
+                  {profile?.picture ? (
+                    <img src={profile?.picture} width={48} height={48} />
+                  ) : (
+                    <FaUser />
+                  )}
+                </div>
+              }
+              rounded
+              elements={userLink}
+            ></Dropdown>
           ) : (
             <Link to={"oauth/login"} className="hover:underline min-w-fit">
               Se connecter
@@ -154,8 +171,21 @@ export const Navbar = ({ isConnect = false, userLink = [] }: NavbarProps) => {
                   />
                   {isConnect ? (
                     <Dropdown
-                    className="w-full"
-                      name={<div className="w-full flex items-center gap-2"><FaUser /><span>User Name</span></div>}
+                      className="w-full"
+                      name={
+                        <div className="flex items-center gap-2">
+                          <span>{profile?.fullName ?? "Unknow"}</span>
+                          {profile?.picture ? (
+                            <img
+                              src={profile?.picture}
+                              width={48}
+                              height={48}
+                            />
+                          ) : (
+                            <FaUser />
+                          )}
+                        </div>
+                      }
                       elements={userLink}
                       setChevron
                     ></Dropdown>

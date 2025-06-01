@@ -11,7 +11,9 @@ import { FaGoogle, FaLinkedinIn, FaSpinner } from "react-icons/fa";
 import { isEmail } from "@/core/text/regex";
 import { AlertDanger, AlertSuccess } from "@/components/ui/alerts/alert";
 import { register } from "@/store-management/actions/oauth/oauth-actions";
-import { appName } from "@/core/constants/common-constants";
+import { appName, coreConstants } from "@/core/constants/common-constants";
+import { getStorage } from "@/core/storage/storage";
+import { AuthenticationConstants } from "@/core/constants/authentication-contants";
 
 const Register = () => {
   const commonLocalizer = useLocalizer("Common-ResCommon");
@@ -34,6 +36,8 @@ const Register = () => {
     firstName: "",
     password: "",
     confirmPassword: "",
+    userlanguage: "",
+    theme: "",
     is_verify_2fa: false,
   });
 
@@ -108,17 +112,17 @@ const Register = () => {
         confirmPassword: confirmPassword,
       });
     } else {
-      dispatch(register(registerViewModel));
+      dispatch(
+        register({
+          ...registerViewModel,
+          userlanguage: getStorage<string>(
+            AuthenticationConstants.HINDRA_CONNECT_USER_LANGUAGE
+          ),
+          theme: getStorage<string>(coreConstants.USER_THEME_MODE),
+        })
+      );
     }
   };
-
-  // if (token) {
-  //   return <Navigate to={"/dashboard"} replace />;
-  // } else {
-  //   if (authResultSuccess.length > 1) {
-  //     return <Navigate to={"/verify-identity"} replace />;
-  //   }
-  // }
 
   window.document.title = "Créer un compte" + " - " + appName;
 
@@ -153,9 +157,9 @@ const Register = () => {
           ))}
 
         {registerStore?.value?.message?.length > 0 &&
-          !registerStore?.pending &&
+          !registerStore?.pending && (
             <AlertSuccess>{registerStore?.value?.message}</AlertSuccess>
-          }
+          )}
         <div className="flex flex-col gap-6 w-full my-4">
           <div className="email w-full">
             <Input

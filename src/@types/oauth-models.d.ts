@@ -27,6 +27,8 @@ interface RegisterCommand {
   password: string;
   confirmPassword: string;
   is_verify_2fa: boolean;
+  userlanguage: string;
+  theme: string;
 }
 interface RegisterResult {
   payload: RegisterSuccessPayload;
@@ -55,10 +57,28 @@ interface VerifyIdentitySuccessPayload {
   token: string;
   message: string;
   is_verified: boolean;
-  is_verify_2fa: boolean;
   is_connected: boolean;
-  message_email: string;
 }
+
+interface ResendPinCodeCommand {
+  id: string;
+  email: string;
+  token: string;
+  type?: 0 | 1;
+}
+interface ResendPinCodeResult {
+  payload: ResendPinCodeSuccessPayload;
+  hasSucceeded: boolean;
+  errorMessages: ErrorMessageItem[];
+}
+interface ResendPinCodeSuccessPayload {
+  id: string;
+  email: string;
+  token: string;
+  message: string;
+  message_email?: string;
+}
+
 
 interface VerifyRegistrationCommand {
   otp: string;

@@ -264,6 +264,7 @@ function CarouselIndicators({ className }: React.ComponentProps<"div">) {
       >
         {[...Array(slideLength)].map((_, value) => (
           <Button
+            key={value}
             data-slot="carousel-to"
             variant={"outline"}
             size={"icon"}
@@ -272,7 +273,7 @@ function CarouselIndicators({ className }: React.ComponentProps<"div">) {
               orientation === "horizontal"
                 ? "bottom-2"
                 : "top-1/2 -right-12 -translate-y-1/2 rotate-90",
-              value === selectedScrollSnap ? "!bg-blue-600":"!bg-white",
+              value === selectedScrollSnap ? "!bg-blue-600" : "!bg-white",
               className
             )}
             onClick={() => scrollTo(value as number)}

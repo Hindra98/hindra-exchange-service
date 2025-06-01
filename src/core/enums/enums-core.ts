@@ -168,38 +168,6 @@ export enum MaintenanceStatusTypeWordingEnum {
   DISMISS = "Rejeter",
 }
 
-export enum AchatsFuncEnum {
-
-  PURCHASE_REQUEST = "purchase-request",
-  // PURCHASING_TRACKING = "purchasng-tracking",
-  PURCHASE_REQUEST_LIST = "purchase-list",
-  PURCHASE_REQUEST_DETAILS = "purchase-details",
-  DELIVERY_NOTE = "delivery-note",
-  DELIVERY_NOTE_LIST = "delivery-note-list",
-  DELIVERY_NOTE_DETAILS = "delivery-note-details",
-
-  PURCHASE_ORDER = "purchase-order",
-  PURCHASE_ORDER_LIST = "purchase-order-list",
-  PURCHASE_ORDER_DETAILS = "purchase-order-details",
-
-  SUPPLIER_ID = "supplier",
-  
-  SUPPLIER = "supplier",
-  SUPPLIER_LIST = "supplier-list",
-  SUPPLIER_DETAILS = "supplier-details",
-
-  
-  MY_PURCHASE_REQUEST_LIST = "my-purchase-list",
-  MY_PURCHASE_REQUEST_DETAILS = "my-purchase-details",
-  MY_PURCHASE_ORDER_LIST = "my-purchase-order",
-  MY_PURCHASE_ORDER_DETAILS = "my-purchase-order-details",
-  MY_SUPPLIER_LIST = "my-provider-list",
-  MY_SUPPLIER_DETAILS = "my-provider-details",
-
-  MY_DELIVERY_NOTE_LIST = "my-delivery-note",
-}
-
-
 export enum ServiceRequestPurchaseTypeEnum {
   RH = 100,
   FINANCE = 200,

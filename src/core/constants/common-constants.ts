@@ -3,7 +3,7 @@ export const appName = "Hindra-Connect";
 export const appNameLower = "hindra-connect";
 export const appNameUpper = "HINDRA-CONNECT";
 
-export const CoreConstants = {
+export const coreConstants = {
 
   ACCESS_TOKEN: "access_token",
   USER_THEME_MODE: "user_theme_mode",
@@ -16,16 +16,6 @@ export const ChangeContactMediaOperationType = {
     EMAIL: "E-mail",
     PHONE_NUMBER: "Phone number",
 
-}
-
-export const WasPinCodeSent = {
-    FOR_EMAIL_CHANGE: "FOR_EMAIL_CHANGE",
-    FOR_PHONE_NUMBER_CHANGE: "FOR_PHONE_NUMBER_CHANGE",
-    FOR_PASSWORD_CHANGE: "FOR_PASSWORD_CHANGE",
-}
-
-export const SharedConstants = {
-    TOGGLE_SIDEBAR: "toggle_sidebar",
 }
 
 export const ColorConstants = {

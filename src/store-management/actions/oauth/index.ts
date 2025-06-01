@@ -99,9 +99,7 @@ export const initialStateVerifyIdentity: VerifyIdentityStoreShape = {
     role: "",
     token: "",
     message: "",
-    message_email: "",
     is_verified: false,
-    is_verify_2fa: false,
     is_connected: false,
   } as VerifyIdentitySuccessPayload,
   pending: false,
@@ -133,6 +131,50 @@ export interface VerifyIdentityPayload {
 export interface VerifyIdentityAction {
   type: string;
   payload: VerifyIdentityPayload;
+}
+
+export interface ResendPinCodeStoreShape {
+  pending: boolean;
+  value: ResendPinCodeSuccessPayload;
+  errors: string[];
+}
+export const initialStateResendPinCode: ResendPinCodeStoreShape = {
+  value: {
+    id: "",
+    email: "",
+    token: "",
+    message: "",
+    message_email: "",
+  } as ResendPinCodeSuccessPayload,
+  pending: false,
+  errors: [],
+};
+export interface ResendPinCodeModelShape {
+  command: ResendPinCodeCommand;
+}
+export interface ResendPinCodeFailurePayload {
+  errors: string[];
+}
+export interface ResendPinCodeFailure {
+  type: string;
+  payload: ResendPinCodeFailurePayload;
+}
+export interface ResendPinCodeSuccess {
+  type: string;
+  payload: ResendPinCodeSuccessPayload;
+}
+export interface ResendPinCodeRequest {
+  type: string;
+  payload: ResendPinCodeCommand;
+}
+export interface ResendPinCodePayload {
+  command: ResendPinCodeCommand;
+  user: ResendPinCodeSuccessPayload;
+  errors: ResendPinCodeFailurePayload;
+}
+export interface ResendPinCodeAction {
+  type: string;
+  payload: ResendPinCodePayload;
 }
 
 export interface VerifyRegistrationStoreShape {
@@ -253,4 +295,45 @@ export interface ResetPasswordPayload {
 export interface ResetPasswordAction {
   type: string;
   payload: ResetPasswordPayload;
+}
+
+
+export interface SignOutStoreShape {
+  pending: boolean;
+  value: UpdateStrictSuccessPayload;
+  errors: string[];
+}
+export const initialStateSignOut: SignOutStoreShape = {
+  value: {
+    message: "",
+  } as UpdateStrictSuccessPayload,
+  pending: false,
+  errors: [],
+};
+export interface SignOutModelShape {
+  command: null;
+}
+export interface SignOutFailurePayload {
+  errors: string[];
+}
+export interface SignOutFailure {
+  type: string;
+  payload: SignOutFailurePayload;
+}
+export interface SignOutSuccess {
+  type: string;
+  payload: UpdateStrictSuccessPayload;
+}
+export interface SignOutRequest {
+  type: string;
+  payload: null;
+}
+export interface SignOutPayload {
+  command: null;
+  user: UpdateStrictSuccessPayload;
+  errors: SignOutFailurePayload;
+}
+export interface SignOutAction {
+  type: string;
+  payload: SignOutPayload;
 }

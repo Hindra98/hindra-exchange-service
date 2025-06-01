@@ -25,7 +25,7 @@ const CustomSlide = ({
   >
     <div className="absolute inset-0 bg-gray-900/75 sm:bg-transparent sm:from-gray-900/95 sm:to-gray-900/25 ltr:sm:bg-gradient-to-r rtl:sm:bg-gradient-to-l"></div>
 
-    <div className="relative mx-auto flex items-center w-[calc(100%-75px)] h-full">
+    <div className="relative mx-auto flex items-center px-10 h-full">
       <div className="text-center mx-auto space-y-6 ltr:sm:text-left rtl:sm:text-right">
         {title && (
           <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-5xl">

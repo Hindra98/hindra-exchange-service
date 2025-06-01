@@ -1,4 +1,8 @@
 import {
+  resendPinCodeFailure,
+  resendPinCodeSuccess,
+  signOutFailure,
+  signOutSuccess,
   verifyIdentityFailure,
   verifyIdentitySuccess,
 } from "./../actions/oauth/oauth-actions";
@@ -11,8 +15,12 @@ import {
   ForgotPasswordFailurePayload,
   RegisterAction,
   RegisterFailurePayload,
+  ResendPinCodeAction,
+  ResendPinCodeFailurePayload,
   ResetPasswordAction,
   ResetPasswordFailurePayload,
+  SignOutAction,
+  SignOutFailurePayload,
   VerifyIdentityAction,
   VerifyIdentityFailurePayload,
   VerifyRegistrationAction,
@@ -30,9 +38,14 @@ import {
   verifyRegistrationFailure,
   verifyRegistrationSuccess,
 } from "../actions/oauth/oauth-actions";
-import { setStorage } from "@/core/storage/storage";
+import { getStorage, setStorage } from "@/core/storage/storage";
 import { ControllerApi } from "@/features/common/identity/oauth/locale/controller-api";
 import { AuthenticationConstants } from "@/core/constants/authentication-contants";
+import {
+  showToastNotificationError,
+  showToastNotificationSuccess,
+} from "../actions/server-notifications/server-notifications-action";
+import { errorServerHttpConstant } from "@/core/constants/errors-contants";
 
 const controllerApi = new ControllerApi();
 
@@ -45,6 +58,9 @@ const callApiToRegister = async (command: RegisterCommand) =>
 const callApiToVerifyIdentity = async (command: VerifyIdentityCommand) =>
   controllerApi.verifyIdentity(command);
 
+const callApiToResendPinCode = async (command: ResendPinCodeCommand) =>
+  controllerApi.resendPinCode(command);
+
 const callApiToVerifyRegistration = async (
   command: VerifyRegistrationCommand
 ) => controllerApi.verifyRegistration(command);
@@ -54,6 +70,9 @@ const callApiToForgotPassword = async (command: ForgotPasswordCommand) =>
 
 const callApiToResetPassword = async (command: ResetPasswordCommand) =>
   controllerApi.resetPassword(command);
+
+const callApiToSignOut = async (command: null) =>
+  controllerApi.signOut(command);
 
 function* authenticateUserSaga(action: AuthenticateUserAction) {
   try {
@@ -70,6 +89,9 @@ function* authenticateUserSaga(action: AuthenticateUserAction) {
           );
 
         yield put(authenticateUserSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -80,25 +102,28 @@ function* authenticateUserSaga(action: AuthenticateUserAction) {
             errors: messages,
           } as AuthenticateUserFailurePayload)
         );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
       }
     } else {
       const messages: string[] = [];
-      messages.push("Erreur lors de la connexion au serveur");
+      messages.push(errorServerHttpConstant);
       yield put(
         authenticateUserFailure({
           errors: messages,
         } as AuthenticateUserFailurePayload)
       );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
     }
   } catch (e) {
     const messages: string[] = [];
     messages.push(e.message);
-    console.log("E:Message : ", e)
+    console.log("E:Message : ", e);
     yield put(
       authenticateUserFailure({
         errors: messages,
       } as AuthenticateUserFailurePayload)
     );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
   }
 }
 
@@ -111,6 +136,9 @@ function* registerSaga(action: RegisterAction) {
     if (response) {
       if (response.hasSucceeded) {
         yield put(registerSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -121,15 +149,17 @@ function* registerSaga(action: RegisterAction) {
             errors: messages,
           } as RegisterFailurePayload)
         );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
       }
     } else {
       const messages: string[] = [];
-      messages.push("Erreur lors de la connexion au serveur");
+      messages.push(errorServerHttpConstant);
       yield put(
         registerFailure({
           errors: messages,
         } as RegisterFailurePayload)
       );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -139,6 +169,7 @@ function* registerSaga(action: RegisterAction) {
         errors: messages,
       } as RegisterFailurePayload)
     );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
   }
 }
 
@@ -150,9 +181,14 @@ function* verifyIdentitySaga(action: VerifyIdentityAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        const token = response.payload.token;
-        setStorage(AuthenticationConstants.ACCESS_TOKEN, token);
+        setStorage(
+          AuthenticationConstants.ACCESS_TOKEN,
+          response.payload.token
+        );
         yield put(verifyIdentitySuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -163,15 +199,17 @@ function* verifyIdentitySaga(action: VerifyIdentityAction) {
             errors: messages,
           } as VerifyIdentityFailurePayload)
         );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
       }
     } else {
       const messages: string[] = [];
-      messages.push("Erreur lors de la connexion au serveur");
+      messages.push(errorServerHttpConstant);
       yield put(
         verifyIdentityFailure({
           errors: messages,
         } as VerifyIdentityFailurePayload)
       );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -181,6 +219,56 @@ function* verifyIdentitySaga(action: VerifyIdentityAction) {
         errors: messages,
       } as VerifyIdentityFailurePayload)
     );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+  }
+}
+
+function* resendPinCodeSaga(action: ResendPinCodeAction) {
+  try {
+    const response: ResendPinCodeResult = yield call(
+      callApiToResendPinCode,
+      action.payload.command
+    );
+    if (response) {
+      if (response.hasSucceeded) {
+        const token = response.payload.token;
+        setStorage(AuthenticationConstants.ACCESS_TOKEN, token);
+        yield put(authenticateUserSuccess({ ...response.payload, role: "" }));
+        yield put(resendPinCodeSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
+      } else {
+        const messages: string[] = [];
+        response.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          resendPinCodeFailure({
+            errors: messages,
+          } as ResendPinCodeFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        resendPinCodeFailure({
+          errors: messages,
+        } as ResendPinCodeFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    }
+  } catch (e) {
+    const messages: string[] = [];
+    messages.push(e.message);
+    yield put(
+      resendPinCodeFailure({
+        errors: messages,
+      } as ResendPinCodeFailurePayload)
+    );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
   }
 }
 
@@ -193,6 +281,9 @@ function* verifyRegistrationSaga(action: VerifyRegistrationAction) {
     if (response) {
       if (response.hasSucceeded) {
         yield put(verifyRegistrationSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -203,15 +294,17 @@ function* verifyRegistrationSaga(action: VerifyRegistrationAction) {
             errors: messages,
           } as VerifyRegistrationFailurePayload)
         );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
       }
     } else {
       const messages: string[] = [];
-      messages.push("Erreur lors de la connexion au serveur");
+      messages.push(errorServerHttpConstant);
       yield put(
         verifyRegistrationFailure({
           errors: messages,
         } as VerifyRegistrationFailurePayload)
       );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -221,6 +314,7 @@ function* verifyRegistrationSaga(action: VerifyRegistrationAction) {
         errors: messages,
       } as VerifyRegistrationFailurePayload)
     );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
   }
 }
 
@@ -233,6 +327,9 @@ function* forgotPasswordSaga(action: ForgotPasswordAction) {
     if (response) {
       if (response.hasSucceeded) {
         yield put(forgotPasswordSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -243,15 +340,17 @@ function* forgotPasswordSaga(action: ForgotPasswordAction) {
             errors: messages,
           } as ForgotPasswordFailurePayload)
         );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
       }
     } else {
       const messages: string[] = [];
-      messages.push("Erreur lors de la connexion au serveur");
+      messages.push(errorServerHttpConstant);
       yield put(
         forgotPasswordFailure({
           errors: messages,
         } as ForgotPasswordFailurePayload)
       );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -261,6 +360,7 @@ function* forgotPasswordSaga(action: ForgotPasswordAction) {
         errors: messages,
       } as ForgotPasswordFailurePayload)
     );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
   }
 }
 
@@ -273,6 +373,9 @@ function* resetPasswordSaga(action: ResetPasswordAction) {
     if (response) {
       if (response.hasSucceeded) {
         yield put(resetPasswordSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -283,15 +386,17 @@ function* resetPasswordSaga(action: ResetPasswordAction) {
             errors: messages,
           } as ResetPasswordFailurePayload)
         );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
       }
     } else {
       const messages: string[] = [];
-      messages.push("Erreur lors de la connexion au serveur");
+      messages.push(errorServerHttpConstant);
       yield put(
         resetPasswordFailure({
           errors: messages,
         } as ResetPasswordFailurePayload)
       );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -301,6 +406,54 @@ function* resetPasswordSaga(action: ResetPasswordAction) {
         errors: messages,
       } as ResetPasswordFailurePayload)
     );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+  }
+}
+
+function* signOutSaga(action: SignOutAction) {
+  try {
+    const response: UpdateStrictResult = yield call(
+      callApiToSignOut,
+      action.payload.command
+    );
+    if (response) {
+      if (response.hasSucceeded) {
+        getStorage(AuthenticationConstants.ACCESS_TOKEN, true);
+        yield put(signOutSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
+      } else {
+        const messages: string[] = [];
+        response.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          signOutFailure({
+            errors: messages,
+          } as SignOutFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        signOutFailure({
+          errors: messages,
+        } as SignOutFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    }
+  } catch (e) {
+    const messages: string[] = [];
+    messages.push(e.message);
+    yield put(
+      signOutFailure({
+        errors: messages,
+      } as SignOutFailurePayload)
+    );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
   }
 }
 
@@ -309,11 +462,12 @@ export function* watchOauthSaga() {
   yield takeLatest(ActionTypes.AUTHENTICATE_USER_REQUEST, authenticateUserSaga);
   yield takeLatest(ActionTypes.REGISTER_REQUEST, registerSaga);
   yield takeLatest(ActionTypes.VERIFY_IDENTITY_REQUEST, verifyIdentitySaga);
+  yield takeLatest(ActionTypes.RESEND_PIN_CODE_REQUEST, resendPinCodeSaga);
   yield takeLatest(
     ActionTypes.VERIFY_REGISTRATION_REQUEST,
     verifyRegistrationSaga
   );
   yield takeLatest(ActionTypes.FORGOT_PASSWORD_REQUEST, forgotPasswordSaga);
   yield takeLatest(ActionTypes.RESET_PASSWORD_REQUEST, resetPasswordSaga);
+  yield takeLatest(ActionTypes.SIGN_OUT_REQUEST, signOutSaga);
 }
-

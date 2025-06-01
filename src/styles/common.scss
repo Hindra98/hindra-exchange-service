@@ -22,12 +22,11 @@ div.error {
   font-style: italic;
   font-size: small;
 }
-
-
-
-
-
-
+a.disabled {
+  cursor: default;
+  pointer-events: none !important;
+  text-decoration: none !important;
+}
 
 
 .chargementFx {

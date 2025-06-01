@@ -1,3 +1,4 @@
+import { setStorage } from "@/core/storage/storage";
 import {
   AuthenticateUserAction,
   AuthenticateUserFailurePayload,
@@ -5,14 +6,19 @@ import {
   ForgotPasswordFailurePayload,
   RegisterAction,
   RegisterFailurePayload,
+  ResendPinCodeAction,
+  ResendPinCodeFailurePayload,
   ResetPasswordAction,
   ResetPasswordFailurePayload,
+  SignOutAction,
+  SignOutFailurePayload,
   VerifyIdentityAction,
   VerifyIdentityFailurePayload,
   VerifyRegistrationAction,
   VerifyRegistrationFailurePayload,
 } from ".";
 import { ActionTypes } from "../constants/action-types";
+import { AuthenticationConstants } from "@/core/constants/authentication-contants";
 
 export const authenticateUser = (
   payload: AuthenticateUserCommand
@@ -29,6 +35,7 @@ export const authenticateUser = (
 export const authenticateUserSuccess = (
   payload: AuthenticateUserSuccessPayload
 ): AuthenticateUserAction => {
+  setStorage(AuthenticationConstants.ACCESS_TOKEN, payload.token);
   return {
     type: ActionTypes.AUTHENTICATE_USER_SUCCESS,
     payload: {
@@ -86,7 +93,9 @@ export const registerFailure = (
   } as RegisterAction;
 };
 
-export const verifyIdentity = (payload: VerifyIdentityCommand): VerifyIdentityAction => {
+export const verifyIdentity = (
+  payload: VerifyIdentityCommand
+): VerifyIdentityAction => {
   return {
     type: ActionTypes.VERIFY_IDENTITY_REQUEST,
     payload: {
@@ -121,7 +130,46 @@ export const verifyIdentityFailure = (
   } as VerifyIdentityAction;
 };
 
-export const verifyRegistration = (payload: VerifyRegistrationCommand): VerifyRegistrationAction => {
+export const resendPinCode = (
+  payload: ResendPinCodeCommand
+): ResendPinCodeAction => {
+  return {
+    type: ActionTypes.RESEND_PIN_CODE_REQUEST,
+    payload: {
+      command: payload,
+      user: {},
+      errors: {},
+    },
+  } as ResendPinCodeAction;
+};
+export const resendPinCodeSuccess = (
+  payload: ResendPinCodeSuccessPayload
+): ResendPinCodeAction => {
+  return {
+    type: ActionTypes.RESEND_PIN_CODE_SUCCESS,
+    payload: {
+      command: {},
+      user: payload,
+      errors: {},
+    },
+  } as ResendPinCodeAction;
+};
+export const resendPinCodeFailure = (
+  payload: ResendPinCodeFailurePayload
+): ResendPinCodeAction => {
+  return {
+    type: ActionTypes.RESEND_PIN_CODE_FAILURE,
+    payload: {
+      command: {},
+      user: {},
+      errors: payload,
+    },
+  } as ResendPinCodeAction;
+};
+
+export const verifyRegistration = (
+  payload: VerifyRegistrationCommand
+): VerifyRegistrationAction => {
   return {
     type: ActionTypes.VERIFY_REGISTRATION_REQUEST,
     payload: {
@@ -156,7 +204,9 @@ export const verifyRegistrationFailure = (
   } as VerifyRegistrationAction;
 };
 
-export const forgotPassword = (payload: ForgotPasswordCommand): ForgotPasswordAction => {
+export const forgotPassword = (
+  payload: ForgotPasswordCommand
+): ForgotPasswordAction => {
   return {
     type: ActionTypes.FORGOT_PASSWORD_REQUEST,
     payload: {
@@ -191,7 +241,9 @@ export const forgotPasswordFailure = (
   } as ForgotPasswordAction;
 };
 
-export const resetPassword = (payload: ResetPasswordCommand): ResetPasswordAction => {
+export const resetPassword = (
+  payload: ResetPasswordCommand
+): ResetPasswordAction => {
   return {
     type: ActionTypes.RESET_PASSWORD_REQUEST,
     payload: {
@@ -224,4 +276,39 @@ export const resetPasswordFailure = (
       errors: payload,
     },
   } as ResetPasswordAction;
+};
+
+export const signOut = (payload: null): SignOutAction => {
+  return {
+    type: ActionTypes.SIGN_OUT_REQUEST,
+    payload: {
+      command: payload,
+      user: {},
+      errors: {},
+    },
+  } as SignOutAction;
+};
+export const signOutSuccess = (
+  payload: UpdateStrictSuccessPayload
+): SignOutAction => {
+  return {
+    type: ActionTypes.SIGN_OUT_SUCCESS,
+    payload: {
+      command: {},
+      user: payload,
+      errors: {},
+    },
+  } as SignOutAction;
+};
+export const signOutFailure = (
+  payload: SignOutFailurePayload
+): SignOutAction => {
+  return {
+    type: ActionTypes.SIGN_OUT_FAILURE,
+    payload: {
+      command: {},
+      user: {},
+      errors: payload,
+    },
+  } as SignOutAction;
 };

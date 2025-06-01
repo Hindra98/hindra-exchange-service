@@ -23,6 +23,12 @@ const verifyIdentity = (http: HttpClient) => async (payload: object) => {
   return response.data as VerifyIdentityResult;
 };
 
+const resendPinCode = (http: HttpClient) => async (payload: object) => {
+  const response = await http.post("/resend-pincode", payload);
+
+  return response.data as ResendPinCodeResult;
+};
+
 const verifyRegistration = (http: HttpClient) => async (payload: object) => {
   const response = await http.post("/verify-registration", payload);
 
@@ -41,6 +47,14 @@ const forgotPassword = (http: HttpClient) => async (payload: object) => {
 
 const resetPassword = (http: HttpClient) => async (payload: object) => {
   const response = await http.post("/reset-password", payload);
+
+  const result: UpdateStrictResult = response.data;
+
+  return response !== undefined ? (result as UpdateStrictResult) : undefined;
+};
+
+const signOut = (http: HttpClient) => async (payload: object) => {
+  const response = await http.post("/sign-out", payload);
 
   const result: UpdateStrictResult = response.data;
 
@@ -89,6 +103,18 @@ export class ControllerApi {
       ),
   });
 
+  public readonly resendPinCode = Object.assign(resendPinCode(this.http), {
+    useResponse: (
+      handler: (result: ResendPinCodeResult | undefined) => unknown,
+      args: Parameters<ReturnType<typeof resendPinCode>>[0]
+    ) =>
+      useDebounced(
+        () => this.resendPinCode(args).then(handler),
+        Object.values(args),
+        500
+      ),
+  });
+
   public readonly forgotPassword = Object.assign(forgotPassword(this.http), {
     useResponse: (
       handler: (result: UpdateStrictResult | undefined) => unknown,
@@ -101,17 +127,20 @@ export class ControllerApi {
       ),
   });
 
-  public readonly verifyRegistration = Object.assign(verifyRegistration(this.http), {
-    useResponse: (
-      handler: (result: UpdateStrictResult | undefined) => unknown,
-      args: Parameters<ReturnType<typeof verifyRegistration>>[0]
-    ) =>
-      useDebounced(
-        () => this.verifyRegistration(args).then(handler),
-        Object.values(args),
-        500
-      ),
-  });
+  public readonly verifyRegistration = Object.assign(
+    verifyRegistration(this.http),
+    {
+      useResponse: (
+        handler: (result: UpdateStrictResult | undefined) => unknown,
+        args: Parameters<ReturnType<typeof verifyRegistration>>[0]
+      ) =>
+        useDebounced(
+          () => this.verifyRegistration(args).then(handler),
+          Object.values(args),
+          500
+        ),
+    }
+  );
 
   public readonly resetPassword = Object.assign(resetPassword(this.http), {
     useResponse: (
@@ -124,5 +153,15 @@ export class ControllerApi {
         500
       ),
   });
-
+  public readonly signOut = Object.assign(signOut(this.http), {
+    useResponse: (
+      handler: (result: UpdateStrictResult | undefined) => unknown,
+      args: Parameters<ReturnType<typeof signOut>>[0]
+    ) =>
+      useDebounced(
+        () => this.signOut(args).then(handler),
+        Object.values(args),
+        500
+      ),
+  });
 }

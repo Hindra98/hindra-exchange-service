@@ -21,7 +21,7 @@ export interface ValueToastNotificationType {
 export interface ValueToastNotificationStoreShape {
     value: ValueToastNotificationType[]
   }
-  export let initialStateValueToastNotification: ValueToastNotificationStoreShape = {
+  export const initialStateValueToastNotification: ValueToastNotificationStoreShape = {
         value: []
   }
 
