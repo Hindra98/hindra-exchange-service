@@ -117,7 +117,6 @@ function* authenticateUserSaga(action: AuthenticateUserAction) {
   } catch (e) {
     const messages: string[] = [];
     messages.push(e.message);
-    console.log("E:Message : ", e);
     yield put(
       authenticateUserFailure({
         errors: messages,

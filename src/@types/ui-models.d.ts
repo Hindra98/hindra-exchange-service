@@ -20,6 +20,8 @@ interface ButtonProps {
 
 interface InputProps {
   name?: string;
+  cols?: number | undefined;
+  rows?: number | undefined;
   type?: React.HTMLInputTypeAttribute;
   placeholder?: string;
   id?: string;
@@ -32,7 +34,6 @@ interface InputProps {
   icon?: React.ReactNode;
   inverse?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  // onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 
 interface SelectProps {
@@ -191,4 +192,15 @@ interface SidebarItemsProps {
   description?: string;
   icon?: React.ReactNode;
   items?: SidebarItemsProps[];
+}
+
+interface ConfirmActionsModalProps {
+  description?: React.ReactNode;
+  title?: string;
+  cancel?: string;
+  submit?: string;
+  open: boolean;
+  isAlert?: boolean;
+  onClose: () => void;
+  onHandleSubmit: () => void;
 }

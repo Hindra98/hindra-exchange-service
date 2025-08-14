@@ -12,7 +12,6 @@ import {
   DeleteProfileFailurePayload,
   ProfilesAction,
   ProfilesFailurePayload,
-  ProfileUserAction,
   ProfileUserFailurePayload,
   UpdateEmailAction,
   UpdateEmailFailurePayload,
@@ -59,8 +58,8 @@ import { errorServerHttpConstant } from "@/core/constants/errors-contants";
 
 const controllerApi = new ControllerApi();
 
-const callApiToProfileUser = async (command: ProfileUserCommand) =>
-  controllerApi.profileUser(command);
+const callApiToProfileUser = async () =>
+  controllerApi.profileUser();
 
 const callApiToProfiles = async (command: ProfileUserCommand) =>
   controllerApi.profiles(command);
@@ -84,7 +83,7 @@ const callApiToUpdateParams = async (command: UpdateParamsCommand) =>
 const callApiToUpdatePhone = async (command: UpdatePhoneCommand) =>
   controllerApi.updatePhone(command);
 
-const callApiToUpdatePicture = async (command: UpdatePictureCommand) =>
+const callApiToUpdatePicture = async (command: FormData) =>
   controllerApi.updatePicture(command);
 
 const callApiToUpdateProfile = async (command: UpdateProfileCommand) =>
@@ -93,11 +92,10 @@ const callApiToUpdateProfile = async (command: UpdateProfileCommand) =>
 const callApiToUpdateWebsite = async (command: UpdateWebsiteCommand) =>
   controllerApi.updateWebsite(command);
 
-function* profileUserSaga(action: ProfileUserAction) {
+function* profileUserSaga() {
   try {
     const response: ProfileUserResult = yield call(
-      callApiToProfileUser,
-      action.payload.command
+      callApiToProfileUser
     );
     if (response) {
       if (response.hasSucceeded) {

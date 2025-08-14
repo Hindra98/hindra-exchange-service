@@ -3,6 +3,13 @@ interface ErrorMessageItem {
   errorMessage: string;
 }
 
+interface HcAxiosResponse {
+  payload;
+  hasSucceeded?: boolean;
+  errorMessages?: {errorMessage: string;}[];
+  status?: number;
+}
+
 interface UpdateStrictResult {
   payload: UpdateStrictSuccessPayload;
   hasSucceeded: boolean;

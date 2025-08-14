@@ -95,7 +95,6 @@ export const CategoryModal = ({
               <label htmlFor="description">Image representative</label>
               <InputFileUpload
                 label="Selectionner une image (max 5Mo)"
-                multiple={false}
                 fileUrl={category?.picture}
               />
             </div>

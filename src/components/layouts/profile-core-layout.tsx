@@ -5,24 +5,24 @@ import { programming_back } from "@/assets";
 import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import { AppSidebar } from "../ui/sidebar/sidebar";
 import { BadgeCheck, Brush, CalendarClock, Settings, User } from "lucide-react";
-import { sidebarConstants } from "@/core/constants/profile-constants";
+import { sidebarProfileConstants } from "@/core/constants/profile-constants";
 import { FaCogs } from "react-icons/fa";
 
 // Menu items.
 const items: SidebarItemsProps[] = [
   {
     title: "Profil",
-    url: "profile#" + sidebarConstants.PROFILE,
+    url: "profile#" + sidebarProfileConstants.PROFILE,
     icon: <User />,
   },
   {
     title: "Parametres de compte",
-    url: "profile#" + sidebarConstants.ACCOUNT,
+    url: "profile#" + sidebarProfileConstants.ACCOUNT,
     icon: <Settings />,
   },
   {
     title: "Apparence et notifications",
-    url: "profile#" + sidebarConstants.APPEARANCE,
+    url: "profile#" + sidebarProfileConstants.APPEARANCE,
     icon: <Brush />,
   },
   { separator: true },
@@ -36,11 +36,6 @@ const items: SidebarItemsProps[] = [
     url: "booking",
     icon: <CalendarClock />,
   },
-  {
-    title: "Categories",
-    url: "category",
-    icon: <CalendarClock />,
-  },
 ];
 
 const ProfileCoreLayout = () => {
@@ -48,13 +43,11 @@ const ProfileCoreLayout = () => {
   const { pathname, hash, search } = useLocation();
   const link = pathname + hash + search;
   const linkSidebar = link.split("/").pop();
-
-  console.log("linkSidebar: ", linkSidebar);
-  console.log("link: ", link);
+  
   return (
     <SidebarProvider
       id="profile-menu-wrapper"
-      className="w-full md:w-5/6 h-full flex flex-col gap-4 px-4 mx-auto"
+      className="w-full lg:w-5/6 h-full flex flex-col gap-4 px-4 mx-auto"
     >
       <div className="w-full flex flex-col items-start sm:flex-row sm:items-center justify-between gap-4">
         <div className="avatar flex items-center gap-3">

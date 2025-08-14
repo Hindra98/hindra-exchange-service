@@ -7,24 +7,39 @@ import {
   showToastNotificationSuccess,
 } from "../actions/server-notifications/server-notifications-action";
 import { errorServerHttpConstant } from "@/core/constants/errors-contants";
-import { ControllerApi } from "@/features/management/category/locale/controller-api";
-import { CategoriesAction, CategoriesFailurePayload, CategoryAction, CategoryFailurePayload, DeleteCategoryAction, DeleteCategoryFailurePayload, UpdateCategoryAction, UpdateCategoryFailurePayload } from "../actions/category";
-import { categoriesFailure, categoriesSuccess, categoryFailure, categorySuccess, deleteCategoryFailure, deleteCategorySuccess, updateCategoryFailure, updateCategorySuccess } from "../actions/category/category-actions";
+import {
+  CategoriesFailurePayload,
+  CategoryAction,
+  CategoryFailurePayload,
+  DeleteCategoryAction,
+  DeleteCategoryFailurePayload,
+  UpdateCategoryAction,
+  UpdateCategoryFailurePayload,
+} from "../actions/category";
+import {
+  categoriesFailure,
+  categoriesSuccess,
+  categoryFailure,
+  categorySuccess,
+  deleteCategoryFailure,
+  deleteCategorySuccess,
+  updateCategoryFailure,
+  updateCategorySuccess,
+} from "../actions/category/category-actions";
+import { ControllerApi } from "@/features/admin/category/locale/controller-api";
 
 const controllerApi = new ControllerApi();
 
 const callApiToCategory = async (command: CategoryCommand) =>
   controllerApi.category(command);
 
-const callApiToCategories = async (command: CategoryCommand) =>
-  controllerApi.categories(command);
+const callApiToCategories = async () => controllerApi.categories();
 
 const callApiToDeleteCategory = async (command: DeleteCategoryCommand) =>
   controllerApi.deleteCategory(command);
 
 const callApiToUpdateCategory = async (command: UpdateCategoryCommand) =>
   controllerApi.updateCategory(command);
-
 
 function* categorySaga(action: CategoryAction) {
   try {
@@ -76,12 +91,9 @@ function* categorySaga(action: CategoryAction) {
   }
 }
 
-function* categoriesSaga(action: CategoriesAction) {
+function* categoriesSaga() {
   try {
-    const response: CategoriesResult = yield call(
-      callApiToCategories,
-      action.payload.command
-    );
+    const response: CategoriesResult = yield call(callApiToCategories);
     if (response) {
       if (response.hasSucceeded) {
         setStorage(

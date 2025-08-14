@@ -18,7 +18,7 @@ export default function OauthRouteLayout() {
     rExpires !== undefined &&
     rExpires * 1000 > Date.now()
   ) {
-    navigate("/dashboard", { replace: true });
+    navigate("/home", { replace: true });
   }
 
   return (

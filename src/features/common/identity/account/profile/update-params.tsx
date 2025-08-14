@@ -11,18 +11,19 @@ import { updateParams } from "@/store-management/actions/profile/profile-actions
 
 const UpdateParams = () => {
   const dispatch = useAppDispatch();
-  
+
   const profileUserStoreValue = useAppSelector(
     (state) => state.profileUser.value
   );
-  const updateParamsStore = useAppSelector(
-    (state) => state.updateParams
-  );
+  const updateParamsStore = useAppSelector((state) => state.updateParams);
   const { languages } = useGlobalAppContext();
 
   const [paramsViewModel, setParamsViewModel] = useState<UpdateParamsCommand>({
     userlanguage: profileUserStoreValue.userlanguage,
-    theme: profileUserStoreValue.theme || getStorage(coreConstants.USER_THEME_MODE) || themeConstants.LIGHT,
+    theme:
+      profileUserStoreValue.theme ||
+      getStorage(coreConstants.USER_THEME_MODE) ||
+      themeConstants.LIGHT,
   });
   const appLanguages: SelectItemsProps[] = languages.map((lng, idx) => ({
     name: lng.displayName,
@@ -32,6 +33,16 @@ const UpdateParams = () => {
     selected: paramsViewModel.userlanguage === lng.id,
   }));
 
+  useEffect(() => {
+    setParamsViewModel({
+      userlanguage: profileUserStoreValue.userlanguage,
+      theme:
+        profileUserStoreValue.theme ||
+        getStorage(coreConstants.USER_THEME_MODE) ||
+        themeConstants.LIGHT,
+    });
+  }, [profileUserStoreValue]);
+
   // Appliquer le thème au `document` et sauvegarder la préférence
   useEffect(() => {
     document.documentElement.className = paramsViewModel.theme; // Ajoute la classe au root
@@ -40,7 +51,6 @@ const UpdateParams = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("paramsViewModel: ", paramsViewModel);
     dispatch(updateParams(paramsViewModel));
   };
 
@@ -118,9 +128,7 @@ const UpdateParams = () => {
         className={"w-fit"}
         disabled={updateParamsStore?.pending}
       >
-        {updateParamsStore?.pending && (
-          <FaSpinner className="animate-spin" />
-        )}
+        {updateParamsStore?.pending && <FaSpinner className="animate-spin" />}
         Sauvegarder
       </Button>
     </form>

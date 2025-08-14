@@ -6,29 +6,25 @@ import { Footer } from "../ui/nav/footer";
 import "@/styles/layouts/_app-core-layout.scss";
 import { useAppDispatch } from "@/core/hooks/core-hooks";
 import { signOut } from "@/store-management/actions/oauth/oauth-actions";
-import { sidebarConstants } from "@/core/constants/profile-constants";
+import { sidebarProfileConstants } from "@/core/constants/profile-constants";
 
 const AppCoreLayout = () => {
   const dispatch = useAppDispatch();
   const outlet = useOutlet();
   const { accessToken, rExpires, claims } = useGlobalAppContext();
-  const [isConnect, setIsConnect] = useState(!(accessToken !== null && rExpires > 0));
+  const [isConnect, setIsConnect] = useState((accessToken !== null && rExpires > 0));
 
   const profile: ProfileUser = { fullName: claims.get("fullname") };
 
   const disconnect = useCallback(() => {
     // Deconnexion
     setTimeout(() => dispatch(signOut(null)), 300);
+    setIsConnect(false);
   }, [dispatch]);
 
-  if (accessToken && rExpires > 0) {
-    console.log("accesstoken IF: ", accessToken, claims);
-  } else {
-    // disconnect()
-    console.log("accesstoken ELSE: ", accessToken, claims);
-    console.log("rExpires ELSE: ", rExpires);
-    console.log("Date ELSE: ", Date.now());
-  }
+  // if (!(accessToken && rExpires > 0) && isConnect) {
+  //   disconnect()
+  // }
 
   const userLinks: DropdownElementProps[] = [
     {
@@ -37,7 +33,7 @@ const AppCoreLayout = () => {
     },
     {
       name: "Paramètres",
-      to: "me/profile#"+sidebarConstants.ACCOUNT,
+      to: "me/profile#"+sidebarProfileConstants.ACCOUNT,
     },
     {
       name: "Messagerie",

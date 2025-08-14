@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import { Button } from "@/components/ui/buttons/button";
 import { FaSpinner } from "react-icons/fa";
@@ -23,13 +23,20 @@ const UpdateNotification = () => {
       notify_in_app: profileUserStoreValue.notify_in_app,
     });
 
+  useEffect(() => {
+    setNotificationViewModel({
+      notify_email: profileUserStoreValue.notify_email,
+      notify_phone: profileUserStoreValue.notify_phone,
+      notify_in_app: profileUserStoreValue.notify_in_app,
+    });
+  }, [profileUserStoreValue]);
+
   const handleChange = (value: boolean, name: string) => {
     setNotificationViewModel({ ...notifcationViewModel, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("notifcationViewModel: ", notifcationViewModel);
     dispatch(updateNotification(notifcationViewModel));
   };
 

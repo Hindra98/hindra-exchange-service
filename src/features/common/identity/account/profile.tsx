@@ -6,7 +6,7 @@ import UpdateWebsite from "./profile/update-website";
 import UpdateParams from "./profile/update-params";
 import UpdateLayout from "./layouts/update-layout";
 import { Navigate, useLocation } from "react-router-dom";
-import { sidebarConstants } from "@/core/constants/profile-constants";
+import { sidebarProfileConstants } from "@/core/constants/profile-constants";
 import UpdatePicture from "./profile/update-picture";
 import UpdateNotification from "./profile/update-notification";
 import { useAppDispatch } from "@/core/hooks/core-hooks";
@@ -18,20 +18,19 @@ const Profile = () => {
   const dispatch = useAppDispatch();
   const link = hash.split("#")[1];
 
-  const [get, setGet] = useState(false);
-
+  const [isCall, setIsCall] = useState(false);
   useEffect(() => {
-    if (!get) {
-      dispatch(profileUser({}));
-      setGet(true);
+    if (!isCall) {
+      dispatch(profileUser());
+      setIsCall(true);
     }
-  }, [get, dispatch]);
+  }, [isCall, dispatch]);
 
   window.document.title = "Profile - " + appName;
 
   return (
     <div className="form-login w-full h-full flex flex-col gap-4 pe-2">
-      {link === sidebarConstants.ACCOUNT ? (
+      {link === sidebarProfileConstants.ACCOUNT ? (
         <>
           <UpdateLayout id="email" title="Adresse de connexion">
             <UpdateEmail />
@@ -43,7 +42,7 @@ const Profile = () => {
             <UpdateWebsite />
           </UpdateLayout>
         </>
-      ) : link === sidebarConstants.APPEARANCE ? (
+      ) : link === sidebarProfileConstants.APPEARANCE ? (
         <>
           <UpdateLayout id="settings" title="Apparence">
             <UpdateParams />
@@ -52,7 +51,7 @@ const Profile = () => {
             <UpdateNotification />
           </UpdateLayout>
         </>
-      ) : link === sidebarConstants.PROFILE ? (
+      ) : link === sidebarProfileConstants.PROFILE ? (
         <>
           <UpdateLayout id="picture" title="Photo de profil">
             <UpdatePicture />
@@ -62,7 +61,7 @@ const Profile = () => {
           </UpdateLayout>
         </>
       ) : (
-        <Navigate to={"../profile#" + sidebarConstants.PROFILE} />
+        <Navigate to={"../profile#" + sidebarProfileConstants.PROFILE} />
       )}
     </div>
   );

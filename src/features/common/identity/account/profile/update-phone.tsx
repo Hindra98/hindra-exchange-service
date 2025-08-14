@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/buttons/button";
@@ -24,6 +24,13 @@ const UpdatePhone = () => {
     phone: profileUserStoreValue.phone,
     confirmPhone: profileUserStoreValue.phone,
   });
+
+  useEffect(() => {
+    setPhoneViewModel({
+      phone: profileUserStoreValue.phone,
+      confirmPhone: profileUserStoreValue.phone,
+    });
+  }, [profileUserStoreValue]);
 
   const [errors, setErrors] = useState({
     phone: "",
@@ -62,7 +69,6 @@ const UpdatePhone = () => {
         confirmPhone: confirmPhone,
       });
     } else {
-      console.log("phoneViewModel: ", phoneViewModel);
       dispatch(updatePhone(phoneViewModel));
     }
   };

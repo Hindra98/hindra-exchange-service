@@ -246,13 +246,12 @@ export const Select = ({
   );
 };
 
-export const InputFiles = ({
+export const InputFile = ({
   label = "Importer vos fichiers (PDF ou image, max 5 Mo)",
   className = "",
   capture,
   allowedTypes = ["image/jpeg", "image/png", "image/webp"], // "application/pdf"
   maxSize = 5, // 5MB
-  multiple = false,
   required = false,
   onFilesChange,
 }: FilesUploadProps) => {
@@ -280,18 +279,17 @@ export const InputFiles = ({
       whileFocus={{ scale: 1.05 }}
       className={`${className} input-hindra w-fit text-md flex flex-col gap-2 shadow-md p-2`}
     >
-      <motion.label className="" htmlFor="file-upload">
+      <motion.label className="" htmlFor="file-input">
         {label}
       </motion.label>
       <motion.input
-        id="file-upload"
-        name="file-upload"
+        id="file-input"
+        name="file-input"
         required={required}
         capture={capture}
         type="file"
         accept={allowedTypes.join(", ")}
         onChange={handleFileChange}
-        multiple={multiple}
         className="w-full cursor-pointer border border-primary/25 text-sm py-1 px-2 text-foreground/65"
       />
       {error && <p className="text-sm text-red-600">{error}</p>}
@@ -299,11 +297,92 @@ export const InputFiles = ({
   );
 };
 
+export const InputFiles = ({
+  label = "Importer vos fichiers (PDF ou image, max 5 Mo)",
+  capture,
+  allowedTypes = ["image/jpeg", "image/png", "image/webp"], // "application/pdf"
+  maxSize = 5, // 5MB
+  minFiles = 0,
+  maxFiles = 5,
+  multiple = true,
+  required = false,
+  onFilesChange,
+}: FilesUploadProps) => {
+  const [error, setError] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const fileChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files
+      ? Array.from(event.target.files)
+      : [];
+    if (selectedFiles.length > 0) {
+      if (selectedFiles.length < minFiles || selectedFiles.length > maxFiles) {
+        setError(
+          `Veuillez sélectionner entre ${minFiles} et ${maxFiles} fichiers.`
+        );
+        return;
+      }
+
+      const validFiles = selectedFiles.filter(
+        (file) =>
+          allowedTypes.includes(file.type) && file.size <= maxSize * 1024 * 1024
+      );
+
+      if (validFiles.length !== selectedFiles.length) {
+        setError(
+          "Certains fichiers ont été rejetés (format non valide ou taille dépassée). Veuillez vérifier votre sélection."
+        );
+      } else {
+        setError("");
+      }
+      const renamedFiles = validFiles.map((file, idx) => {
+        const ext = file.name.split(".").pop();
+        const name = `Fichier_${idx + 1}.${ext}`;
+        return new File([file], name, { type: file.type });
+      });
+
+      onFilesChange(renamedFiles);
+    }
+    inputRef.current.value = null;
+  };
+
+  const editClicked = () => {
+    inputRef?.current?.click();
+  };
+
+  return (
+    <div className="flex flex-col gap-2 file w-full h-full border rounded-md shadow-md p-2">
+      <div className="flex gap-4 justify-between w-full">
+        <motion.label className="cursor-pointer" htmlFor="files-input">
+          {label}
+        </motion.label>
+        <span role="button" className="cursor-pointer" onClick={editClicked}>
+          <span className="sr-only">Click</span>
+          <PenBox />
+        </span>
+      </div>
+      <motion.input
+        id="files-input"
+        name="files-input"
+        required={required}
+        capture={capture}
+        type="file"
+        accept={allowedTypes.join(", ")}
+        onChange={fileChanged}
+        multiple={multiple}
+        ref={inputRef}
+        className="w-full cursor-pointer hidden"
+      />
+      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+    </div>
+  );
+};
+
 export const InputFilesUpload = ({
   label = "Importer vos fichiers (PDF ou image, max 5 Mo)",
   capture,
   allowedTypes = ["image/jpeg", "image/png", "image/webp"], // "application/pdf"
-  maxSize = 5 * 1024 * 1024, // 5MB
+  maxSize = 5, // 5MB
   minFiles = 0,
   maxFiles = 5,
   multiple = true,
@@ -327,7 +406,8 @@ export const InputFilesUpload = ({
       }
 
       const validFiles = selectedFiles.filter(
-        (file) => allowedTypes.includes(file.type) && file.size <= maxSize
+        (file) =>
+          allowedTypes.includes(file.type) && file.size <= maxSize * 1024 * 1024
       );
 
       if (validFiles.length !== selectedFiles.length) {
@@ -356,7 +436,7 @@ export const InputFilesUpload = ({
   return (
     <div className="flex flex-col gap-2 file w-full h-full border rounded-md shadow-md p-2">
       <div className="flex gap-4 justify-between w-full">
-        <motion.label className="cursor-pointer" htmlFor="file-upload">
+        <motion.label className="cursor-pointer" htmlFor="files-upload">
           {label}
         </motion.label>
         <span role="button" className="cursor-pointer" onClick={editClicked}>
@@ -365,8 +445,8 @@ export const InputFilesUpload = ({
         </span>
       </div>
       <motion.input
-        id="file-upload"
-        name="file-upload"
+        id="files-upload"
+        name="files-upload"
         required={required}
         capture={capture}
         type="file"
@@ -414,7 +494,7 @@ export const InputFileUpload = ({
   label = "Importer votre fichier (PDF ou image, max 5 Mo)",
   capture,
   allowedTypes = ["image/jpeg", "image/png", "image/webp"], // "application/pdf"
-  maxSize = 5 * 1024 * 1024, // 5MB
+  maxSize = 5, // 5MB
   required = false,
   fileUrl = "",
   onFilesChange,
@@ -433,11 +513,11 @@ export const InputFileUpload = ({
 
       if (
         !allowedTypes.includes(validFiles.type) ||
-        validFiles.size > maxSize
+        validFiles.size > maxSize * 1024 * 1024
       ) {
         if (!allowedTypes.includes(validFiles.type))
           setError("Votre fichier a été rejeté (format non valide).");
-        if (validFiles.size > maxSize)
+        if (validFiles.size > maxSize * 1024 * 1024)
           setError("Votre fichier a été rejeté (taille dépassée).");
       } else {
         setError("");
@@ -503,6 +583,8 @@ export const InputFileUpload = ({
 
 export const TextArea = ({
   name = "",
+  cols = 5,
+  rows = 5,
   id = "",
   placeholder = "",
   className = "",
@@ -525,9 +607,13 @@ export const TextArea = ({
           " login-input w-full outline-none border-none outline-0 ring-0 border-0 focus-visible:ring-0 focus-visible:border-none py-1"
         }
         value={value}
+        cols={cols}
+        rows={rows}
         disabled={disabled}
         onChange={onChange}
-      >{value}</motion.textarea>
+      >
+        {value}
+      </motion.textarea>
     </motion.div>
   );
 };

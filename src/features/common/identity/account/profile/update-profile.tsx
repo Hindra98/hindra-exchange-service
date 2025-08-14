@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/buttons/button";
@@ -27,6 +27,14 @@ const UpdateProfile = () => {
       firstname: profileUserStoreValue.firstname,
       gender: profileUserStoreValue.gender,
     });
+
+  useEffect(() => {
+    setProfileViewModel({
+      lastname: profileUserStoreValue.lastname,
+      firstname: profileUserStoreValue.firstname,
+      gender: profileUserStoreValue.gender,
+    });
+  }, [profileUserStoreValue]);
 
   const [errors, setErrors] = useState({
     lastname: "",
@@ -64,7 +72,6 @@ const UpdateProfile = () => {
         firstname: firstname,
       });
     } else {
-      console.log("profileViewModel: ", profileViewModel);
       dispatch(updateProfile(profileViewModel));
     }
   };

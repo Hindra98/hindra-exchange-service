@@ -72,7 +72,7 @@ export interface ValidationResponse {
   errors: Validator;
 }
 export const validateFormData = (
-  value: any,
+  value: unknown,
   validators: Validator,
   regionCode?: string
 ): ValidationResponse => {
@@ -83,37 +83,28 @@ export const validateFormData = (
 
   switch (validators.validatorType) {
     case ValidationType.REQUIRED:
-      if (value === undefined || value === null || value?.trim() === "") {
-        response.errors = validators;
-      }
-      break;
-    case ValidationType.EMAIL:
       if (
-        !String(value)
-          ?.toLowerCase()
-          ?.match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          )
+        value === undefined ||
+        value === null ||
+        (value as string)?.trim() === ""
       ) {
         response.errors = validators;
       }
       break;
-    // case ValidationType.EMAIL_NOT_REQUIRED:
-    //   if (
-    //     String(value)?.length > 0 &&
-    //     !String(value)
-    //       ?.toLowerCase()
-    //       ?.match(
-    //         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    //       )
-    //   ) {
-    //     response.errors = validators;
-    //   }
-    //   break;
+    case ValidationType.EMAIL:
+      if (!isEmail(String(value))) {
+        response.errors = validators;
+      }
+      break;
+    case ValidationType.EMAIL_NOT_REQUIRED:
+      if (String(value)?.length > 0 && !isEmail(String(value))) {
+        response.errors = validators;
+      }
+      break;
     case ValidationType.PHONE_NUMBER:
       try {
         const phoneUtil = PhoneNumberUtil.getInstance();
-        const number = phoneUtil.parse(value, regionCode);
+        const number = phoneUtil.parse(value as string, regionCode);
         const formatted = phoneUtil.format(
           number,
           PhoneNumberFormat.INTERNATIONAL
@@ -143,7 +134,6 @@ export const validateFormData = (
       if (value as boolean) {
         response.errors = validators;
       }
-
       break;
   }
 

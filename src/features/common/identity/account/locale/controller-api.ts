@@ -1,8 +1,8 @@
 import { useDebounced } from "@/core/hooks";
 import { HttpClient } from "@/http/http-client";
 
-const profileUser = (http: HttpClient) => async (payload: object) => {
-  const response = await http.get("/my-profile", payload);
+const profileUser = (http: HttpClient) => async () => {
+  const response = await http.get("/my-profile");
 
   const result: ProfileUserResult = response.data;
 
@@ -18,7 +18,7 @@ const profiles = (http: HttpClient) => async (payload: object) => {
 };
 
 const deleteProfile = (http: HttpClient) => async (payload: object) => {
-  const response = await http.delete("/delete-profile", payload);
+  const response = await http.post("/delete-profile", payload);
 
   const result: DeleteProfileResult = response.data;
 
@@ -91,10 +91,10 @@ export class ControllerApi {
   public readonly profileUser = Object.assign(profileUser(this.http), {
     useResponse: (
       handler: (result: ProfileUserResult | undefined) => unknown,
-      args: Parameters<ReturnType<typeof profileUser>>[0]
+      args: Parameters<ReturnType<typeof profileUser>>[]
     ) =>
       useDebounced(
-        () => this.profileUser(args).then(handler),
+        () => this.profileUser().then(handler),
         Object.values(args),
         500
       ),

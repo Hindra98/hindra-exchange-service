@@ -78,7 +78,6 @@ const ResetPassword = () => {
         confirmPassword: confirmPassword,
       });
     } else {
-      console.log("Authentication model: ", resetPasswordViewModel);
       dispatch(
         resetPassword({
           password: resetPasswordViewModel.password,

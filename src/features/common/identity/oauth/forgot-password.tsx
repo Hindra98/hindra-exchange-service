@@ -75,7 +75,6 @@ const ForgotPassword = () => {
         confirmEmail: confirmEmail,
       });
     } else {
-      console.log("Authentication model: ", forgotPasswordViewModel);
       dispatch(forgotPassword(forgotPasswordViewModel));
     }
   };

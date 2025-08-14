@@ -19,6 +19,7 @@ import {
 } from "./oauth-reducers";
 import { deleteProfileReducer, profilesReducer, profileUserReducer, updateEmailReducer, updateNotificationReducer, updateOtpEmailReducer, updateParamsReducer, updatePhoneReducer, updatePictureReducer, updateProfileReducer, updateWebsiteReducer } from "./profile-reducers";
 import { categoriesReducer, categoryReducer, deleteCategoryReducer, updateCategoryReducer } from "./category-reducers";
+import { benefitReducer, benefitsReducer, deleteBenefitReducer, updateBenefitReducer } from "./benefit-reducers";
 
 const rootReducer = combineReducers({
 
@@ -50,6 +51,12 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
   deleteCategory: deleteCategoryReducer,
   updateCategory: updateCategoryReducer,
+
+  // Set Benefits Reducers
+  benefit: benefitReducer,
+  benefits: benefitsReducer,
+  deleteBenefit: deleteBenefitReducer,
+  updateBenefit: updateBenefitReducer,
 
   serverNotifications: setServerNotificationsReducer,
   toastNotifications: toastnotificationReducer,

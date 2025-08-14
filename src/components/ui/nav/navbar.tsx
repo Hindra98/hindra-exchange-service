@@ -1,4 +1,4 @@
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { Book, ChevronDown, Menu, Sunset, Trees, Zap } from "lucide-react";
 
 import {
   Accordion,
@@ -24,7 +24,6 @@ import {
 import { Link } from "react-router-dom";
 import { appName } from "@/core/constants/common-constants";
 import { logo_blue } from "@/assets";
-import { FaUser } from "react-icons/fa";
 import LanguageSelector from "@/components/form/LanguageSelector";
 import Dropdown from "../dropdowns/dropdown";
 import { Button } from "../buttons/button";
@@ -84,7 +83,7 @@ export const Navbar = ({
     },
   ];
   return (
-    <section className="">
+    <header className="">
       {/* Desktop Menu */}
       <nav className="hidden w-full items-center justify-between md:flex">
         <div className="flex items-center gap-2">
@@ -115,7 +114,7 @@ export const Navbar = ({
                   {profile?.picture ? (
                     <img src={profile?.picture} width={48} height={48} />
                   ) : (
-                    <FaUser />
+                    <ChevronDown />
                   )}
                 </div>
               }
@@ -182,7 +181,7 @@ export const Navbar = ({
                               height={48}
                             />
                           ) : (
-                            <FaUser />
+                            <ChevronDown />
                           )}
                         </div>
                       }
@@ -200,7 +199,7 @@ export const Navbar = ({
           </Sheet>
         </div>
       </div>
-    </section>
+    </header>
   );
 };
 

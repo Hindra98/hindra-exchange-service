@@ -18,7 +18,7 @@ const categories = (http: HttpClient) => async (payload: object) => {
 };
 
 const deleteCategory = (http: HttpClient) => async (payload: object) => {
-  const response = await http.delete("/delete-category", payload);
+  const response = await http.post("/delete-category", payload);
 
   const result: DeleteCategoryResult = response.data;
 

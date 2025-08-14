@@ -23,7 +23,7 @@ interface CategoriesSuccessPayload {
 }
 
 interface CategoriesResult {
-  payload: Categories;
+  payload: CategoriesSuccessPayload;
   hasSucceeded: boolean;
   errorMessages: ErrorMessageItem[];
 }

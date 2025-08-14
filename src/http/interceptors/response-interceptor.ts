@@ -24,6 +24,13 @@ export const responseInterceptor = (response: AxiosResponse<unknown>) => {
       AuthenticationConstants.ACCESS_TOKEN,
       response.headers["New-Access-Token"]
     );
-
+  if (response.headers["token"])
+    setStorage(AuthenticationConstants.ACCESS_TOKEN, response.headers["token"]);
+  if ((response?.data as HcAxiosResponse)?.payload) {
+    setStorage(
+      AuthenticationConstants.ACCESS_TOKEN,
+      (response?.data as HcAxiosResponse)?.payload?.token
+    );
+  }
   return response;
 };

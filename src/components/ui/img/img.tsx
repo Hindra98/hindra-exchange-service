@@ -12,10 +12,7 @@ export const Img = ({
   onError,
 }: Imgrops) => {
   const handleError = (e) => {
-    console.log("Img: ", e)
     e.target.src = logo;
-    e.target.width = 200;
-    e.target.height = 200;
   };
   return (
     <motion.img

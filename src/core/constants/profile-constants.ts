@@ -17,8 +17,15 @@ export const notificationConstants = {
   PHONE: "notify_phone",
 }
 
-export const sidebarConstants = {
+export const sidebarProfileConstants = {
   PROFILE: "profile",
   ACCOUNT: "account",
   APPEARANCE: "appearance",
+}
+
+export const sidebarAdminConstants = {
+  PROFILE: "profile",
+  CATEGORY: "category",
+  BENEFITS: "benefits",
+  COMMENTS: "comments",
 }

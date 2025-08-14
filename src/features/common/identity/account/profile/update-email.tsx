@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/buttons/button";
@@ -48,6 +48,13 @@ const UpdateEmail = () => {
     confirmEmail: "",
   });
 
+  useEffect(() => {
+    setEmailViewModel({
+      email: profileUserStoreEmail,
+      confirmEmail: profileUserStoreEmail,
+    });
+  }, [profileUserStoreEmail]);
+
   const [otpViewModel, setOtpViewModel] = useState<UpdateOtpEmailCommand>({
     email: "",
     otp: "",
@@ -90,7 +97,6 @@ const UpdateEmail = () => {
         confirmEmail: confirmEmail,
       });
     } else {
-      console.log("emailViewModel: ", emailViewModel);
       setOtpViewModel({ ...otpViewModel, email: emailViewModel.email });
       dispatch(updateEmail(emailViewModel));
     }
@@ -102,7 +108,6 @@ const UpdateEmail = () => {
     if (otpViewModel.otp.length !== 6) {
       setOtpError("Le code de verification doit contenir 6 chiffres");
     } else {
-      console.log("otpViewModel: ", otpViewModel);
       dispatch(updateOtpEmail(otpViewModel));
     }
   };
@@ -134,6 +139,10 @@ const UpdateEmail = () => {
 
   return (
     <div className="w-full flex flex-col gap-6 py-2">
+      <div className={`${!updateEmailStore.pending &&
+        updateEmailStore.errors.length === 0 &&
+        !(updateOtpEmailStore.value.email === updateEmailStore.value.email) &&
+        updateEmailStore.value.email === emailViewModel.email ? "relative":""}`}>
       <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="email w-full flex flex-col gap-1">
           <label htmlFor="email">Email</label>
@@ -176,9 +185,14 @@ const UpdateEmail = () => {
           {commonLocalizer("MODULE_COMMON_AUTHENTICATION_VERIFY")}
         </Button>
       </form>
-
       {!updateEmailStore.pending &&
         updateEmailStore.errors.length === 0 &&
+        !(updateOtpEmailStore.value.email === updateEmailStore.value.email) &&
+        updateEmailStore.value.email === emailViewModel.email ? <div className="absolute top-0 left-0 w-full h-full bg-foreground/10 z-10"/>:""}
+</div>
+      {!updateEmailStore.pending &&
+        updateEmailStore.errors.length === 0 &&
+        !(updateOtpEmailStore.value.email === updateEmailStore.value.email) &&
         updateEmailStore.value.email === emailViewModel.email && (
           <form
             className="w-full flex flex-col gap-2"

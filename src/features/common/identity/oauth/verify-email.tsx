@@ -27,7 +27,7 @@ const VerifyEmail = () => {
     setT(1);
   }
   // if (token) {
-  //   return <Navigate to={"/dashboard"} replace />;
+  //   return <Navigate to={"/home"} replace />;
   // } else {
   //   if (authResultSuccess.length > 1) {
   //     return <Navigate to={"/verify-identity"} replace />;

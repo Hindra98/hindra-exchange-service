@@ -41,7 +41,6 @@ interface ProfilesResult {
 
 interface ProfileUserCommand {
   id?: string;
-  userId?: string;
 }
 
 interface ProfileUserResult {

@@ -5,6 +5,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "http://localhost:8080/api-exchange/api/",
   "scripts": {
     "dev": "vite",
     "dev-host": "vite --host",

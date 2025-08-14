@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import { Button } from "@/components/ui/buttons/button";
-import { InputFiles } from "@/components/ui/inputs/input";
+import { InputFile } from "@/components/ui/inputs/input";
 import { FaSpinner } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { programming_back } from "@/assets";
@@ -27,9 +27,8 @@ const UpdatePicture = () => {
     const userForm = document.querySelector("form");
     const formData = new FormData(userForm);
     formData.append("picture", pictureViewModel.picture);
-    console.log("pictureViewModel: ", pictureViewModel);
-    console.log("formData: ", formData);
-    dispatch(updatePicture(pictureViewModel));
+    formData.append("destination", pictureViewModel.destination);
+    dispatch(updatePicture(formData));
   };
 
   return (
@@ -51,7 +50,7 @@ const UpdatePicture = () => {
             <span className="text-2xl font-bold">HC</span>
           </AvatarFallback>
         </Avatar>
-        <InputFiles
+        <InputFile
           label="Selectionner une photo (max 5 Mo)"
           onFilesChange={handleFileChange}
         />

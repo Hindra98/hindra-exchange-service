@@ -24,11 +24,11 @@ import {
 } from ".";
 import { ActionTypes } from "../constants/action-types";
 
-export const profileUser = (payload: ProfileUserCommand): ProfileUserAction => {
+export const profileUser = (): ProfileUserAction => {
   return {
     type: ActionTypes.PROFILE_USER_REQUEST,
     payload: {
-      command: payload,
+      command: null,
       user: {},
       errors: {},
     },
@@ -204,7 +204,7 @@ export const updateParamsFailure = (
 };
 
 export const updatePicture = (
-  payload: UpdatePictureCommand
+  payload: FormData
 ): UpdatePictureAction => {
   return {
     type: ActionTypes.UPDATE_PICTURE_REQUEST,

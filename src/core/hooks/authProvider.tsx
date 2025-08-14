@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setRequires2fa(true);
     } else {
       setUser(data.user);
-      navigate("/dashboard");
+      navigate("/home");
     }
   };
 
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       navigate("/verify2fa");
     } else {
       setUser(data.user);
-      navigate("/dashboard");
+      navigate("/home");
     }
   };
 

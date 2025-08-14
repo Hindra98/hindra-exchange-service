@@ -40,30 +40,11 @@ Hindra-Exchange is a prestation reservation platform connecting individuals for 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/hindra98/hindra-exchange.git
-   cd hindra-exchange-frontend
+   git clone https://github.com/hindra98/hindra-exchange-service.git
+   cd hindra-exchange-frontend-service
 
 2. Install dependencies:
    ```bash
    npm install
    # or
    yarn install
-
-3. Configure environment:
-   ```bash
-   npm install
-   # or
-   yarn install
-
-4. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-
-5. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-

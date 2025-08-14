@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/buttons/button";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -19,8 +18,9 @@ import {
   categories,
   deleteCategory,
 } from "@/store-management/actions/category/category-actions";
+import { Inputs } from "@/components/ui/inputs/input";
 
-const Category = () => {
+const Comments = () => {
   const dispatch = useAppDispatch();
 
   const categoriesStore = useAppSelector((state) => state.categories);
@@ -106,12 +106,13 @@ const Category = () => {
     dispatch(deleteCategory({ id: selectedCategories }));
   };
 
-  window.document.title = "Category - " + appName;
+  window.document.title = "Suggestions - " + appName;
 
   return (
-    <div className="form-login w-3/4 h-full mx-auto flex flex-col gap-4 pe-2">
+    <div className="form-login h-ful mx-auto flex flex-col gap-4 pe-2">
+      <legend className="text-center text-xl font-medium mb-2">Commentaires des utilisateurs</legend>
       <div className="w-full flex items-center justify-between">
-        <div className="flex items-center gap-5 w-full">
+        <div className="flex items-center gap-5">
           <Button variant="blue" onClick={handleEditCategory}>
             Add
           </Button>
@@ -120,19 +121,18 @@ const Category = () => {
             Delete
           </Button>
         </div>
-        <div className="flex items-center gap-5 w-full justify-end">
+        <div className="flex items-center gap-5 justify-end">
           <span className="flex items-center gap-2">
             <Filter />
             Filters
           </span>
-          <div className="search flex items-cente gap-2 w-full justify-end">
-            <input type="search" className="w-full border max-w-72" />
+          <div className="search flex items-center gap-2">
+            <Inputs type="search" className="w-full max-w-"/>
             <Button>Search</Button>
           </div>
         </div>
       </div>
       <Table>
-        <TableCaption>Une legende pour notre grille de donnees</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="text-center mx-auto" align="center">
@@ -205,4 +205,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Comments;

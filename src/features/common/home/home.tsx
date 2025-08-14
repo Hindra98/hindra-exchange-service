@@ -1,8 +1,8 @@
 
 import { useLocalizer } from "@/core/Localization";
-import { PrestationList } from "../../management/prestation/prestations-list";
 import Stats from "./components/stats";
 import Banner from "./components/banner";
+import { BenefitList } from "@/features/management/benefit/benefits-list";
 
 const Home = () => {
   const commonLocalizer = useLocalizer("Common-ResCommon");
@@ -16,7 +16,7 @@ const Home = () => {
         </div>
 
         <hr className="my-4 bg-gray-400 h-[1px]" />
-        <PrestationList/>
+        <BenefitList/>
         <hr className="my-4 bg-gray-400 h-[1px]" />
         <Stats />
       </div>

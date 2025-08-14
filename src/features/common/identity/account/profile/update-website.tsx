@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import { Button } from "@/components/ui/buttons/button";
 import { Inputs } from "@/components/ui/inputs/input";
@@ -21,6 +21,14 @@ const UpdateWebsite = () => {
       github: profileUserStoreValue.github,
     });
 
+  useEffect(() => {
+    setWebsiteViewModel({
+      linkedin: profileUserStoreValue.linkedin,
+      website: profileUserStoreValue.website,
+      github: profileUserStoreValue.github,
+    });
+  }, [profileUserStoreValue]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -32,7 +40,6 @@ const UpdateWebsite = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("websiteViewModel: ", websiteViewModel);
     dispatch(updateWebsite(websiteViewModel));
   };
 

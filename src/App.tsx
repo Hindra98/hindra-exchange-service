@@ -18,8 +18,10 @@ import AppPreloader from "./components/shared/app-preloader";
 import PageNotFound from "./components/pages/page-not-found";
 import AppCoreLayout from "./components/layouts/app-core-layout";
 import ProfileCoreLayout from "./components/layouts/profile-core-layout";
+import AdminCoreLayout from "./components/layouts/admin-core-layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { sidebarAdminConstants } from "./core/constants/profile-constants";
 
 const Authentication = lazy(
   () => import("@/features/common/identity/oauth/authentication")
@@ -44,8 +46,23 @@ const Profile = lazy(
   () => import("@/features/common/identity/account/profile")
 );
 
+const ProfileManagement = lazy(
+  () => import("@/features/admin/profile/profile-management")
+);
 const Category = lazy(
-  () => import("@/features/management/category/category")
+  () => import("@/features/admin/category/category")
+);
+const BenefitManagement = lazy(
+  () => import("@/features/admin/benefits/benefits-management")
+);
+const Comments = lazy(
+  () => import("@/features/admin/comments/comments")
+);
+const BenefitDataGrid = lazy(
+  () => import("@/features/management/benefit/benefit-data-grid")
+);
+const BenefitPersistComponent = lazy(
+  () => import("@/features/management/benefit/benefit-persist-component")
 );
 const Home = lazy(() => import("@/features/common/home/home"));
 const About = lazy(() => import("@/components/pages/about"));
@@ -74,10 +91,14 @@ const router = createBrowserRouter(
             
           <Route
             path="/admin"
+            element={<AdminCoreLayout/>}
             errorElement={<RouteErrorBoundary />}
           >
             <Route index element={<Home />} />
-            <Route path="category" element={<Category />} />
+            <Route path={sidebarAdminConstants.PROFILE} element={<ProfileManagement />} />
+            <Route path={sidebarAdminConstants.CATEGORY} element={<Category />} />
+            <Route path={sidebarAdminConstants.BENEFITS} element={<BenefitManagement />} />
+            <Route path={sidebarAdminConstants.COMMENTS} element={<Comments />} />
           </Route>
           <Route
             path="/me"
@@ -86,7 +107,8 @@ const router = createBrowserRouter(
           >
             <Route index element={<Home />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="benefits" element={<VerifyIdentity />} />
+            <Route path="benefits" element={<BenefitDataGrid />} />
+            <Route path="benefit/edit/:idBenefit" element={<BenefitPersistComponent />} />
             <Route path="booking" element={<Register />} />
             <Route path="messages" element={<Category />} />
             <Route path="forgot-password" element={<ForgotPassword />} />

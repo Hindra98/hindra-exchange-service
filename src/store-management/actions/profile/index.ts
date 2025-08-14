@@ -47,7 +47,7 @@ export interface ProfileUserRequest {
   payload: ProfileUserCommand;
 }
 export interface ProfileUserPayload {
-  command: ProfileUserCommand;
+  command: null;
   user: ProfileUserSuccessPayload;
   errors: ProfileUserFailurePayload;
 }
@@ -485,7 +485,7 @@ export interface UpdatePictureRequest {
   payload: UpdatePictureCommand;
 }
 export interface UpdatePicturePayload {
-  command: UpdatePictureCommand;
+  command: FormData;
   user: UpdatePictureSuccessPayload;
   errors: UpdatePictureFailurePayload;
 }

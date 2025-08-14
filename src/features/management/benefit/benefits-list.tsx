@@ -7,7 +7,7 @@ import { aisite, computer_program, illustration, programming_collage, programmin
 import { Link } from "react-router-dom";
 import { useAppSelector } from "@/core/hooks/core-hooks";
 
-export const PrestationList = () => {
+export const BenefitList = () => {
   // const [prestations, setPrestations] = useState<Prestation[]>([
   //   {
   //     id: "id1",
