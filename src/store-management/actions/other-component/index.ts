@@ -1,4 +1,4 @@
-import { SharedConstants } from "@/core/constants/common-constants";
+import { coreConstants } from "@/core/constants/common-constants";
 import { getStorage } from "@/core/storage/storage";
 
 export interface ToggleStoreShape {
@@ -6,5 +6,5 @@ export interface ToggleStoreShape {
 }
 
 export const initialStateToggleSidebar: ToggleStoreShape = {
-  value: getStorage(SharedConstants.TOGGLE_SIDEBAR) === "true",
+  value: getStorage(coreConstants.TOGGLE_SIDEBAR) === "true",
 };

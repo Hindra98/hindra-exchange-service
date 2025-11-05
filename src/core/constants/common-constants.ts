@@ -11,6 +11,7 @@ export const coreConstants = {
   ACCESS_TOKEN: "access_token",
   USER_THEME_MODE: "user_theme_mode",
   USER: "user",
+  TOGGLE_SIDEBAR: "toggle_sidebar",
 
 }
 

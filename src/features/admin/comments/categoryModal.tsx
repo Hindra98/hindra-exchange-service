@@ -32,19 +32,16 @@ export const CategoryModal = ({
     description: "",
     picture: "",
   });
-  const [editCategoryState, setEditCategoryState] =
-    useState<UpdateCategoryCommand>({id: categoryStore?.value?.id, title: categoryStore?.value?.title, description: categoryStore?.value?.description, picture: null});
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({ title: "", description: "", picture: "" });
     console.log("Categorie : ", category);
     onCategorySuccess();
     const formData = new FormData();
-    formData.append("id", editCategoryState?.id||null)
-    formData.append("title", editCategoryState.title)
+    formData.append("id", categoryStore?.value?.id||null)
+    formData.append("title", categoryStore?.value.title)
     formData.append("picture", null)
-    formData.append("description", editCategoryState.description)
+    formData.append("description", categoryStore?.value.description)
     dispatch(updateCategory(formData));
   };
   return (
