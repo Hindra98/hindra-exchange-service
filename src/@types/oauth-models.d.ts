@@ -3,6 +3,12 @@ interface AuthenticateUserCommand {
   password: string;
   saveSession: boolean;
 }
+interface AuthenticateUserByGoogleCommand {
+  code: string;
+}
+interface AuthenticateUserByLinkedinCommand {
+  code: string;
+}
 interface AuthenticateUserResult {
   payload: AuthenticateUserSuccessPayload;
   hasSucceeded: boolean;

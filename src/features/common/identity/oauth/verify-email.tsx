@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
-import { programming_back } from "@/assets";
 import { appName } from "@/core/constants/common-constants";
 import { Link, useLocation } from "react-router-dom";
 import { extractParamsUrl } from "@/core/text/regex";
@@ -37,39 +36,29 @@ const VerifyEmail = () => {
   window.document.title = "Verifier votre compte" + " - " + appName;
 
   return (
-    <div className="form-login w-full h-full flex items-center gap-0">
-      <div className="md:w-2/3 w-0 h-full">
-        <img
-          src={programming_back}
-          alt="Login form"
-          className="w-full h-full object-fill"
-        />
-      </div>
-
-      <div className="flex flex-col gap-4 justify-between w-full h-full p-6 self-start">
-        <h1 className="font-bold text-xl underline py-2">{appName}</h1>
-        {verifyRegistrationStore.pending ? (
-          <Skeleton className="h-56 bg-gray-100" />
-        ) : verifyRegistrationStore.errors.length > 0 ? (
-          <h2 className="w-full text-justify text-lg flex flex-col gap-4">
-            Une erreur est survenue lors de la verification de vos credentials
-            {verifyRegistrationStore?.errors?.length > 0 &&
-              !verifyRegistrationStore?.pending &&
-              verifyRegistrationStore?.errors.map((message, idx) => (
-                <AlertDanger key={idx}>{message}</AlertDanger>
-              ))}
+    <div className="flex flex-col gap-4 justify-between w-full h-full p-6 self-start">
+      <h1 className="font-bold text-xl underline py-2">{appName}</h1>
+      {verifyRegistrationStore.pending ? (
+        <Skeleton className="h-56 bg-gray-100" />
+      ) : verifyRegistrationStore.errors.length > 0 ? (
+        <h2 className="w-full text-justify text-lg flex flex-col gap-4">
+          Une erreur est survenue lors de la verification de vos credentials
+          {verifyRegistrationStore?.errors?.length > 0 &&
+            !verifyRegistrationStore?.pending &&
+            verifyRegistrationStore?.errors.map((message, idx) => (
+              <AlertDanger key={idx}>{message}</AlertDanger>
+            ))}
+        </h2>
+      ) : (
+        <div className="flex flex-col items-center gap-4 p-2 bg-gray-600/35 rounded-md">
+          <h2 className="w-full text-justify text-lg">
+            {verifyRegistrationStore?.value?.message}
           </h2>
-        ) : (
-          <div className="flex flex-col items-center gap-4 p-2 bg-gray-600/35 rounded-md">
-            <h2 className="w-full text-justify text-lg">
-              {verifyRegistrationStore?.value?.message}
-            </h2>
-            <Link to={"../login"} className="hover:underline">
-              Connectez-vous
-            </Link>
-          </div>
-        )}
-      </div>
+          <Link to={"../login"} className="hover:underline">
+            Connectez-vous
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

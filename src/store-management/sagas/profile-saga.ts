@@ -99,14 +99,16 @@ function* profileUserSaga() {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(profileUserSuccess(response.payload));
-        showToastNotificationSuccess([
-          { type: "Success", value: response.payload.message },
-        ]);
+        // showToastNotificationSuccess([
+        //   { type: "Success", value: response.payload.message },
+        // ]);
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -149,10 +151,12 @@ function* profilesSaga(action: ProfilesAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(profilesSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -199,10 +203,12 @@ function* deleteProfileSaga(action: DeleteProfileAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(deleteProfileSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -249,10 +255,12 @@ function* updateEmailSaga(action: UpdateEmailAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updateEmailSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -299,10 +307,12 @@ function* updateNotificationSaga(action: UpdateNotificationAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updateNotificationSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -349,10 +359,12 @@ function* updateOtpEmailSaga(action: UpdateOtpEmailAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updateOtpEmailSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -399,10 +411,12 @@ function* updateParamsSaga(action: UpdateParamsAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updateParamsSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -449,10 +463,12 @@ function* updatePhoneSaga(action: UpdatePhoneAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updatePhoneSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -499,10 +515,12 @@ function* updatePictureSaga(action: UpdatePictureAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updatePictureSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -549,10 +567,12 @@ function* updateProfileSaga(action: UpdateProfileAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updateProfileSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -599,10 +619,12 @@ function* updateWebsiteSaga(action: UpdateWebsiteAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updateWebsiteSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },

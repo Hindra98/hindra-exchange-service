@@ -13,7 +13,10 @@ import {
 } from "@/components/ui/inputs/input";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import { Button } from "@/components/ui/buttons/button";
-import { updateCategory } from "@/store-management/actions/category/category-actions";
+import {
+  addCategory,
+  updateCategory,
+} from "@/store-management/actions/category/category-actions";
 
 export const CategoryModal = ({
   category,
@@ -24,23 +27,39 @@ export const CategoryModal = ({
 }: CategoryModalProps) => {
   const dispatch = useAppDispatch();
 
-  const categoryStore = useAppSelector((state) => state.category);
-
   const updateCategoryStore = useAppSelector((state) => state.updateCategory);
+  const addCategoryStore = useAppSelector((state) => state.addCategory);
   const [errors, setErrors] = useState<Partial<Category>>({
     title: "",
     description: "",
     picture: "",
   });
-  const [editCategoryState, setEditCategoryState] =
-    useState<UpdateCategoryCommand>({id: categoryStore?.value?.id, title: categoryStore?.value?.title, description: categoryStore?.value?.description, picture: null});
-
+  const [pictureFile, setPictureFile] = useState<File>(null);
+  const onChangePicture = (file: File) => {
+    setCategory({
+      ...category,
+      picture: URL.createObjectURL(file),
+    });
+    setPictureFile(file);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({ title: "", description: "", picture: "" });
-    console.log("Categorie : ", category);
     onCategorySuccess();
-    dispatch(updateCategory(editCategoryState));
+    console.log("Data Submit: ", {
+      id: category?.id,
+      title: category.title,
+      picture: pictureFile,
+      description: category.description,
+    });
+    const formData = new FormData();
+    formData.append("id", category?.id || null);
+    formData.append("title", category.title);
+    formData.append("picture", pictureFile);
+    formData.append("description", category.description);
+    formData.append("destination", "categorie");
+    if (category.id) dispatch(updateCategory(formData));
+    else dispatch(addCategory(formData));
   };
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -96,6 +115,7 @@ export const CategoryModal = ({
               <InputFileUpload
                 label="Selectionner une image (max 5Mo)"
                 fileUrl={category?.picture}
+                onFilesChange={onChangePicture}
               />
             </div>
             <div className="w-full flex items-center justify-end gap-2">
@@ -103,17 +123,21 @@ export const CategoryModal = ({
                 type="button"
                 className={"w-32"}
                 onClick={onClose}
-                disabled={updateCategoryStore.pending}
+                disabled={
+                  updateCategoryStore.pending || addCategoryStore.pending
+                }
               >
                 Annuler
               </Button>
 
               <Button
-                disabled={updateCategoryStore.pending}
+                disabled={
+                  updateCategoryStore.pending || addCategoryStore.pending
+                }
                 type="submit"
                 className={"w-32"}
               >
-                {updateCategoryStore.pending
+                {updateCategoryStore.pending || addCategoryStore.pending
                   ? "Enregistrement en cours..."
                   : "Valider"}
               </Button>

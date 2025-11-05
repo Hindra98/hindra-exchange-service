@@ -32,7 +32,9 @@ export const authenticatedUserReducer = (
   args: AuthenticateUserAction
 ): AuthenticateUserStoreShape => {
   switch (args.type) {
-    case ActionTypes.AUTHENTICATE_USER_REQUEST:
+    case ActionTypes.AUTHENTICATE_USER_REQUEST ||
+      ActionTypes.AUTHENTICATE_USER_BY_GOOGLE_REQUEST ||
+      ActionTypes.AUTHENTICATE_USER_BY_LINKEDIN_REQUEST:
       return produce(state, (draftState) => {
         draftState.pending = true;
         draftState.errors = [];

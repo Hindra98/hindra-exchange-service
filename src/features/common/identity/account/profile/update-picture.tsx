@@ -14,12 +14,12 @@ const UpdatePicture = () => {
     (state) => state.profileUser.value
   );
   const updatePictureStore = useAppSelector((state) => state.updatePicture);
-  const [pictureViewModel, setPicture] = useState<UpdatePictureCommand>({
+  const [pictureViewModel, setPictureViewModel] = useState<UpdatePictureCommand>({
     picture: null,
     destination: "profile",
   });
   const handleFileChange = (files: File) => {
-    setPicture({ picture: files });
+    setPictureViewModel({...pictureViewModel, picture: files });
   };
 
   const handleSubmit = async (e) => {

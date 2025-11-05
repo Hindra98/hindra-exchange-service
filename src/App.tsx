@@ -1,3 +1,5 @@
+
+
 import { lazy, Suspense } from "react";
 import "./App.css";
 import {
@@ -22,9 +24,14 @@ import AdminCoreLayout from "./components/layouts/admin-core-layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { sidebarAdminConstants } from "./core/constants/profile-constants";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { appGoogleId } from "./core/constants/common-constants";
 
 const Authentication = lazy(
   () => import("@/features/common/identity/oauth/authentication")
+);
+const LinkedinCallback = lazy(
+  () => import("@/features/common/identity/oauth/callback-linkedin")
 );
 const Register = lazy(
   () => import("@/features/common/identity/oauth/register")
@@ -120,8 +127,9 @@ const router = createBrowserRouter(
           element={<OauthRouteLayout />}
           errorElement={<RouteErrorBoundary />}
         >
-          <Route path="login" element={<Authentication />} />
+          <Route path="login" element={<GoogleOAuthProvider clientId={appGoogleId}><Authentication /></GoogleOAuthProvider>} />
           <Route path="register" element={<Register />} />
+          <Route path="linkedin-callback" element={<LinkedinCallback />} />
           <Route path="verify-identity" element={<VerifyIdentity />} />
           <Route path="verify-registration" element={<VerifyEmail />} />
           <Route path="forgot-password" element={<ForgotPassword />} />

@@ -1,4 +1,4 @@
-# Hindra-Exchange - Frontend Application
+# Hindra-Exchange - Frontend Part
 
 ![Hindra-Exchange Logo](public/assets/images/logo_blue.png)
 

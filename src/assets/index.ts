@@ -1,6 +1,7 @@
-import logo from "./images/logo.png";
+import logo from "./images/ico-black-small.svg";
 import logos from "./images/logos.png";
-import logo_blue from "./images/logo_blue.png";
+import logo_white from "./images/ico-white-small.svg";
+import logo_blue from "./images/ico-blue-small.svg";
 import logos_blue from "./images/logos_blue.png";
 import error from "./error/error.svg";
 import e404 from "./error/404.svg";
@@ -8,6 +9,7 @@ import Svg404 from "./error/404";
 import playstore from "./googleplay.png";
 import appstore from "./appstore.png";
 
+// Authors
 import alain from "./authors/alain.jpg";
 import ducart from "./authors/ducart.jpg";
 import eba from "./authors/eba.jpg";
@@ -28,8 +30,18 @@ import programming_back from "./bg/programming-back.jpg";
 import programming_sitting from "./bg/programer-sitting.jpg";
 import programming_collage from "./bg/programming-collage.jpg";
 
+// Prestations
+import couture from "./services/couture.jpg";
+import coiffure from "./services/coiffure.jpg";
+import maconnerie from "./services/maconnerie.jpg";
+import manucure from "./services/manucure.jpg";
+import poterie from "./services/poterie.jpg";
+import repetitions from "./services/repetitions.jpg";
+import jardinnage from "./services/jardinnage.jpg";
+
 export {
   logo,
+  logo_white,
   logo_blue,
   logos,
   logos_blue,
@@ -55,4 +67,11 @@ export {
   raissa,
   hindra,
   rivaldo,
+  couture,
+  coiffure,
+  maconnerie,
+  manucure,
+  poterie,
+  repetitions,
+  jardinnage,
 };

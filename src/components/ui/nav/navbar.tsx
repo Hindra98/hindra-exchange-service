@@ -88,8 +88,8 @@ export const Navbar = ({
       <nav className="hidden w-full items-center justify-between md:flex">
         <div className="flex items-center gap-2">
           {/* Logo */}
-          <Link to={"/"} className="flex items-center min-w-fit">
-            <img src={logo_blue} className="w-20" alt={appName} />
+          <Link to={"/"} className="flex items-center min-w-fit gap-2 p-4">
+            <img src={logo_blue} className="w-10" alt={appName} />
             <span className="text-lg font-semibold tracking-tighter">
               {appName}
             </span>
@@ -102,10 +102,6 @@ export const Navbar = ({
         </div>
 
         <div className="flex items-center gap-2 pe-2 min-w-fit z-10">
-          <div className="flex items-center justify-end gap-1">
-            <ModeSelector className="mode pe-" />
-            <LanguageSelector />
-          </div>
           {isConnect ? (
             <Dropdown
               name={
@@ -126,6 +122,10 @@ export const Navbar = ({
               Se connecter
             </Link>
           )}
+          <div className="flex items-center justify-end gap-3">
+            <LanguageSelector />
+            <ModeSelector className="mode" />
+          </div>
         </div>
       </nav>
 
@@ -133,8 +133,8 @@ export const Navbar = ({
       <div className="block md:hidden">
         <div className="flex items-center justify-between pe-4">
           {/* Logo */}
-          <Link to={"/"} className="flex items-center min-w-fit">
-            <img src={logo_blue} className="w-20" alt={appName} />
+          <Link to={"/"} className="flex items-center min-w-fit gap-2 p-4">
+            <img src={logo_blue} className="w-10" alt={appName} />
             <span className="text-lg font-semibold tracking-tighter">
               {appName}
             </span>
@@ -163,7 +163,7 @@ export const Navbar = ({
                 </Accordion>
 
                 <div className="flex flex-col items-center gap-4 w-full">
-                  <ModeSelector className="mode w-full" isText />
+                  {/* <ModeSelector className="mode w-full" isText /> */}
                   <LanguageSelector
                     props={{ isFulled: true }}
                     className="w-full"

@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/buttons/button";
 import { Link } from "react-router-dom";
 import { Input, InputCheck, InputPassword } from "@/components/ui/inputs/input";
 import { Lock, Mail, User } from "lucide-react";
-import { programming_back } from "@/assets";
-import { FaGoogle, FaLinkedinIn, FaSpinner } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
 import { isEmail } from "@/core/text/regex";
 import { AlertDanger, AlertSuccess } from "@/components/ui/alerts/alert";
 import { register } from "@/store-management/actions/oauth/oauth-actions";
@@ -127,171 +126,171 @@ const Register = () => {
   window.document.title = "Créer un compte" + " - " + appName;
 
   return (
-    <div className="form-login w-full h-full flex items-center gap-0">
-      <div className="md:w-2/3 w-0 h-full">
-        <img
-          src={programming_back}
-          alt="Login form"
-          className="w-full h-full object-fill"
-        />
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 justify-between w-full h-full px-6"
+    >
+      <div className="">
+        <h1 className="font-bold text-xl underline py-2">{appName}</h1>
+        <p className="line-clamp-2 w-5/6 text-sm italic">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita
+          molestiae omnis hic recusandae. Id optio nostrum velit illum. Vero
+          voluptatem pariatur libero? Exercitationem quis nihil voluptas
+          inventore unde adipisci excepturi?
+        </p>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 justify-between w-full h-full px-6"
-      >
-        <div className="">
-          <h1 className="font-bold text-xl underline py-2">{appName}</h1>
-          <p className="line-clamp-2 w-5/6 text-sm italic">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita
-            molestiae omnis hic recusandae. Id optio nostrum velit illum. Vero
-            voluptatem pariatur libero? Exercitationem quis nihil voluptas
-            inventore unde adipisci excepturi?
-          </p>
-        </div>
+      {registerStore?.errors?.length > 0 &&
+        !registerStore?.pending &&
+        registerStore?.errors.map((message, idx) => (
+          <AlertDanger key={idx}>{message}</AlertDanger>
+        ))}
 
-        {registerStore?.errors?.length > 0 &&
-          !registerStore?.pending &&
-          registerStore?.errors.map((message, idx) => (
-            <AlertDanger key={idx}>{message}</AlertDanger>
-          ))}
-
-        {registerStore?.value?.message?.length > 0 &&
-          !registerStore?.pending && (
-            <AlertSuccess>{registerStore?.value?.message}</AlertSuccess>
+      {registerStore?.value?.message?.length > 0 && !registerStore?.pending && (
+        <AlertSuccess>{registerStore?.value?.message}</AlertSuccess>
+      )}
+      <div className="flex flex-col gap-6 w-full my-4">
+        <div className="email w-full">
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            icon={<Mail />}
+            placeholder={commonLocalizer(
+              "MODULE_COMMON_AUTHENTICATION_SCREEN_EMAIL_ADDRESS"
+            )}
+            className="login-input w-full outline-none border-none"
+            value={registerViewModel.email}
+            eye={false}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <div className="error">{errors.email.toString()}</div>
           )}
-        <div className="flex flex-col gap-6 w-full my-4">
-          <div className="email w-full">
+        </div>
+        <div className="flex justify-between items-start md:flex-row flex-col gap-4 w-full">
+          <div className="firstName w-full">
             <Input
-              type="email"
-              id="email"
-              name="email"
-              icon={<Mail />}
-              placeholder={commonLocalizer(
-                "MODULE_COMMON_AUTHENTICATION_SCREEN_EMAIL_ADDRESS"
-              )}
+              type="text"
+              id="firstName"
+              name="firstName"
+              icon={<User />}
+              placeholder={"Entrer votre prénom"}
               className="login-input w-full outline-none border-none"
-              value={registerViewModel.email}
+              value={registerViewModel.firstName}
               eye={false}
               onChange={handleChange}
             />
-            {errors.email && (
-              <div className="error">{errors.email.toString()}</div>
+            {errors.firstName && (
+              <div className="error">{errors.firstName.toString()}</div>
             )}
           </div>
-          <div className="flex justify-between items-start md:flex-row flex-col gap-4 w-full">
-            <div className="firstName w-full">
-              <Input
-                type="text"
-                id="firstName"
-                name="firstName"
-                icon={<User />}
-                placeholder={"Entrer votre prénom"}
-                className="login-input w-full outline-none border-none"
-                value={registerViewModel.firstName}
-                eye={false}
-                onChange={handleChange}
-              />
-              {errors.firstName && (
-                <div className="error">{errors.firstName.toString()}</div>
-              )}
-            </div>
-            <div className="lastName w-full">
-              <Input
-                type="text"
-                id="lastName"
-                name="lastName"
-                icon={<User />}
-                placeholder={"Entrer votre nom"}
-                className="login-input w-full outline-none border-none"
-                value={registerViewModel.lastName}
-                eye={false}
-                onChange={handleChange}
-              />
-              {errors.lastName && (
-                <div className="error">{errors.lastName.toString()}</div>
-              )}
-            </div>
-          </div>
-          <div className="flex justify-between items-start md:flex-row flex-col gap-4 w-full">
-            <div className="password  w-full">
-              <InputPassword
-                id="password"
-                name="password"
-                icon={<Lock />}
-                placeholder={commonLocalizer(
-                  "MODULE_COMMON_AUTHENTICATION_SCREEN_PASSWORD"
-                )}
-                className="login-input w-full outline-none border-none"
-                value={registerViewModel.password}
-                onChange={handleChange}
-              />
-              {errors.password && (
-                <div className="error">{errors.password.toString()}</div>
-              )}
-            </div>
-            <div className="confirmPassword  w-full">
-              <InputPassword
-                id="confirmPassword"
-                name="confirmPassword"
-                icon={<Lock />}
-                placeholder={"Confirmer le mot de passe"}
-                className="login-input w-full outline-none border-none"
-                value={registerViewModel.confirmPassword}
-                onChange={handleChange}
-              />
-              {errors.confirmPassword && (
-                <div className="error">{errors.confirmPassword.toString()}</div>
-              )}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 w-full">
-            <InputCheck
-              type="checkbox"
-              name="is_verify_2fa"
-              value={"is_verify_2fa"}
-              checked={registerViewModel.is_verify_2fa}
-              onChange={() =>
-                setRegisterViewModel({
-                  ...registerViewModel,
-                  is_verify_2fa: !registerViewModel.is_verify_2fa,
-                })
-              }
-              label={"Activez la double authentification"}
+          <div className="lastName w-full">
+            <Input
+              type="text"
+              id="lastName"
+              name="lastName"
+              icon={<User />}
+              placeholder={"Entrer votre nom"}
+              className="login-input w-full outline-none border-none"
+              value={registerViewModel.lastName}
+              eye={false}
+              onChange={handleChange}
             />
+            {errors.lastName && (
+              <div className="error">{errors.lastName.toString()}</div>
+            )}
+          </div>
+        </div>
+        <div className="flex justify-between items-start md:flex-row flex-col gap-4 w-full">
+          <div className="password  w-full">
+            <InputPassword
+              id="password"
+              name="password"
+              icon={<Lock />}
+              placeholder={commonLocalizer(
+                "MODULE_COMMON_AUTHENTICATION_SCREEN_PASSWORD"
+              )}
+              className="login-input w-full outline-none border-none"
+              value={registerViewModel.password}
+              onChange={handleChange}
+            />
+            {errors.password && (
+              <div className="error">{errors.password.toString()}</div>
+            )}
+          </div>
+          <div className="confirmPassword  w-full">
+            <InputPassword
+              id="confirmPassword"
+              name="confirmPassword"
+              icon={<Lock />}
+              placeholder={"Confirmer le mot de passe"}
+              className="login-input w-full outline-none border-none"
+              value={registerViewModel.confirmPassword}
+              onChange={handleChange}
+            />
+            {errors.confirmPassword && (
+              <div className="error">{errors.confirmPassword.toString()}</div>
+            )}
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 justify-center w-full">
-          <Button
-            type="submit"
-            className={"py-2 rounded-md w-full"}
-            disabled={registerStore?.pending}
-          >
-            {registerStore?.pending && <FaSpinner className="animate-spin" />}{" "}
-            Créer un compte
+        <div className="flex items-center gap-2 w-full">
+          <InputCheck
+            type="checkbox"
+            name="is_verify_2fa"
+            value={"is_verify_2fa"}
+            checked={registerViewModel.is_verify_2fa}
+            onChange={() =>
+              setRegisterViewModel({
+                ...registerViewModel,
+                is_verify_2fa: !registerViewModel.is_verify_2fa,
+              })
+            }
+            label={"Activez la double authentification"}
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 justify-center w-full">
+        <Button
+          type="submit"
+          className={"py-2 rounded-md w-full"}
+          disabled={registerStore?.pending}
+        >
+          {registerStore?.pending && <FaSpinner className="animate-spin" />}{" "}
+          Créer un compte
+        </Button>
+
+        {/* <span className="text-center">Ou se connecter via</span>
+        <div className="flex justify-center items-center gap-2 w-full">
+          <Button type="button" className={"py-2 rounded-md w-full"}>
+            Google <FaGoogle />
           </Button>
+          <Button type="button" className={"py-2 rounded-md w-full"}>
+            LinkedIn <FaLinkedinIn />
+          </Button>
+        </div> */}
+        <p className="text-center text-sm gap-2 w-11/12 mx-auto">
+          By clicking continue, you agree to{" "}
+          <Link to={"/terms"} className="underline">
+            our Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link to={"/privacy"} className="underline">
+            Privacy Policy
+          </Link>
+          .
+        </p>
 
-          <div className="text-center">Ou se connecter via</div>
-          <div className="flex justify-center items-center gap-2 w-full">
-            <Button type="button" className={"py-2 rounded-md w-full"}>
-              Google <FaGoogle />
-            </Button>
-            <Button type="button" className={"py-2 rounded-md w-full"}>
-              LinkedIn <FaLinkedinIn />
-            </Button>
-          </div>
-
-          <p className="text-end pt-2">
-            Vous avez un compte?{" "}
-            <Link to={"../login"} className="hover:underline">
-              Connectez-vous
-            </Link>
-          </p>
-        </div>
-      </form>
-    </div>
+        <p className="text-end pt-2">
+          Vous avez un compte?{" "}
+          <Link to={"../login"} className="hover:underline">
+            Connectez-vous
+          </Link>
+        </p>
+      </div>
+    </form>
   );
 };
 

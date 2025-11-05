@@ -1,5 +1,5 @@
 
-import { CategoriesAction, CategoriesFailurePayload, CategoryAction, CategoryFailurePayload, DeleteCategoryAction, DeleteCategoryFailurePayload, UpdateCategoryAction, UpdateCategoryFailurePayload } from ".";
+import { AddCategoryAction, AddCategoryFailurePayload, CategoriesAction, CategoriesFailurePayload, CategoryAction, CategoryFailurePayload, DeleteCategoryAction, DeleteCategoryFailurePayload, UpdateCategoryAction, UpdateCategoryFailurePayload } from ".";
 import { ActionTypes } from "../constants/action-types";
 
 export const category = (payload: CategoryCommand): CategoryAction => {
@@ -108,7 +108,7 @@ export const deleteCategoryFailure = (
 };
 
 export const updateCategory = (
-  payload: UpdateCategoryCommand
+  payload: FormData
 ): UpdateCategoryAction => {
   return {
     type: ActionTypes.UPDATE_CATEGORY_REQUEST,
@@ -142,4 +142,41 @@ export const updateCategoryFailure = (
       errors: payload,
     },
   } as UpdateCategoryAction;
+};
+
+export const addCategory = (
+  payload: FormData
+): AddCategoryAction => {
+  return {
+    type: ActionTypes.ADD_CATEGORY_REQUEST,
+    payload: {
+      command: payload,
+      user: {},
+      errors: {},
+    },
+  } as AddCategoryAction;
+};
+export const addCategorySuccess = (
+  payload: AddCategorySuccessPayload
+): AddCategoryAction => {
+  return {
+    type: ActionTypes.ADD_CATEGORY_SUCCESS,
+    payload: {
+      command: {},
+      user: payload,
+      errors: {},
+    },
+  } as AddCategoryAction;
+};
+export const addCategoryFailure = (
+  payload: AddCategoryFailurePayload
+): AddCategoryAction => {
+  return {
+    type: ActionTypes.ADD_CATEGORY_FAILURE,
+    payload: {
+      command: {},
+      user: {},
+      errors: payload,
+    },
+  } as AddCategoryAction;
 };

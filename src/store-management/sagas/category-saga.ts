@@ -8,6 +8,8 @@ import {
 } from "../actions/server-notifications/server-notifications-action";
 import { errorServerHttpConstant } from "@/core/constants/errors-contants";
 import {
+  AddCategoryAction,
+  AddCategoryFailurePayload,
   CategoriesFailurePayload,
   CategoryAction,
   CategoryFailurePayload,
@@ -17,6 +19,8 @@ import {
   UpdateCategoryFailurePayload,
 } from "../actions/category";
 import {
+  addCategoryFailure,
+  addCategorySuccess,
   categoriesFailure,
   categoriesSuccess,
   categoryFailure,
@@ -38,8 +42,11 @@ const callApiToCategories = async () => controllerApi.categories();
 const callApiToDeleteCategory = async (command: DeleteCategoryCommand) =>
   controllerApi.deleteCategory(command);
 
-const callApiToUpdateCategory = async (command: UpdateCategoryCommand) =>
+const callApiToUpdateCategory = async (command: FormData) =>
   controllerApi.updateCategory(command);
+
+const callApiToAddCategory = async (command: FormData) =>
+  controllerApi.addCategory(command);
 
 function* categorySaga(action: CategoryAction) {
   try {
@@ -49,10 +56,12 @@ function* categorySaga(action: CategoryAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(categorySuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -67,7 +76,7 @@ function* categorySaga(action: CategoryAction) {
             errors: messages,
           } as CategoryFailurePayload)
         );
-        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
       }
     } else {
       const messages: string[] = [];
@@ -77,7 +86,7 @@ function* categorySaga(action: CategoryAction) {
           errors: messages,
         } as CategoryFailurePayload)
       );
-      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -87,7 +96,7 @@ function* categorySaga(action: CategoryAction) {
         errors: messages,
       } as CategoryFailurePayload)
     );
-    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
   }
 }
 
@@ -96,10 +105,12 @@ function* categoriesSaga() {
     const response: CategoriesResult = yield call(callApiToCategories);
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(categoriesSuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
@@ -114,7 +125,7 @@ function* categoriesSaga() {
             errors: messages,
           } as CategoriesFailurePayload)
         );
-        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
       }
     } else {
       const messages: string[] = [];
@@ -124,7 +135,7 @@ function* categoriesSaga() {
           errors: messages,
         } as CategoriesFailurePayload)
       );
-      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -134,7 +145,7 @@ function* categoriesSaga() {
         errors: messages,
       } as CategoriesFailurePayload)
     );
-    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
   }
 }
 
@@ -146,14 +157,50 @@ function* deleteCategorySaga(action: DeleteCategoryAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(deleteCategorySuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
         ]);
+        
+    const responseToGet: CategoriesResult = yield call(callApiToCategories);
+    if (responseToGet) {
+      if (responseToGet.hasSucceeded) {
+        if(responseToGet?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            responseToGet.payload.token
+          );
+        }
+        yield put(categoriesSuccess(responseToGet.payload));
+      } else {
+        const messages: string[] = [];
+        responseToGet.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          categoriesFailure({
+            errors: messages,
+          } as CategoriesFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        categoriesFailure({
+          errors: messages,
+        } as CategoriesFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+    }
+
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -164,7 +211,7 @@ function* deleteCategorySaga(action: DeleteCategoryAction) {
             errors: messages,
           } as DeleteCategoryFailurePayload)
         );
-        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
       }
     } else {
       const messages: string[] = [];
@@ -174,7 +221,7 @@ function* deleteCategorySaga(action: DeleteCategoryAction) {
           errors: messages,
         } as DeleteCategoryFailurePayload)
       );
-      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -184,7 +231,7 @@ function* deleteCategorySaga(action: DeleteCategoryAction) {
         errors: messages,
       } as DeleteCategoryFailurePayload)
     );
-    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
   }
 }
 
@@ -196,14 +243,50 @@ function* updateCategorySaga(action: UpdateCategoryAction) {
     );
     if (response) {
       if (response.hasSucceeded) {
-        setStorage(
-          AuthenticationConstants.ACCESS_TOKEN,
-          response.payload.token
-        );
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
         yield put(updateCategorySuccess(response.payload));
         showToastNotificationSuccess([
           { type: "Success", value: response.payload.message },
         ]);
+        
+    const responseToGet: CategoriesResult = yield call(callApiToCategories);
+    if (responseToGet) {
+      if (responseToGet.hasSucceeded) {
+        if(responseToGet?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            responseToGet.payload.token
+          );
+        }
+        yield put(categoriesSuccess(responseToGet.payload));
+      } else {
+        const messages: string[] = [];
+        responseToGet.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          categoriesFailure({
+            errors: messages,
+          } as CategoriesFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        categoriesFailure({
+          errors: messages,
+        } as CategoriesFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+    }
+
       } else {
         const messages: string[] = [];
         response.errorMessages.map((item) => {
@@ -214,7 +297,7 @@ function* updateCategorySaga(action: UpdateCategoryAction) {
             errors: messages,
           } as UpdateCategoryFailurePayload)
         );
-        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
       }
     } else {
       const messages: string[] = [];
@@ -224,7 +307,7 @@ function* updateCategorySaga(action: UpdateCategoryAction) {
           errors: messages,
         } as UpdateCategoryFailurePayload)
       );
-      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
     }
   } catch (e) {
     const messages: string[] = [];
@@ -234,7 +317,95 @@ function* updateCategorySaga(action: UpdateCategoryAction) {
         errors: messages,
       } as UpdateCategoryFailurePayload)
     );
-    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+  }
+}
+
+function* addCategorySaga(action: AddCategoryAction) {
+  try {
+    const response: UpdateCategoryResult = yield call(
+      callApiToAddCategory,
+      action.payload.command
+    );
+    if (response) {
+      if (response.hasSucceeded) {
+        if(response?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+        }
+        yield put(addCategorySuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
+        
+    const responseToGet: CategoriesResult = yield call(callApiToCategories);
+    if (responseToGet) {
+      if (responseToGet.hasSucceeded) {
+        if(responseToGet?.payload?.token) {
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            responseToGet.payload.token
+          );
+        }
+        yield put(categoriesSuccess(responseToGet.payload));
+      } else {
+        const messages: string[] = [];
+        responseToGet.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          categoriesFailure({
+            errors: messages,
+          } as CategoriesFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        categoriesFailure({
+          errors: messages,
+        } as CategoriesFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+    }
+
+
+
+      } else {
+        const messages: string[] = [];
+        response.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          addCategoryFailure({
+            errors: messages,
+          } as AddCategoryFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        addCategoryFailure({
+          errors: messages,
+        } as AddCategoryFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
+    }
+  } catch (e) {
+    const messages: string[] = [];
+    messages.push(e.message);
+    yield put(
+      addCategoryFailure({
+        errors: messages,
+      } as AddCategoryFailurePayload)
+    );
+    showToastNotificationError([{ type: "Error", value: messages.join("\n") }]);
   }
 }
 
@@ -244,4 +415,5 @@ export function* watchCategorySaga() {
   yield takeLatest(ActionTypes.CATEGORIES_REQUEST, categoriesSaga);
   yield takeLatest(ActionTypes.DELETE_CATEGORY_REQUEST, deleteCategorySaga);
   yield takeLatest(ActionTypes.UPDATE_CATEGORY_REQUEST, updateCategorySaga);
+  yield takeLatest(ActionTypes.ADD_CATEGORY_REQUEST, addCategorySaga);
 }

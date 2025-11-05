@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   PrestationCard
 } from "@/components/ui/prestation/prestation-card";
-import { aisite, computer_program, illustration, programming_collage, programming_sitting } from "@/assets";
+import { coiffure,  couture,  manucure, poterie, repetitions } from "@/assets";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "@/core/hooks/core-hooks";
 
@@ -72,7 +72,7 @@ export const BenefitList = () => {
       location: "New-bell",
       category: "Coiffure",
       price: "58",
-      picture: computer_program,
+      picture: coiffure,
       description: "Développeur web polyvalent avec 3+ ans d’expérience dans la conception et le déploiement d’applications web performantes. Expertise dans la création des solutions robustes, de l’architecture backend aux interfaces utilisateur complexes et performantes, en passant par l’optimisation des APIs et l’adoption des meilleures pratiques (clean code, design patterns).",
     },
     {
@@ -81,7 +81,7 @@ export const BenefitList = () => {
       location: "New-bell",
       category: "Onglerie",
       price: "32",
-      picture: programming_sitting,
+      picture: poterie,
       description: "Lorem ipsum dolorLorem ipsum dolorLorem ipsum dolorLorem ipsum dolorLorem ipsum dolor",
     },
     {
@@ -90,7 +90,7 @@ export const BenefitList = () => {
       location: "New-bell",
       category: "Coiffure",
       price: "36",
-      // picture: programming_collage,
+      picture: repetitions,
       description: "Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor",
     },
     {
@@ -99,7 +99,7 @@ export const BenefitList = () => {
       location: "New-bell",
       category: "Patisserie",
       price: "98",
-      picture: aisite,
+      picture: manucure,
       description: "Elig doloremque mollitia fugiat omnis! Porro facilis quo animi consequatur. Explicabo.",
     },
     {
@@ -108,7 +108,7 @@ export const BenefitList = () => {
       location: "New-bell",
       category: "Manutention",
       price: "25",
-      picture: programming_collage,
+      picture: poterie,
       description: "Lorem ipsum dolor",
     },
     {
@@ -117,7 +117,7 @@ export const BenefitList = () => {
       location: "New-bell",
       category: "Santé",
       price: "48",
-      picture: illustration,
+      picture: couture,
       description: "Lorem ipsum dolor Lorem ipsum dolorLorem ipsum dolorLorem ipsum dolorLorem ipsum dolorLorem ipsum dolorLorem ipsum dolor",
     },
   ];

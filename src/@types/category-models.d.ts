@@ -1,4 +1,3 @@
-
 interface CategoryModalProps {
   category?: Category;
   setCategory?;
@@ -11,6 +10,7 @@ interface Category {
   title: string;
   picture?: string;
   description?: string;
+  destination?: "profile" | "benefit" | "categorie";
   created_at?: string;
   updated_at?: string;
 }
@@ -76,6 +76,15 @@ interface UpdateCategoryResult {
   errorMessages: ErrorMessageItem[];
 }
 interface UpdateCategorySuccessPayload {
+  id: string;
+  title: string;
+  picture?: string;
+  description?: string;
+  token: string;
+  message: string;
+  message_email?: string;
+}
+interface AddCategorySuccessPayload {
   id: string;
   title: string;
   picture?: string;

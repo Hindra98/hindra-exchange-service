@@ -14,7 +14,7 @@ export const requestHeadersInterceptor = (
     "68357cfc-5eaa-43ec-b7de-ca3e87588271.b881daf6-e22a-4d2f-abbe-5e18ddf32e2c";
   config.headers["Accept-Language"] = getStorage<string>(
     AuthenticationConstants.HINDRA_CONNECT_USER_LANGUAGE
-  );
+  ) || "fr";
   config.headers["Authorization"] = `${getStorage<string>(
     AuthenticationConstants.ACCESS_TOKEN
   )}`;

@@ -1,3 +1,5 @@
+type Theme = "light" | "dark" | "system" | "default";
+
 interface ButtonProps {
   children: React.ReactNode;
   variant?:

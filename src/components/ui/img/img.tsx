@@ -1,4 +1,4 @@
-import { logo } from "@/assets";
+import { logo_blue } from "@/assets";
 import { motion } from "framer-motion";
 export const Img = ({
   className = "",
@@ -12,7 +12,7 @@ export const Img = ({
   onError,
 }: Imgrops) => {
   const handleError = (e) => {
-    e.target.src = logo;
+    e.target.src = logo_blue;
   };
   return (
     <motion.img
@@ -23,7 +23,7 @@ export const Img = ({
       id={id}
       width={width}
       height={height}
-      onError={onError??handleError}
+      onError={onError ?? handleError}
       loading={loading}
     />
   );

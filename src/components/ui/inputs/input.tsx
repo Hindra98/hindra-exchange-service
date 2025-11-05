@@ -563,16 +563,24 @@ export const InputFileUpload = ({
             target="_blank"
             rel="noreferrer"
             className="w-20 h-20 text-sm flex items-center justify-center rounded-md border border-gray-300 text-gray-500"
-            title={files.name}
+            title={files ? files.name : "Image de categorie"}
           >
-            {files.type.startsWith("image") ? (
+            {files ? (
+              files.type.startsWith("image") ? (
+                <Img
+                  src={urlFile}
+                  alt={files.name}
+                  className="w-20 h-20 object-contain rounded-md"
+                />
+              ) : (
+                files.name
+              )
+            ) : (
               <Img
                 src={urlFile}
-                alt={files.name}
+                alt={"Image de categorie"}
                 className="w-20 h-20 object-contain rounded-md"
               />
-            ) : (
-              files.name
             )}
           </a>
         </div>

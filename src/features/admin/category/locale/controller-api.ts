@@ -18,7 +18,7 @@ const categories = (http: HttpClient) => async () => {
 };
 
 const deleteCategory = (http: HttpClient) => async (payload: object) => {
-  const response = await http.post("/delete-category", payload);
+  const response = await http.delete("/category", payload);
 
   const result: DeleteCategoryResult = response.data;
 
@@ -27,6 +27,12 @@ const deleteCategory = (http: HttpClient) => async (payload: object) => {
 
 const updateCategory = (http: HttpClient) => async (payload: object) => {
   const response = await http.post("/update-category", payload);
+
+  return response.data as UpdateCategoryResult;
+};
+
+const addCategory = (http: HttpClient) => async (payload: object) => {
+  const response = await http.post("/category", payload);
 
   return response.data as UpdateCategoryResult;
 };
@@ -78,6 +84,18 @@ export class ControllerApi {
     ) =>
       useDebounced(
         () => this.updateCategory(args).then(handler),
+        Object.values(args),
+        500
+      ),
+  });
+
+  public readonly addCategory = Object.assign(addCategory(this.http), {
+    useResponse: (
+      handler: (result: UpdateCategoryResult) => unknown,
+      args: Parameters<ReturnType<typeof addCategory>>[0]
+    ) =>
+      useDebounced(
+        () => this.addCategory(args).then(handler),
         Object.values(args),
         500
       ),

@@ -19,7 +19,10 @@ export const initialStateAuthenticateUser: AuthenticateUserStoreShape = {
   errors: [],
 };
 export interface AuthenticateUserModelShape {
-  command: AuthenticateUserCommand;
+  command:
+    | AuthenticateUserCommand
+    | AuthenticateUserByGoogleCommand
+    | AuthenticateUserByLinkedinCommand;
 }
 export interface AuthenticateUserFailurePayload {
   errors: string[];
@@ -34,10 +37,16 @@ export interface AuthenticateUserSuccess {
 }
 export interface AuthenticateUserRequest {
   type: string;
-  payload: AuthenticateUserCommand;
+  payload:
+    | AuthenticateUserCommand
+    | AuthenticateUserByGoogleCommand
+    | AuthenticateUserByLinkedinCommand;
 }
 export interface AuthenticateUserPayload {
-  command: AuthenticateUserCommand;
+  command:
+    | AuthenticateUserCommand
+    | AuthenticateUserByGoogleCommand
+    | AuthenticateUserByLinkedinCommand;
   user: AuthenticateUserSuccessPayload;
   errors: AuthenticateUserFailurePayload;
 }
@@ -296,7 +305,6 @@ export interface ResetPasswordAction {
   type: string;
   payload: ResetPasswordPayload;
 }
-
 
 export interface SignOutStoreShape {
   pending: boolean;

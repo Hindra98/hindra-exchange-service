@@ -13,7 +13,7 @@ export const serializeDate = (date: Date) => {
 export const formatDate = (date: string) => {
     const tab = date.split('T');
     const dateTab = tab[0];
-    const timeTab = tab[1].split('.')[0];
+    const timeTab = tab[1].split('.')[0].split(":").slice(0,2).join(":");
     
-    return dateTab+" - "+timeTab;
+    return dateTab.replace("-", "/").replace("-", "/")+" à "+timeTab;
 }

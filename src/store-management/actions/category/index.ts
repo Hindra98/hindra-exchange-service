@@ -166,14 +166,60 @@ export interface UpdateCategorySuccess {
 }
 export interface UpdateCategoryRequest {
   type: string;
-  payload: UpdateCategoryCommand;
+  payload: FormData;
 }
 export interface UpdateCategoryPayload {
-  command: UpdateCategoryCommand;
+  command: FormData;
   user: UpdateCategorySuccessPayload;
   errors: UpdateCategoryFailurePayload;
 }
 export interface UpdateCategoryAction {
   type: string;
   payload: UpdateCategoryPayload;
+}
+
+export interface AddCategoryStoreShape {
+  pending: boolean;
+  value: AddCategorySuccessPayload;
+  errors: string[];
+}
+export const initialStateAddCategory: AddCategoryStoreShape = {
+  value: {
+    id: "",
+    title: "",
+    picture: null,
+    description: "",
+    token: "",
+    message: "",
+    message_email: "",
+  } as AddCategorySuccessPayload,
+  pending: false,
+  errors: [],
+};
+export interface AddCategoryModelShape {
+  command: UpdateCategoryCommand;
+}
+export interface AddCategoryFailurePayload {
+  errors: string[];
+}
+export interface AddCategoryFailure {
+  type: string;
+  payload: AddCategoryFailurePayload;
+}
+export interface AddCategorySuccess {
+  type: string;
+  payload: AddCategorySuccessPayload;
+}
+export interface AddCategoryRequest {
+  type: string;
+  payload: FormData;
+}
+export interface AddCategoryPayload {
+  command: FormData;
+  user: AddCategorySuccessPayload;
+  errors: AddCategoryFailurePayload;
+}
+export interface AddCategoryAction {
+  type: string;
+  payload: AddCategoryPayload;
 }

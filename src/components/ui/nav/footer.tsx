@@ -12,8 +12,8 @@ export const Footer = () => {
       <hr className="border border-gray-500 opacity-50 sm:mx-auto text-center w-full" />
 
       <div className="flex flex-col gap-0">
-        <Link to={"/"} className="flex items-center gap-0">
-          <img src={logo_blue} alt={appName} width={80} />
+        <Link to={"/"} className="flex items-center gap-2">
+          <img src={logo_blue} alt={appName} width={40} />
           <span className="font-bold">{appName}</span>
         </Link>
 

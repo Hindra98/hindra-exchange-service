@@ -11,6 +11,28 @@ const authenticateUser = (http: HttpClient) => async (payload: object) => {
     : undefined;
 };
 
+const authenticateUserByGoogle =
+  (http: HttpClient) => async (payload: object) => {
+    const response = await http.post("/login-google", payload);
+
+    const result: AuthenticateUserResult = response.data;
+
+    return response !== undefined
+      ? (result as AuthenticateUserResult)
+      : undefined;
+  };
+
+const authenticateUserByLinkedin =
+  (http: HttpClient) => async (payload: object) => {
+    const response = await http.post("/login-linkedin", payload);
+
+    const result: AuthenticateUserResult = response.data;
+
+    return response !== undefined
+      ? (result as AuthenticateUserResult)
+      : undefined;
+  };
+
 const register = (http: HttpClient) => async (payload: object) => {
   const response = await http.post("/register", payload);
 
@@ -73,6 +95,36 @@ export class ControllerApi {
       ) =>
         useDebounced(
           () => this.authenticateUser(args).then(handler),
+          Object.values(args),
+          500
+        ),
+    }
+  );
+
+  public readonly authenticateUserByGoogle = Object.assign(
+    authenticateUserByGoogle(this.http),
+    {
+      useResponse: (
+        handler: (result: AuthenticateUserResult | undefined) => unknown,
+        args: Parameters<ReturnType<typeof authenticateUserByGoogle>>[0]
+      ) =>
+        useDebounced(
+          () => this.authenticateUserByGoogle(args).then(handler),
+          Object.values(args),
+          500
+        ),
+    }
+  );
+
+  public readonly authenticateUserByLinkedin = Object.assign(
+    authenticateUserByLinkedin(this.http),
+    {
+      useResponse: (
+        handler: (result: AuthenticateUserResult | undefined) => unknown,
+        args: Parameters<ReturnType<typeof authenticateUserByLinkedin>>[0]
+      ) =>
+        useDebounced(
+          () => this.authenticateUserByLinkedin(args).then(handler),
           Object.values(args),
           500
         ),

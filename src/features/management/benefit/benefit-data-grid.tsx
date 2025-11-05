@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Filter, Square, SquareCheck, Trash2 } from "lucide-react";
+import { Square, SquareCheck, Trash2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
 import {
   benefits,
@@ -38,6 +38,7 @@ const BenefitDataGrid = () => {
   const [titleConfirmAction, setTitleConfirmAction] = useState<string>("");
   const [descriptionConfirmAction, setDescriptionConfirmAction] =
     useState<React.ReactNode>("");
+  const [search, setSearch] = useState("");
 
   const [isCall, setIsCall] = useState(false);
   useEffect(() => {
@@ -131,6 +132,10 @@ const BenefitDataGrid = () => {
       setOpenConfirmAction(true);
     }
   };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Recherche: ", search);
+  };
 
   window.document.title = "Benefit - " + appName;
 
@@ -152,16 +157,19 @@ const BenefitDataGrid = () => {
             Delete
           </Button>
         </div>
-        <div className="flex items-center gap-5 justify-end">
-          <span className="flex items-center gap-2">
-            <Filter />
-            Filters
-          </span>
-          <div className="search flex items-center gap-2">
-            <Inputs type="search" className="w-full max-w-" />
-            <Button>Search</Button>
-          </div>
-        </div>
+        <form className="flex items-center gap-5" onSubmit={handleSearch}>
+          <Inputs
+            type="search"
+            className="w-full"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <Button type="submit" className="min-w-fit">
+            Search
+          </Button>
+        </form>
       </div>
       <Table>
         <TableHeader>

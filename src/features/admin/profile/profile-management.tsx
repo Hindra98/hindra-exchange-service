@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { dataCategory } from "./data";
-import { Filter, PenSquare, Square, SquareCheck, Trash2 } from "lucide-react";
+import { PenSquare, Square, SquareCheck, Trash2 } from "lucide-react";
 import { CategoryModal } from "./categoryModal";
 import { v4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "@/core/hooks/core-hooks";
@@ -34,6 +34,7 @@ const ProfileManagement = () => {
   const [open, setOpen] = useState(false);
 
   const [get, setGet] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (!get) {
@@ -105,12 +106,18 @@ const ProfileManagement = () => {
     console.log("Supprimer les categories suivantes : ", selectedCategories);
     dispatch(deleteCategory({ id: selectedCategories }));
   };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Recherche: ", search);
+  };
 
   window.document.title = "Gestion des utilisateurs - " + appName;
 
   return (
-    <div className="form-login h-ful mx-auto flex flex-col gap-4 pe-2">
-      <legend className="text-center text-xl font-medium mb-2">Gestion des utilisateurs</legend>
+    <div className="form-login h-ful mx-auto flex flex-col gap-4 pe-2 overflow-hidden">
+      <legend className="text-center text-xl font-medium mb-2">
+        Gestion des utilisateurs
+      </legend>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-5">
           <Button variant="blue" onClick={handleEditCategory}>
@@ -121,16 +128,19 @@ const ProfileManagement = () => {
             Delete
           </Button>
         </div>
-        <div className="flex items-center gap-5 justify-end">
-          <span className="flex items-center gap-2">
-            <Filter />
-            Filters
-          </span>
-          <div className="search flex items-center gap-2">
-            <Inputs type="search" className="w-full max-w-"/>
-            <Button>Search</Button>
-          </div>
-        </div>
+        <form className="flex items-center gap-5" onSubmit={handleSearch}>
+          <Inputs
+            type="search"
+            className="w-full"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <Button type="submit" className="min-w-fit">
+            Search
+          </Button>
+        </form>
       </div>
       <Table>
         <TableHeader>

@@ -52,6 +52,14 @@ const controllerApi = new ControllerApi();
 const callApiToAuthenticateUser = async (command: AuthenticateUserCommand) =>
   controllerApi.authenticateUser(command);
 
+const callApiToAuthenticateUserByGoogle = async (
+  command: AuthenticateUserByGoogleCommand
+) => controllerApi.authenticateUserByGoogle(command);
+
+const callApiToAuthenticateUserByLinkedin = async (
+  command: AuthenticateUserByLinkedinCommand
+) => controllerApi.authenticateUserByLinkedin(command);
+
 const callApiToRegister = async (command: RegisterCommand) =>
   controllerApi.register(command);
 
@@ -78,7 +86,109 @@ function* authenticateUserSaga(action: AuthenticateUserAction) {
   try {
     const response: AuthenticateUserResult = yield call(
       callApiToAuthenticateUser,
-      action.payload.command
+      action.payload.command as AuthenticateUserCommand
+    );
+    if (response) {
+      if (response.hasSucceeded) {
+        if (!response.payload.is_verify_2fa)
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+
+        yield put(authenticateUserSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
+      } else {
+        const messages: string[] = [];
+        response.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          authenticateUserFailure({
+            errors: messages,
+          } as AuthenticateUserFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        authenticateUserFailure({
+          errors: messages,
+        } as AuthenticateUserFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    }
+  } catch (e) {
+    const messages: string[] = [];
+    messages.push(e.message);
+    yield put(
+      authenticateUserFailure({
+        errors: messages,
+      } as AuthenticateUserFailurePayload)
+    );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+  }
+}
+function* authenticateUserByGoogleSaga(action: AuthenticateUserAction) {
+  try {
+    const response: AuthenticateUserResult = yield call(
+      callApiToAuthenticateUserByGoogle,
+      action.payload.command as AuthenticateUserByGoogleCommand
+    );
+    if (response) {
+      if (response.hasSucceeded) {
+        if (!response.payload.is_verify_2fa)
+          setStorage(
+            AuthenticationConstants.ACCESS_TOKEN,
+            response.payload.token
+          );
+
+        yield put(authenticateUserSuccess(response.payload));
+        showToastNotificationSuccess([
+          { type: "Success", value: response.payload.message },
+        ]);
+      } else {
+        const messages: string[] = [];
+        response.errorMessages.map((item) => {
+          return messages.push(item.errorMessage);
+        });
+        yield put(
+          authenticateUserFailure({
+            errors: messages,
+          } as AuthenticateUserFailurePayload)
+        );
+        showToastNotificationError([{ type: "Error", value: messages[0] }]);
+      }
+    } else {
+      const messages: string[] = [];
+      messages.push(errorServerHttpConstant);
+      yield put(
+        authenticateUserFailure({
+          errors: messages,
+        } as AuthenticateUserFailurePayload)
+      );
+      showToastNotificationError([{ type: "Error", value: messages[0] }]);
+    }
+  } catch (e) {
+    const messages: string[] = [];
+    messages.push(e.message);
+    yield put(
+      authenticateUserFailure({
+        errors: messages,
+      } as AuthenticateUserFailurePayload)
+    );
+    showToastNotificationError([{ type: "Error", value: messages[0] }]);
+  }
+}
+function* authenticateUserByLinkedinSaga(action: AuthenticateUserAction) {
+  try {
+    const response: AuthenticateUserResult = yield call(
+      callApiToAuthenticateUserByLinkedin,
+      action.payload.command as AuthenticateUserByLinkedinCommand
     );
     if (response) {
       if (response.hasSucceeded) {
@@ -459,6 +569,14 @@ function* signOutSaga(action: SignOutAction) {
 //Watcher: Authenticate user
 export function* watchOauthSaga() {
   yield takeLatest(ActionTypes.AUTHENTICATE_USER_REQUEST, authenticateUserSaga);
+  yield takeLatest(
+    ActionTypes.AUTHENTICATE_USER_BY_GOOGLE_REQUEST,
+    authenticateUserByGoogleSaga
+  );
+  yield takeLatest(
+    ActionTypes.AUTHENTICATE_USER_BY_LINKEDIN_REQUEST,
+    authenticateUserByLinkedinSaga
+  );
   yield takeLatest(ActionTypes.REGISTER_REQUEST, registerSaga);
   yield takeLatest(ActionTypes.VERIFY_IDENTITY_REQUEST, verifyIdentitySaga);
   yield takeLatest(ActionTypes.RESEND_PIN_CODE_REQUEST, resendPinCodeSaga);

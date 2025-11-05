@@ -13,7 +13,7 @@ export default function AppPreloader () {
                 src={logo_blue}
                 alt="HINDRA-EXCHANGE"
                 title=""
-                className=""
+                className="p-4"
             />
             </div>
             <div className="child flex justify-center items-center">

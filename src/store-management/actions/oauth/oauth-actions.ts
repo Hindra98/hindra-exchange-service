@@ -32,6 +32,32 @@ export const authenticateUser = (
     },
   } as AuthenticateUserAction;
 };
+
+export const authenticateUserByGoogle = (
+  payload: AuthenticateUserByGoogleCommand
+): AuthenticateUserAction => {
+  return {
+    type: ActionTypes.AUTHENTICATE_USER_BY_GOOGLE_REQUEST,
+    payload: {
+      command: payload,
+      user: {},
+      errors: {},
+    },
+  } as AuthenticateUserAction;
+};
+
+export const authenticateUserByLinkedin = (
+  payload: AuthenticateUserByLinkedinCommand
+): AuthenticateUserAction => {
+  return {
+    type: ActionTypes.AUTHENTICATE_USER_BY_LINKEDIN_REQUEST,
+    payload: {
+      command: payload,
+      user: {},
+      errors: {},
+    },
+  } as AuthenticateUserAction;
+};
 export const authenticateUserSuccess = (
   payload: AuthenticateUserSuccessPayload
 ): AuthenticateUserAction => {

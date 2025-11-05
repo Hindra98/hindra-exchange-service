@@ -40,7 +40,13 @@ export const CategoryModal = ({
     setErrors({ title: "", description: "", picture: "" });
     console.log("Categorie : ", category);
     onCategorySuccess();
-    dispatch(updateCategory(editCategoryState));
+    
+    const formData = new FormData();
+    formData.append("id", editCategoryState?.id||null)
+    formData.append("title", editCategoryState.title)
+    formData.append("picture", null)
+    formData.append("description", editCategoryState.description)
+    dispatch(updateCategory(formData));
   };
   return (
     <Dialog open={open} onOpenChange={onClose}>

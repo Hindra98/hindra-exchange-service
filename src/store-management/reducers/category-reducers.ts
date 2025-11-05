@@ -1,4 +1,4 @@
-import { CategoryStoreShape, CategoryAction, initialStateCategory, initialStateCategories, CategoriesStoreShape, CategoriesAction, DeleteCategoryStoreShape, DeleteCategoryAction, initialStateDeleteCategory, initialStateUpdateCategory, UpdateCategoryStoreShape, UpdateCategoryAction } from './../actions/category/index';
+import { CategoryStoreShape, CategoryAction, initialStateCategory, initialStateCategories, CategoriesStoreShape, CategoriesAction, DeleteCategoryStoreShape, DeleteCategoryAction, initialStateDeleteCategory, initialStateUpdateCategory, UpdateCategoryStoreShape, UpdateCategoryAction, AddCategoryStoreShape, initialStateAddCategory, AddCategoryAction } from './../actions/category/index';
 import { produce } from "immer";
 import { ActionTypes } from "../actions/constants/action-types";
 
@@ -131,6 +131,42 @@ export const updateCategoryReducer = (
       });
 
     case ActionTypes.UPDATE_CATEGORY_FAILURE:
+      return produce(state, (draftState) => {
+        draftState.errors = args.payload.errors.errors;
+        draftState.value.message = "";
+        draftState.pending = false;
+      });
+
+    default:
+      return state;
+  }
+};
+
+export const addCategoryReducer = (
+  state: AddCategoryStoreShape = initialStateAddCategory,
+  args: AddCategoryAction
+): AddCategoryStoreShape => {
+  switch (args.type) {
+    case ActionTypes.ADD_CATEGORY_REQUEST:
+      return produce(state, (draftState) => {
+        draftState.pending = true;
+        draftState.errors = [];
+      });
+
+    case ActionTypes.ADD_CATEGORY_SUCCESS:
+      return produce(state, (draftState) => {
+        draftState.value.id = args.payload?.user?.id;
+        draftState.value.title = args.payload?.user?.title;
+        draftState.value.picture = args.payload?.user?.picture;
+        draftState.value.description = args.payload?.user?.description;
+        draftState.value.token = args.payload?.user?.token;
+        draftState.value.message = args.payload?.user?.message;
+        draftState.value.message_email = args.payload?.user?.message_email;
+        draftState.errors = [];
+        draftState.pending = false;
+      });
+
+    case ActionTypes.ADD_CATEGORY_FAILURE:
       return produce(state, (draftState) => {
         draftState.errors = args.payload.errors.errors;
         draftState.value.message = "";
