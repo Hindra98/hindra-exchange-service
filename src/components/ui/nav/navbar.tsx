@@ -28,7 +28,6 @@ import LanguageSelector from "@/components/form/LanguageSelector";
 import Dropdown from "../dropdowns/dropdown";
 import { Button } from "../buttons/button";
 import { lazy } from "react";
-import { siteBaseUrl_local } from "@/core/constants/http-constants";
 
 const ModeSelector = lazy(() => import("@/components/form/ModeSelector"));
 
@@ -71,7 +70,7 @@ export const Navbar = ({
     },
     {
       title: "Stats",
-      url: siteBaseUrl_local + "#stats",
+      url: "#stats",
     },
     {
       title: "L'équipe",
